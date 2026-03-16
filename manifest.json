@@ -1,7 +1,7 @@
 {
-  "name": "Buckle Music",
-  "short_name": "Buckle Music",
-  "start_url": ".",
+  "name": "Buckle Music PRO",
+  "short_name": "BuckleMusic",
+  "start_url": "/bucklemusic",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#00ffe0",
@@ -12,7 +12,7 @@
       "type": "image/png"
     },
     {
-      "src": "logo.png",
+      "src": "logo-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
