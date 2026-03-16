@@ -100,7 +100,7 @@ transition:0.4s;
 }
 
 .carousel img:hover{
-transform:scale(1.2) rotateY(10deg);
+transform:scale(1.2);
 box-shadow:0 0 15px #00ffe0;
 }
 
@@ -136,6 +136,7 @@ border:none;
 
 </header>
 
+
 <!-- REDES SOCIALES -->
 
 <div class="social">
@@ -153,16 +154,16 @@ border:none;
 </a>
 
 <a href="https://go.ivoox.com/sq/2535828" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/1384/1384061.png">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Ivoox_logo.svg/512px-Ivoox_logo.svg.png">
 </a>
 
 </div>
 
+
 <div class="mail">
-
 bucklemusicpodcast@gmail.com
-
 </div>
+
 
 <!-- NUEVO EPISODIO -->
 
@@ -179,6 +180,7 @@ onclick="playEpisode('buckle-20-music-2026')">
 
 </div>
 
+
 <!-- PROGRAMAS -->
 
 <div class="section">
@@ -194,6 +196,7 @@ onclick="playEpisode('buckle-19-temporada-3.0')">
 
 </div>
 
+
 <!-- IN THE MIX -->
 
 <div class="section">
@@ -208,6 +211,7 @@ onclick="playEpisode('sesion-marzo-buckle-music-25')">
 </div>
 
 </div>
+
 
 <!-- GRAN RESERVA -->
 
@@ -227,6 +231,7 @@ onclick="playEpisode('buckle-3-music-2026')">
 
 </div>
 
+
 <!-- REPRODUCTOR -->
 
 <div class="player-fixed" id="player">
@@ -235,6 +240,7 @@ onclick="playEpisode('buckle-3-music-2026')">
 
 </div>
 
+
 <script>
 
 const collection = "buckle-2-temporada-3.0";
@@ -242,9 +248,7 @@ const collection = "buckle-2-temporada-3.0";
 const container = document.getElementById("episodes");
 
 fetch(`https://archive.org/advancedsearch.php?q=collection:${collection}&fl[]=identifier,title&sort[]=publicdate+desc&rows=50&page=1&output=json`)
-
 .then(r => r.json())
-
 .then(data => {
 
 data.response.docs.forEach(item => {
@@ -264,7 +268,6 @@ container.appendChild(img);
 function playEpisode(id){
 
 const player = document.getElementById("player");
-
 const frame = document.getElementById("playerframe");
 
 frame.src = `https://archive.org/embed/${id}`;
