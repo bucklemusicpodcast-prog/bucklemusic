@@ -9,160 +9,279 @@
 <link rel="apple-touch-icon" href="logo-512.png">
 
 <style>
+
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  color:white;
-  background: linear-gradient(270deg,#000,#001f1f,#000,#002a2a);
-  background-size:400% 400%;
-  animation:fondo 10s ease infinite;
+margin:0;
+font-family:Arial;
+color:white;
+background: linear-gradient(270deg,#000,#001f1f,#000,#002a2a);
+background-size:400% 400%;
+animation:fondo 10s ease infinite;
 }
+
 @keyframes fondo{
 0%{background-position:0% 50%;}
 50%{background-position:100% 50%;}
 100%{background-position:0% 50%;}
 }
-header{text-align:center;padding:15px;}
-header img{width:70px;margin-bottom:5px;}
-h1{color:#00ffe0;margin:5px 0;font-size:20px;}
-.tagline{color:#aaa;font-size:12px;margin:0;}
-.section{max-width:900px;margin:15px auto;padding:0 10px;}
-.search{width:100%;padding:10px;font-size:12px;border-radius:6px;border:none;margin-bottom:10px;}
-.program,.episode-card{display:flex;align-items:center;gap:10px;background:#111;padding:8px;border-radius:8px;margin-bottom:8px;cursor:pointer;flex-direction:column;justify-content:center;}
-.program:hover,.episode-card:hover{background:#1c1c1c;}
-.program img,.episode-card img{width:80px;border-radius:6px;}
-.program-title{font-size:12px;text-align:center;}
-.links{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
-.links button{width:100%;padding:12px;font-size:14px;border-radius:8px;border:none;background:#00ffe0;color:black;cursor:pointer;font-weight:bold;}
-.links button:hover{background:#00cfc0;}
-.top{position:fixed;right:10px;bottom:60px;background:#00ffe0;color:black;padding:8px;border-radius:50%;cursor:pointer;font-size:14px;z-index:998;}
+
+header{
+text-align:center;
+padding:20px;
+}
+
+header img{
+width:70px;
+}
+
+h1{
+color:#00ffe0;
+font-size:22px;
+margin:5px;
+}
+
+.tagline{
+color:#aaa;
+font-size:12px;
+}
+
+.section{
+max-width:900px;
+margin:auto;
+padding:10px;
+}
+
+.program{
+background:#111;
+padding:10px;
+border-radius:10px;
+margin-bottom:10px;
+text-align:center;
+}
+
+.program img{
+width:80px;
+border-radius:6px;
+}
+
+.program-title{
+font-size:13px;
+margin:5px;
+}
+
+.links{
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.links button{
+padding:12px;
+border:none;
+border-radius:10px;
+background:#00ffe0;
+font-weight:bold;
+cursor:pointer;
+}
+
+.links button:hover{
+background:#00cfc0;
+}
+
+.player-floating{
+position:fixed;
+bottom:15px;
+right:15px;
+width:45px;
+height:45px;
+border-radius:50%;
+background:#00ffe0;
+display:flex;
+align-items:center;
+justify-content:center;
+cursor:pointer;
+font-size:20px;
+z-index:999;
+}
+
+.player-expanded{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:#000;
+padding:10px;
+display:none;
+flex-direction:column;
+align-items:center;
+z-index:998;
+}
+
+iframe{
+width:100%;
+height:60px;
+border:none;
+}
+
+.close-btn{
+margin-top:5px;
+padding:6px 10px;
+border:none;
+border-radius:6px;
+background:#00ffe0;
+cursor:pointer;
+}
+
 </style>
 </head>
 
 <body>
 
 <header>
-<img src="logo-512.png" alt="Buckle Music Logo">
+
+<img src="logo-512.png">
+
 <h1>BUCKLE MUSIC</h1>
-<p class="tagline">120 minutos de música electrónica cada semana</p>
+
+<p class="tagline">120 minutos de música electrónica</p>
+
 </header>
 
+
 <!-- NUEVO EPISODIO -->
+
 <div class="section">
-  <h2 style="font-size:16px;">✨ Nuevo episodio</h2>
-  <div class="episode-card">
-    <img src="https://archive.org/services/img/buckle-20-music-2026" alt="Nuevo episodio">
-    <h3 style="font-size:14px;">Buckle 20 Music 2026</h3>
-    <audio controls>
-      <source src="https://archive.org/download/buckle-20-music-2026/buckle-20-music-2026.mp3" type="audio/mpeg">
-      Tu navegador no soporta audio.
-    </audio>
-    <a href="https://archive.org/details/buckle-20-music-2026" target="_blank">
-      <button style="font-size:12px;padding:6px 10px;">🎧 Ver en Archive.org</button>
-    </a>
-  </div>
+
+<h2>Nuevo episodio</h2>
+
+<div class="program">
+
+<img src="https://archive.org/services/img/buckle-20-music-2026">
+
+<div class="program-title">
+Buckle 20 Music 2026
 </div>
 
-<!-- RESTO DE PROGRAMAS -->
+<button onclick="playProgram('buckle-20-music-2026')">
+▶ Reproducir
+</button>
+
+</div>
+
+</div>
+
+
+<!-- PROGRAMAS AUTOMÁTICOS -->
+
 <div class="section">
-<input type="text" class="search" placeholder="Buscar programa..." id="search">
+
+<h2>Programas</h2>
+
 <div id="programs"></div>
+
 </div>
 
-<!-- BOTONES DE PLATAFORMAS -->
+
+<!-- BOTONES -->
+
 <div class="section">
-<h2 style="font-size:16px;">🌐 Plataformas</h2>
+
+<h2>Plataformas</h2>
+
 <div class="links">
+
 <a href="https://www.ivoox.com/podcast-buckle-music_sq_f12535828_1.html" target="_blank">
 <button>🎧 Escuchar en iVoox</button>
 </a>
+
 <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank">
-<button>▶ Ver en YouTube</button>
+<button>▶ Directos en YouTube</button>
 </a>
-</div>
+
 </div>
 
-<!-- PLAYER FLOTANTE INTELIGENTE -->
-<div id="player-floating" style="position:fixed;bottom:10px;right:10px;width:40px;height:40px;background:#00ffe0;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:999;">
-  🎵
 </div>
 
-<div id="player-expanded" style="position:fixed;bottom:0;right:0;left:0;background:#000;padding:10px;display:none;flex-direction:column;align-items:center;box-shadow:0 -3px 10px rgba(0,0,0,0.6);z-index:998;">
-  <div style="width:70px;height:70px;margin-bottom:5px;">
-    <img id="player-cover" src="" alt="Portada" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">
-  </div>
-  <audio id="player" controls style="width:95%;"></audio>
-  <button id="player-close" style="margin-top:5px;padding:6px 12px;border:none;border-radius:6px;background:#00cfc0;color:black;cursor:pointer;">Cerrar</button>
+
+
+<!-- PLAYER FLOTANTE -->
+
+<div class="player-floating" id="openPlayer">
+🎵
 </div>
 
-<div class="top" onclick="window.scrollTo(0,0)">↑</div>
+
+<div class="player-expanded" id="playerBox">
+
+<div id="player"></div>
+
+<button class="close-btn" onclick="closePlayer()">
+Cerrar
+</button>
+
+</div>
+
+
 
 <script>
-// COLECCIÓN DE ARCHIVE
+
+
 const collection = "buckle-2-temporada-3.0";
 const container = document.getElementById("programs");
-let programs = [];
 
-// Fetch automático de todos los items de la colección
+
 fetch(`https://archive.org/advancedsearch.php?q=collection:${collection}&fl[]=identifier,title&sort[]=publicdate+desc&rows=50&page=1&output=json`)
 .then(r => r.json())
 .then(data => {
-  const items = data.response.docs;
-  items.forEach(item => {
-    const id = item.identifier;
-    const title = item.title || id;
-    const audio = `https://archive.org/download/${id}/${id}.mp3`;
-    const cover = `https://archive.org/services/img/${id}`;
-    
-    if(id.toLowerCase() === "buckle-20-music-2026") return;
-    programs.push({title,audio,cover});
-  });
-  render(programs);
+
+data.response.docs.forEach(item => {
+
+if(item.identifier == "buckle-20-music-2026") return;
+
+const div = document.createElement("div");
+
+div.className="program";
+
+div.innerHTML = `
+<img src="https://archive.org/services/img/${item.identifier}">
+<div class="program-title">${item.title}</div>
+<button onclick="playProgram('${item.identifier}')">▶ Reproducir</button>
+`;
+
+container.appendChild(div);
+
 });
 
-// Render de los programas
-function render(list){
-  container.innerHTML = "";
-  list.forEach(p => {
-    const div = document.createElement("div");
-    div.className = "program";
-    div.innerHTML = `<img src="${p.cover}" alt="${p.title}"><div class="program-title">${p.title}</div>`;
-    div.onclick = () => playProgram(p.audio, p.cover);
-    container.appendChild(div);
-  });
-}
-
-// Buscador
-document.getElementById("search").addEventListener("input", e => {
-  const text = e.target.value.toLowerCase();
-  const filtered = programs.filter(p => p.title.toLowerCase().includes(text));
-  render(filtered);
 });
 
-// PLAYER FLOTANTE INTELIGENTE
-const floating = document.getElementById("player-floating");
-const expanded = document.getElementById("player-expanded");
-const cover = document.getElementById("player-cover");
-const audio = document.getElementById("player");
-const closeBtn = document.getElementById("player-close");
 
-floating.onclick = () => {
-  expanded.style.display = "flex";
-  floating.style.display = "none";
-};
+function playProgram(id){
 
-closeBtn.onclick = () => {
-  expanded.style.display = "none";
-  floating.style.display = "flex";
-};
+document.getElementById("player").innerHTML =
+`<iframe src="https://archive.org/embed/${id}"></iframe>`;
 
-function playProgram(audioURL, coverURL){
-  audio.src = audioURL;
-  cover.src = coverURL;
-  audio.play();
-  expanded.style.display = "flex";
-  floating.style.display = "none";
+document.getElementById("playerBox").style.display="flex";
+document.getElementById("openPlayer").style.display="none";
+
 }
+
+
+document.getElementById("openPlayer").onclick=function(){
+
+document.getElementById("playerBox").style.display="flex";
+this.style.display="none";
+
+}
+
+
+function closePlayer(){
+
+document.getElementById("playerBox").style.display="none";
+document.getElementById("openPlayer").style.display="flex";
+
+}
+
 </script>
 
 </body>
