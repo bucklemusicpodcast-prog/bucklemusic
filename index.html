@@ -52,6 +52,15 @@ margin:40px auto;
 padding:0 20px;
 }
 
+.search{
+width:100%;
+padding:15px;
+font-size:16px;
+border-radius:10px;
+border:none;
+margin-bottom:20px;
+}
+
 .program{
 display:flex;
 align-items:center;
@@ -96,6 +105,10 @@ cursor:pointer;
 font-weight:bold;
 }
 
+.links button:hover{
+background:#00cfc0;
+}
+
 .player-bar{
 
 position:fixed;
@@ -109,24 +122,30 @@ box-shadow:0 -3px 10px rgba(0,0,0,0.6);
 }
 
 .player-bar audio{
-
 width:100%;
-
 }
 
 .visualizer{
-
 height:4px;
 background:linear-gradient(90deg,#00ffe0,#00b3ff,#00ffe0);
 animation:move 2s linear infinite;
-
 }
 
 @keyframes move{
-
 0%{background-position:0}
 100%{background-position:200px}
+}
 
+.top{
+position:fixed;
+right:20px;
+bottom:100px;
+background:#00ffe0;
+color:black;
+padding:12px;
+border-radius:50%;
+cursor:pointer;
+font-size:18px;
 }
 
 </style>
@@ -147,7 +166,7 @@ animation:move 2s linear infinite;
 
 <div class="section">
 
-<h2>🎧 Programas</h2>
+<input type="text" class="search" placeholder="Buscar programa..." id="search">
 
 <div id="programs"></div>
 
@@ -183,33 +202,31 @@ animation:move 2s linear infinite;
 
 </div>
 
+<div class="top" onclick="window.scrollTo(0,0)">↑</div>
+
 <script>
 
-const baseURL="https://archive.org/download/buckle-2-temporada-3.0/"
+let programs=[]
 
-fetch(baseURL+"files.xml")
+fetch("programas.json")
 
-.then(r=>r.text())
-
-.then(str=>new window.DOMParser().parseFromString(str,"text/xml"))
+.then(r=>r.json())
 
 .then(data=>{
 
-const files=[...data.querySelectorAll("file")]
+programs=data
 
-const mp3=files.filter(f=>f.getAttribute("name").endsWith(".mp3"))
+render(programs)
 
-mp3.sort((a,b)=>a.getAttribute("name").localeCompare(b.getAttribute("name")))
+})
+
+function render(list){
 
 const container=document.getElementById("programs")
 
-mp3.forEach(f=>{
+container.innerHTML=""
 
-const name=f.getAttribute("name").replace(".mp3","")
-
-const audio=baseURL+name+".mp3"
-
-const cover=baseURL+name+".jpg"
+list.forEach(p=>{
 
 const div=document.createElement("div")
 
@@ -217,15 +234,15 @@ div.className="program"
 
 div.innerHTML=`
 
-<img src="${cover}">
+<img src="${p.cover}">
 
-<div class="program-title">${name}</div>
+<div class="program-title">${p.title}</div>
 
 `
 
 div.onclick=()=>{
 
-document.getElementById("player").src=audio
+document.getElementById("player").src=p.audio
 
 document.getElementById("player").play()
 
@@ -234,6 +251,16 @@ document.getElementById("player").play()
 container.appendChild(div)
 
 })
+
+}
+
+document.getElementById("search").addEventListener("input",e=>{
+
+const text=e.target.value.toLowerCase()
+
+const filtered=programs.filter(p=>p.title.toLowerCase().includes(text))
+
+render(filtered)
 
 })
 
