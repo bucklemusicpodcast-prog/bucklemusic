@@ -1,102 +1,250 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Buckle Music PRO</title>
 
-<!-- PWA -->
+<title>Buckle Music</title>
+
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="logo-512.png">
 
 <style>
+
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  color:white;
-  background: linear-gradient(270deg,#000,#001f1f,#000,#002a2a);
-  background-size:400% 400%;
-  animation:fondo 8s ease infinite;
+margin:0;
+font-family:Arial;
+color:white;
+background: linear-gradient(270deg,#000,#001f1f,#000,#002a2a);
+background-size:400% 400%;
+animation:fondo 10s ease infinite;
 }
+
 @keyframes fondo{
-  0%{background-position:0% 50%;}
-  50%{background-position:100% 50%;}
-  100%{background-position:0% 50%;}
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
 }
-header{text-align:center;padding:40px 20px;}
-header img{width:120px;margin-bottom:10px;}
-h1{color:#00ffe0;font-size:42px;margin:0;}
-.tagline{color:#aaa;}
-.section{max-width:900px;margin:30px auto;padding:0 20px;}
-.episode-card{
-  background:#111;padding:15px;margin-bottom:20px;border-radius:12px;
-  display:flex;flex-direction:column;align-items:center;gap:15px;
+
+header{
+text-align:center;
+padding:40px 20px;
 }
-.episode-card img{width:120px;height:120px;object-fit:cover;border-radius:8px;}
-.episode-card h3{margin:0;font-size:20px;text-align:center;}
-.episode-card audio{width:100%;margin-top:5px;}
+
+header img{
+width:120px;
+}
+
+h1{
+color:#00ffe0;
+margin:10px 0;
+}
+
+.tagline{
+color:#aaa;
+}
+
+.section{
+max-width:900px;
+margin:40px auto;
+padding:0 20px;
+}
+
+.program{
+display:flex;
+align-items:center;
+gap:15px;
+background:#111;
+padding:12px;
+border-radius:10px;
+margin-bottom:12px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.program:hover{
+background:#1c1c1c;
+}
+
+.program img{
+width:70px;
+border-radius:6px;
+}
+
+.program-title{
+font-size:16px;
+}
+
+.links{
+display:flex;
+flex-direction:column;
+gap:15px;
+margin-top:20px;
+}
+
+.links button{
+width:100%;
+padding:18px;
+font-size:18px;
+border-radius:12px;
+border:none;
+background:#00ffe0;
+color:black;
+cursor:pointer;
+font-weight:bold;
+}
+
+.player-bar{
+
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#000;
+padding:15px;
+box-shadow:0 -3px 10px rgba(0,0,0,0.6);
+
+}
+
+.player-bar audio{
+
+width:100%;
+
+}
+
+.visualizer{
+
+height:4px;
+background:linear-gradient(90deg,#00ffe0,#00b3ff,#00ffe0);
+animation:move 2s linear infinite;
+
+}
+
+@keyframes move{
+
+0%{background-position:0}
+100%{background-position:200px}
+
+}
+
 </style>
+
 </head>
+
 <body>
 
 <header>
-<img src="logo-512.png" alt="Buckle Music Logo">
+
+<img src="logo-512.png">
+
 <h1>BUCKLE MUSIC</h1>
+
 <p class="tagline">120 minutos de música electrónica cada semana</p>
+
 </header>
 
 <div class="section">
-<h2>🎧 Programa de la semana</h2>
-<div class="episode-card" id="weekly-program"></div>
+
+<h2>🎧 Programas</h2>
+
+<div id="programs"></div>
+
 </div>
 
 <div class="section">
-<h2>📻 Todos los programas</h2>
-<div id="episodes"></div>
+
+<h2>🌐 Plataformas</h2>
+
+<div class="links">
+
+<a href="https://www.ivoox.com/podcast-buckle-music_sq_f12535828_1.html" target="_blank">
+<button>🎧 Escuchar en iVoox</button>
+</a>
+
+<a href="https://youtube.com" target="_blank">
+<button>▶ Ver en YouTube</button>
+</a>
+
+<a href="https://twitch.tv" target="_blank">
+<button>🟣 Directos en Twitch</button>
+</a>
+
+</div>
+
+</div>
+
+<div class="player-bar">
+
+<div class="visualizer"></div>
+
+<audio id="player" controls></audio>
+
 </div>
 
 <script>
-// URL base de tu colección en Archive.org
-const baseURL = "https://archive.org/download/buckle-2-temporada-3.0/";
 
-fetch(baseURL + "files.xml")
-  .then(r => r.text())
-  .then(str => new window.DOMParser().parseFromString(str,"text/xml"))
-  .then(data => {
-    const files = Array.from(data.querySelectorAll("file"));
-    const mp3Files = files.filter(f => f.getAttribute("name").endsWith(".mp3"));
-    mp3Files.sort((a,b)=>a.getAttribute("name").localeCompare(b.getAttribute("name")));
+const baseURL="https://archive.org/download/buckle-2-temporada-3.0/"
 
-    const containerAll = document.getElementById("episodes");
-    const weeklyContainer = document.getElementById("weekly-program");
+fetch(baseURL+"files.xml")
 
-    mp3Files.forEach((f, index)=>{
-      const name = f.getAttribute("name").replace(".mp3","");
-      const audioURL = baseURL + name + ".mp3";
-      const coverURL = baseURL + name + ".jpg";
+.then(r=>r.text())
 
-      const div = document.createElement("div");
-      div.classList.add("episode-card");
-      div.innerHTML = `
-        <img src="${coverURL}" alt="${name}">
-        <h3>${name}</h3>
-        <audio controls src="${audioURL}"></audio>
-      `;
-      if(index === mp3Files.length - 1){
-        weeklyContainer.appendChild(div);
-      } else {
-        containerAll.appendChild(div);
-      }
-    });
-  })
-  .catch(err=>console.error("Error cargando episodios:", err));
+.then(str=>new window.DOMParser().parseFromString(str,"text/xml"))
+
+.then(data=>{
+
+const files=[...data.querySelectorAll("file")]
+
+const mp3=files.filter(f=>f.getAttribute("name").endsWith(".mp3"))
+
+mp3.sort((a,b)=>a.getAttribute("name").localeCompare(b.getAttribute("name")))
+
+const container=document.getElementById("programs")
+
+mp3.forEach(f=>{
+
+const name=f.getAttribute("name").replace(".mp3","")
+
+const audio=baseURL+name+".mp3"
+
+const cover=baseURL+name+".jpg"
+
+const div=document.createElement("div")
+
+div.className="program"
+
+div.innerHTML=`
+
+<img src="${cover}">
+
+<div class="program-title">${name}</div>
+
+`
+
+div.onclick=()=>{
+
+document.getElementById("player").src=audio
+
+document.getElementById("player").play()
+
+}
+
+container.appendChild(div)
+
+})
+
+})
 
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/service-worker.js')
-    .then(reg => console.log('Service Worker registrado', reg))
-    .catch(err => console.error('Service Worker error:', err));
+
+navigator.serviceWorker.register('/service-worker.js')
+
 }
+
 </script>
 
 </body>
+
 </html>
