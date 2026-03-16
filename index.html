@@ -2,163 +2,122 @@
 <html lang="es">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Buckle Music</title>
 
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="logo-512.png">
 
 <style>
-
 body{
-margin:0;
-font-family:Arial;
-color:white;
-background: linear-gradient(270deg,#000,#001f1f,#000,#002a2a);
-background-size:400% 400%;
-animation:fondo 10s ease infinite;
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:white;
+  background: linear-gradient(270deg,#000,#001f1f,#000,#002a2a);
+  background-size:400% 400%;
+  animation:fondo 10s ease infinite;
 }
-
 @keyframes fondo{
-0%{background-position:0% 50%;}
-50%{background-position:100% 50%;}
-100%{background-position:0% 50%;}
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
 }
-
-header{
-text-align:center;
-padding:40px 20px;
-}
-
-header img{
-width:120px;
-}
-
-h1{
-color:#00ffe0;
-margin:10px 0;
-}
-
-.section{
-max-width:900px;
-margin:40px auto;
-padding:0 20px;
-}
-
-.program{
-display:flex;
-align-items:center;
-gap:15px;
-background:#111;
-padding:12px;
-border-radius:10px;
-margin-bottom:12px;
-cursor:pointer;
-}
-
-.program img{
-width:70px;
-border-radius:6px;
-}
-
-.program-title{
-font-size:16px;
-}
-
-.player-bar{
-
-position:fixed;
-bottom:0;
-left:0;
-width:100%;
-background:#000;
-padding:15px;
-
-}
-
-.player-bar audio{
-width:100%;
-}
-
+header{text-align:center;padding:40px 20px;}
+header img{width:120px;}
+h1{color:#00ffe0;margin:10px 0;}
+.tagline{color:#aaa;}
+.section{max-width:900px;margin:40px auto;padding:0 20px;}
+.search{width:100%;padding:15px;font-size:16px;border-radius:10px;border:none;margin-bottom:20px;}
+.program{display:flex;align-items:center;gap:15px;background:#111;padding:12px;border-radius:10px;margin-bottom:12px;cursor:pointer;transition:0.3s;}
+.program:hover{background:#1c1c1c;}
+.program img{width:70px;border-radius:6px;}
+.program-title{font-size:16px;}
+.links{display:flex;flex-direction:column;gap:15px;margin-top:20px;}
+.links button{width:100%;padding:18px;font-size:18px;border-radius:12px;border:none;background:#00ffe0;color:black;cursor:pointer;font-weight:bold;}
+.links button:hover{background:#00cfc0;}
+.player-bar{position:fixed;bottom:0;left:0;width:100%;background:#000;padding:15px;box-shadow:0 -3px 10px rgba(0,0,0,0.6);}
+.player-bar audio{width:100%;}
+.visualizer{height:4px;background:linear-gradient(90deg,#00ffe0,#00b3ff,#00ffe0);animation:move 2s linear infinite;}
+@keyframes move{0%{background-position:0}100%{background-position:200px}}
+.top{position:fixed;right:20px;bottom:100px;background:#00ffe0;color:black;padding:12px;border-radius:50%;cursor:pointer;font-size:18px;}
 </style>
-
 </head>
 
 <body>
 
 <header>
-
-<img src="logo-512.png">
-
+<img src="logo-512.png" alt="Buckle Music Logo">
 <h1>BUCKLE MUSIC</h1>
-
-<p>Podcast de música electrónica</p>
-
+<p class="tagline">120 minutos de música electrónica cada semana</p>
 </header>
 
 <div class="section">
-
-<h2>🎧 Programas</h2>
-
+<input type="text" class="search" placeholder="Buscar programa..." id="search">
 <div id="programs"></div>
+</div>
 
+<div class="section">
+<h2>🌐 Plataformas</h2>
+<div class="links">
+<a href="https://www.ivoox.com/podcast-buckle-music_sq_f12535828_1.html" target="_blank"><button>🎧 Escuchar en iVoox</button></a>
+<a href="https://youtube.com" target="_blank"><button>▶ Ver en YouTube</button></a>
+<a href="https://twitch.tv" target="_blank"><button>🟣 Directos en Twitch</button></a>
+</div>
 </div>
 
 <div class="player-bar">
-
+<div class="visualizer"></div>
 <audio id="player" controls></audio>
-
 </div>
 
+<div class="top" onclick="window.scrollTo(0,0)">↑</div>
+
 <script>
+// Tu colección en Archive.org
+const collection = "buckle-2-temporada-3.0";
+const container = document.getElementById("programs");
+let programs = [];
 
-const container=document.getElementById("programs")
+// Llamada a la API de Archive
+fetch(`https://archive.org/advancedsearch.php?q=collection:${collection}&fl[]=identifier, title&sort[]=publicdate+desc&rows=50&page=1&output=json`)
+.then(r => r.json())
+.then(data => {
+  const items = data.response.docs;
+  items.forEach(item => {
+    const id = item.identifier;
+    const title = item.title || id;
+    const audio = `https://archive.org/download/${id}/${id}.mp3`;
+    const cover = `https://archive.org/services/img/${id}`;
+    
+    programs.push({title,audio,cover});
+  });
+  render(programs);
+});
 
-fetch("https://archive.org/advancedsearch.php?q=collection:buckle-2-temporada-3.0&output=json")
-
-.then(r=>r.json())
-
-.then(data=>{
-
-data.response.docs.forEach(item=>{
-
-const id=item.identifier
-
-const title=item.title
-
-const mp3="https://archive.org/download/"+id+"/"+id+".mp3"
-
-const cover="https://archive.org/services/img/"+id
-
-const div=document.createElement("div")
-
-div.className="program"
-
-div.innerHTML=`
-
-<img src="${cover}">
-<div class="program-title">${title}</div>
-
-`
-
-div.onclick=()=>{
-
-document.getElementById("player").src=mp3
-document.getElementById("player").play()
-
+// Función para renderizar programas
+function render(list){
+  container.innerHTML = "";
+  list.forEach(p => {
+    const div = document.createElement("div");
+    div.className = "program";
+    div.innerHTML = `<img src="${p.cover}" alt="${p.title}"><div class="program-title">${p.title}</div>`;
+    div.onclick = () => {
+      document.getElementById("player").src = p.audio;
+      document.getElementById("player").play();
+    };
+    container.appendChild(div);
+  });
 }
 
-container.appendChild(div)
-
-})
-
-})
-
+// Buscador
+document.getElementById("search").addEventListener("input", e => {
+  const text = e.target.value.toLowerCase();
+  const filtered = programs.filter(p => p.title.toLowerCase().includes(text));
+  render(filtered);
+});
 </script>
 
 </body>
-
 </html>
+
