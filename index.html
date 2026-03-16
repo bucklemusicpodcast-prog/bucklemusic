@@ -34,9 +34,7 @@ h1{color:#00ffe0;font-size:42px;margin:0;}
 }
 .episode-card img{width:120px;height:120px;object-fit:cover;border-radius:8px;}
 .episode-card h3{margin:0;font-size:20px;text-align:center;}
-.episode-card audio,.episode-card iframe{width:100%;margin-top:5px;}
-button{background:#00ffe0;border:none;padding:15px 25px;font-size:18px;border-radius:10px;cursor:pointer;}
-button:hover{background:#00cfc0;}
+.episode-card audio{width:100%;margin-top:5px;}
 </style>
 </head>
 <body>
@@ -50,42 +48,63 @@ button:hover{background:#00cfc0;}
 <!-- Programa de la semana -->
 <div class="section">
 <h2>🎧 Programa de la semana</h2>
-<div class="episode-card">
-  <img src="https://archive.org/download/bucklemusic2026/programa20.jpg" alt="Programa 20">
-  <h3>Programa 20 - Semana actual</h3>
-  <audio controls src="https://archive.org/download/bucklemusic2026/programa20.mp3"></audio>
+<div class="episode-card" id="weekly-program">
+  <!-- Se llenará automáticamente -->
 </div>
 </div>
 
-<!-- Otros programas (iVoox) -->
+<!-- Todos los programas -->
 <div class="section">
-<h2>📻 Otros programas</h2>
-<div class="episode-card">
-  <iframe src="https://www.ivoox.com/player_es_podcast_2535828_zp_1.html?c1=20cbda" height="200" frameborder="0" allowfullscreen scrolling="no"></iframe>
-</div>
-<div class="episode-card">
-  <iframe src="https://www.ivoox.com/player_es_podcast_2535828_zp_2.html?c1=20cbda" height="200" frameborder="0" allowfullscreen scrolling="no"></iframe>
-</div>
-<!-- Repetir según cantidad de programas -->
-</div>
-
-<!-- Emisión en directo -->
-<div class="section">
-<h2>🔴 En vivo</h2>
-<div class="episode-card">
-  <iframe width="100%" height="315" src="https://www.youtube.com/embed/live_stream?channel=TU_CANAL_ID" frameborder="0" allowfullscreen></iframe>
-</div>
-<div class="episode-card">
-  <iframe src="https://player.twitch.tv/?channel=TU_CANAL&parent=TU_DOMINIO" height="315" width="100%" allowfullscreen></iframe>
-</div>
+<h2>📻 Todos los programas</h2>
+<div id="episodes"></div>
 </div>
 
 <script>
+// URL base de tu colección en Archive.org
+const baseURL = "https://archive.org/download/buckle-2-temporada-3.0/";
+
+// Cargar archivos XML y generar programas automáticamente
+fetch(baseURL + "files.xml")
+  .then(r => r.text())
+  .then(str => new window.DOMParser().parseFromString(str,"text/xml"))
+  .then(data => {
+    const files = Array.from(data.querySelectorAll("file"));
+    const mp3Files = files.filter(f => f.getAttribute("name").endsWith(".mp3"));
+
+    // Ordenar para que el último sea el programa de la semana
+    mp3Files.sort((a,b)=>a.getAttribute("name").localeCompare(b.getAttribute("name")));
+
+    const containerAll = document.getElementById("episodes");
+    const weeklyContainer = document.getElementById("weekly-program");
+
+    mp3Files.forEach((f, index)=>{
+      const name = f.getAttribute("name").replace(".mp3","");
+      const audioURL = baseURL + name + ".mp3";
+      const coverURL = baseURL + name + ".jpg";
+
+      const div = document.createElement("div");
+      div.classList.add("episode-card");
+      div.innerHTML = `
+        <img src="${coverURL}" alt="${name}">
+        <h3>${name}</h3>
+        <audio controls src="${audioURL}"></audio>
+      `;
+
+      if(index === mp3Files.length - 1){
+        // Último episodio -> Programa de la semana
+        weeklyContainer.appendChild(div);
+      } else {
+        containerAll.appendChild(div);
+      }
+    });
+  })
+  .catch(err=>console.error("Error cargando episodios:", err));
+
 // Registrar Service Worker para PWA
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('/service-worker.js')
-    .then(reg=>console.log('Service Worker registrado', reg))
-    .catch(err=>console.error('Service Worker error:', err));
+    .then(reg => console.log('Service Worker registrado', reg))
+    .catch(err => console.error('Service Worker error:', err));
 }
 </script>
 
