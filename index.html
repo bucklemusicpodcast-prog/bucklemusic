@@ -30,7 +30,7 @@ top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.70);
+background:rgba(0,0,0,0.75);
 z-index:-1;
 }
 
@@ -49,71 +49,79 @@ margin:5px;
 font-size:22px;
 }
 
-.tagline{
-font-size:12px;
-color:#aaa;
-}
-
 .section{
-max-width:900px;
+max-width:1000px;
 margin:auto;
-padding:10px;
+padding:20px;
 }
 
-.program{
+h2{
+color:#00ffe0;
+}
+
+.social{
+
 display:flex;
-align-items:center;
-background:#111;
-border-radius:10px;
-padding:10px;
-margin-bottom:10px;
-gap:10px;
+justify-content:center;
+gap:15px;
+margin-top:10px;
+
 }
 
-.program img{
-width:90px;
-border-radius:6px;
+.social img{
+width:35px;
 cursor:pointer;
 }
 
-.program-info{
-flex:1;
-}
-
-.program-title{
-font-size:14px;
-margin-bottom:6px;
-}
-
-.player{
+.mail{
+text-align:center;
 margin-top:10px;
-display:none;
+font-size:14px;
 }
 
-iframe{
+.carousel{
+
+display:flex;
+overflow-x:auto;
+gap:15px;
+padding:10px;
+
+}
+
+.carousel img{
+
+width:140px;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+
+}
+
+.carousel img:hover{
+
+transform:scale(1.1);
+
+}
+
+.player-fixed{
+
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#000;
+padding:10px;
+display:none;
+z-index:999;
+
+}
+
+.player-fixed iframe{
+
 width:100%;
 height:60px;
 border:none;
-}
 
-.links{
-margin-top:20px;
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.links button{
-padding:12px;
-border:none;
-border-radius:10px;
-background:#00ffe0;
-font-weight:bold;
-cursor:pointer;
-}
-
-.links button:hover{
-background:#00cfc0;
 }
 
 </style>
@@ -130,131 +138,141 @@ background:#00cfc0;
 
 <h1>BUCKLE MUSIC</h1>
 
-<p class="tagline">
-120 minutos de música electrónica
-</p>
-
 </header>
 
-
-<div class="section">
-
-<h2>Nuevo episodio</h2>
-
-<div class="program">
-
-<img src="https://archive.org/services/img/buckle-20-music-2026"
-onclick="togglePlayer('buckle-20-music-2026')">
-
-<div class="program-info">
-
-<div class="program-title">
-Buckle 20 Music 2026
-</div>
-
-<button onclick="togglePlayer('buckle-20-music-2026')">
-▶ reproducir
-</button>
-
-<div class="player" id="player-buckle-20-music-2026"></div>
-
-</div>
-
-</div>
-
-</div>
-
-
-
-<div class="section">
-
-<h2>Programas</h2>
-
-<div id="programs"></div>
-
-</div>
-
-
-<div class="section">
-
-<h2>Plataformas</h2>
-
-<div class="links">
-
-<a href="https://www.ivoox.com/podcast-buckle-music_sq_f12535828_1.html" target="_blank">
-<button>🎧 Escuchar en iVoox</button>
-</a>
+<div class="social">
 
 <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank">
-<button>▶ Directos en YouTube</button>
+<img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
+</a>
+
+<a href="TU_INSTAGRAM">
+<img src="instagram.png">
+</a>
+
+<a href="TU_FACEBOOK">
+<img src="facebook.png">
 </a>
 
 </div>
 
+<div class="mail">
+
+📧 bucklemusicpodcast@gmail.com
+
 </div>
 
+
+<div class="section">
+
+<h2>🎧 Nuevo episodio</h2>
+
+<div class="carousel">
+
+<img src="https://archive.org/services/img/buckle-20-music-2026"
+onclick="playEpisode('buckle-20-music-2026')">
+
+</div>
+
+</div>
+
+
+
+<div class="section">
+
+<h2>🎚 In The Mix</h2>
+
+<div class="carousel">
+
+<img src="https://archive.org/services/img/buckle-19-music-2026"
+onclick="playEpisode('buckle-19-music-2026')">
+
+<img src="https://archive.org/services/img/buckle-18-music-2026"
+onclick="playEpisode('buckle-18-music-2026')">
+
+</div>
+
+</div>
+
+
+
+<div class="section">
+
+<h2>🏆 Gran Reserva</h2>
+
+<div class="carousel">
+
+<img src="https://archive.org/services/img/buckle-5-music-2026"
+onclick="playEpisode('buckle-5-music-2026')">
+
+<img src="https://archive.org/services/img/buckle-3-music-2026"
+onclick="playEpisode('buckle-3-music-2026')">
+
+</div>
+
+</div>
+
+
+
+<div class="section">
+
+<h2>🎵 Programas Buckle Music</h2>
+
+<div class="carousel" id="episodes"></div>
+
+</div>
+
+
+
+<div class="player-fixed" id="player">
+
+<iframe id="playerframe"></iframe>
+
+</div>
 
 
 <script>
 
 const collection = "buckle-2-temporada-3.0";
-const container = document.getElementById("programs");
 
+const container = document.getElementById("episodes");
 
 fetch(`https://archive.org/advancedsearch.php?q=collection:${collection}&fl[]=identifier,title&sort[]=publicdate+desc&rows=50&page=1&output=json`)
-.then(r => r.json())
-.then(data => {
 
-data.response.docs.forEach(item => {
+.then(r=>r.json())
 
-if(item.identifier == "buckle-20-music-2026") return;
+.then(data=>{
 
-const div = document.createElement("div");
+data.response.docs.forEach(item=>{
 
-div.className="program";
+const img=document.createElement("img");
 
-div.innerHTML = `
-<img src="https://archive.org/services/img/${item.identifier}" onclick="togglePlayer('${item.identifier}')">
+img.src=`https://archive.org/services/img/${item.identifier}`;
 
-<div class="program-info">
+img.onclick=()=>playEpisode(item.identifier);
 
-<div class="program-title">${item.title}</div>
-
-<button onclick="togglePlayer('${item.identifier}')">▶ reproducir</button>
-
-<div class="player" id="player-${item.identifier}"></div>
-
-</div>
-`;
-
-container.appendChild(div);
+container.appendChild(img);
 
 });
 
 });
 
+function playEpisode(id){
 
-function togglePlayer(id){
+const player=document.getElementById("player");
 
-const player = document.getElementById("player-"+id);
+const frame=document.getElementById("playerframe");
 
-if(player.style.display=="block"){
-
-player.style.display="none";
-player.innerHTML="";
-
-}else{
+frame.src=`https://archive.org/embed/${id}`;
 
 player.style.display="block";
 
-player.innerHTML =
-`<iframe src="https://archive.org/embed/${id}"></iframe>`;
-
-}
+window.scrollTo(0,document.body.scrollHeight);
 
 }
 
 </script>
 
 </body>
+
 </html>
