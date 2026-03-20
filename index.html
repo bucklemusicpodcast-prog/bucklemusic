@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Buckle Music - Netflix Style</title>
+<title>Buckle Music</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
@@ -21,7 +21,7 @@ body::before{
   content:"";
   position:fixed;
   top:0; left:0; right:0; bottom:0;
-  background:rgba(0,0,0,0.5); /* 50% oscuro */
+  background:rgba(0,0,0,0.5);
   z-index:0;
 }
 
@@ -72,7 +72,7 @@ h2{
   position:relative; z-index:1;
 }
 
-/* CARRUSEL TIPO NETFLIX */
+/* CARRUSEL */
 .carousel{
   display:flex;
   overflow-x:auto;
@@ -98,15 +98,19 @@ h2{
   flex-shrink:0;
 }
 
-.carousel img.active{
-  transform:scale(1.6);
-  z-index:2;
-  box-shadow:0 0 15px #00ffe0;
-}
-
 /* PLAYER MODAL */
 .player-modal{
-  position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:999;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.95);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
 }
 .player-modal img{width:250px;border-radius:15px;margin-bottom:20px;}
 .player-modal iframe{width:90%;height:80px;border:none;}
@@ -169,16 +173,7 @@ function cerrar(){
   document.getElementById("frame").src="";
 }
 
-function setActiveCarousel(carousel){
-  const imgs = carousel.querySelectorAll("img");
-  imgs.forEach(i=>i.classList.remove("active"));
-  imgs[0]?.classList.add("active");
-  imgs.forEach(img=>{
-    img.addEventListener("click",()=>{imgs.forEach(x=>x.classList.remove("active")); img.classList.add("active");});
-  });
-}
-
-// FETCH y ordenar de mayor a menor según número al final del identifier
+// FETCH y ordenar de mayor a menor según número en identifier
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,title,section&sort[]=publicdate desc&rows=50&output=json`)
 .then(r=>r.json())
 .then(data=>{
@@ -207,8 +202,6 @@ fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediaty
       if(section==="nuevo") notificar(item.identifier);
     }
   });
-
-  Object.values(sections).forEach(setActiveCarousel);
 });
 </script>
 
