@@ -223,8 +223,8 @@ function cerrar(){
   document.getElementById("frame").src="";
 }
 
-// 🔥 FETCH y distribuir por palabras clave
-fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,title&sort[]=publicdate desc&rows=50&output=json`)
+// 🔥 FETCH y distribuir según metadata "section"
+fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,title,section&sort[]=publicdate desc&rows=50&output=json`)
 .then(r=>r.json())
 .then(data=>{
   const nuevo=document.getElementById("nuevo");
@@ -238,14 +238,15 @@ fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediaty
     img.src=`https://archive.org/services/img/${item.identifier}`;
     img.onclick=()=>play(item.identifier);
 
-    const id = item.identifier.toLowerCase();
-    if(id.includes("nuevo")) {
+    const section = item.section ? item.section.toLowerCase() : "";
+
+    if(section==="nuevo") {
       nuevo.appendChild(img);
       notificar(item.identifier);
-    } else if(id.includes("programas")) programas.appendChild(img);
-    else if(id.includes("mix")) mix.appendChild(img);
-    else if(id.includes("reserva")) reserva.appendChild(img);
-    else if(id.includes("producciones")) pro.appendChild(img);
+    } else if(section==="programas") programas.appendChild(img);
+    else if(section==="mix") mix.appendChild(img);
+    else if(section==="reserva") reserva.appendChild(img);
+    else if(section==="producciones") pro.appendChild(img);
   });
 });
 </script>
