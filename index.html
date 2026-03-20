@@ -9,131 +9,137 @@
 
 <style>
 body{
-margin:0;
-font-family:'Orbitron', sans-serif;
-color:white;
-background:url("fondo.jpg") center/cover fixed;
+  margin:0;
+  font-family:'Orbitron', sans-serif;
+  color:white;
+  background:url("fondo.jpg") center/cover fixed;
 }
 
 .overlay{
-position:fixed;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.8);
-z-index:-1;
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.8);
+  z-index:-1;
 }
 
 header{
-text-align:center;
-padding:15px;
+  text-align:center;
+  padding:15px;
 }
 
 header img{
-width:70px;
+  width:70px;
 }
 
 h1{
-color:#00ffe0;
-font-size:26px;
-margin:5px;
-text-align:center;
+  color:#00ffe0;
+  font-size:26px;
+  margin:5px;
+  text-align:center;
+}
+
+header p{
+  color:#00ffe0;
+  font-size:14px;
+  margin:3px;
 }
 
 /* REDES */
 .social{
-display:flex;
-justify-content:center;
-gap:15px;
-margin:10px;
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin:10px;
 }
 
 .social img{
-width:35px;
-height:35px;
-transition:0.3s;
-cursor:pointer;
+  width:35px;
+  height:35px;
+  transition:0.3s;
+  cursor:pointer;
 }
 
 .social img:hover{
-transform:scale(1.2);
-filter:drop-shadow(0 0 8px #00ffe0);
+  transform:scale(1.2);
+  filter:drop-shadow(0 0 8px #00ffe0);
 }
 
 /* BOTON DIRECTO */
 .live{
-text-align:center;
-margin:10px;
+  text-align:center;
+  margin:10px;
 }
 
 .live a{
-background:red;
-color:white;
-padding:8px 15px;
-border-radius:20px;
-text-decoration:none;
-font-size:14px;
-box-shadow:0 0 10px red;
+  background:red;
+  color:white;
+  padding:8px 15px;
+  border-radius:20px;
+  text-decoration:none;
+  font-size:14px;
+  box-shadow:0 0 10px red;
 }
 
 /* CARRUSEL */
 .carousel{
-display:flex;
-overflow-x:auto;
-gap:15px;
-padding:20px;
-scroll-behavior:smooth;
+  display:flex;
+  overflow-x:auto;
+  gap:15px;
+  padding:20px;
+  scroll-behavior:smooth;
 }
 
 .carousel img{
-width:130px;
-border-radius:10px;
-cursor:pointer;
-transition:0.3s;
-flex-shrink:0;
+  width:130px;
+  border-radius:10px;
+  cursor:pointer;
+  transition:0.3s;
+  flex-shrink:0;
 }
 
 .carousel img:hover{
-transform:scale(1.1);
+  transform:scale(1.1);
 }
 
 /* PLAYER MODAL */
 .player-modal{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.95);
-display:none;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-z-index:999;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgba(0,0,0,0.95);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
 }
 
 .player-modal img{
-width:250px;
-border-radius:15px;
-margin-bottom:20px;
+  width:250px;
+  border-radius:15px;
+  margin-bottom:20px;
 }
 
 .player-modal iframe{
-width:90%;
-height:80px;
-border:none;
+  width:90%;
+  height:80px;
+  border:none;
 }
 
 .close{
-position:absolute;
-top:20px;
-right:20px;
-font-size:25px;
-cursor:pointer;
+  position:absolute;
+  top:20px;
+  right:20px;
+  font-size:25px;
+  cursor:pointer;
 }
 
 h2{
-color:#00ffe0;
-padding-left:20px;
+  color:#00ffe0;
+  padding-left:20px;
 }
 </style>
 </head>
@@ -143,32 +149,30 @@ padding-left:20px;
 
 <!-- HEADER -->
 <header>
-<img src="logo-512.png" alt="Buckle Music Logo">
-<h1>Buckle Music</h1>
+  <img src="logo-512.png" alt="Buckle Music Logo">
+  <h1>Buckle Music</h1>
+  <p>bucklemusicpodcast@gmail.com</p>
 </header>
 
 <!-- REDES -->
 <div class="social">
-<a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
-</a>
-
-<a href="https://www.instagram.com/bucklemusic" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
-</a>
-
-<a href="https://www.facebook.com" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png" alt="Facebook">
-</a>
-
-<a href="https://go.ivoox.com/sq/2535828" target="_blank">
-<img src="https://archive.org/download/ivoox_logo/ivoox_logo.png" alt="iVoox">
-</a>
+  <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
+  </a>
+  <a href="https://www.instagram.com/bucklemusic" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Instagram">
+  </a>
+  <a href="https://www.facebook.com" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png" alt="Facebook">
+  </a>
+  <a href="https://go.ivoox.com/sq/2535828" target="_blank">
+    <img src="https://archive.org/download/ivoox_logo/ivoox_logo.png" alt="iVoox">
+  </a>
 </div>
 
 <!-- BOTON EN DIRECTO -->
 <div class="live">
-<a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank">🔴 EN DIRECTO</a>
+  <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank">🔴 EN DIRECTO</a>
 </div>
 
 <!-- SECCIONES CARRUSELES -->
@@ -189,71 +193,61 @@ padding-left:20px;
 
 <!-- PLAYER MODAL -->
 <div class="player-modal" id="modal">
-<span class="close" onclick="cerrar()">✖</span>
-<img id="cover">
-<iframe id="frame"></iframe>
+  <span class="close" onclick="cerrar()">✖</span>
+  <img id="cover">
+  <iframe id="frame"></iframe>
 </div>
 
 <script>
-let lastEpisode=null;
+if("Notification" in window){
+  Notification.requestPermission();
+}
 
-// 🔥 FETCH TODO DESDE CREATOR
+function notificar(id){
+  if(Notification.permission==="granted"){
+    new Notification("Nuevo episodio disponible 🎧",{
+      body:"Ya puedes escucharlo",
+      icon:`https://archive.org/services/img/${id}`
+    });
+  }
+}
+
+function play(id){
+  document.getElementById("modal").style.display="flex";
+  document.getElementById("cover").src=`https://archive.org/services/img/${id}`;
+  document.getElementById("frame").src=`https://archive.org/embed/${id}`;
+}
+
+function cerrar(){
+  document.getElementById("modal").style.display="none";
+  document.getElementById("frame").src="";
+}
+
+// 🔥 FETCH y distribuir por palabras clave
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,title&sort[]=publicdate desc&rows=50&output=json`)
 .then(r=>r.json())
 .then(data=>{
-const nuevo=document.getElementById("nuevo");
-const programas=document.getElementById("programas");
-const mix=document.getElementById("mix");
-const reserva=document.getElementById("reserva");
-const pro=document.getElementById("pro");
+  const nuevo=document.getElementById("nuevo");
+  const programas=document.getElementById("programas");
+  const mix=document.getElementById("mix");
+  const reserva=document.getElementById("reserva");
+  const pro=document.getElementById("pro");
 
-data.response.docs.forEach((item,index)=>{
-const img=document.createElement("img");
-img.src=`https://archive.org/services/img/${item.identifier}`;
-img.onclick=()=>play(item.identifier);
+  data.response.docs.forEach(item=>{
+    const img=document.createElement("img");
+    img.src=`https://archive.org/services/img/${item.identifier}`;
+    img.onclick=()=>play(item.identifier);
 
-// Distribución por secciones
-if(index===0){
-nuevo.appendChild(img);
-notificar(item.identifier); // Notificación nuevo programa
-}else if(index<=5){
-programas.appendChild(img);
-}else if(index<=10){
-mix.appendChild(img);
-}else if(index<=15){
-reserva.appendChild(img);
-}else{
-pro.appendChild(img);
-}
+    const id = item.identifier.toLowerCase();
+    if(id.includes("nuevo")) {
+      nuevo.appendChild(img);
+      notificar(item.identifier);
+    } else if(id.includes("programas")) programas.appendChild(img);
+    else if(id.includes("mix")) mix.appendChild(img);
+    else if(id.includes("reserva")) reserva.appendChild(img);
+    else if(id.includes("producciones")) pro.appendChild(img);
+  });
 });
-});
-
-// 🎧 PLAY
-function play(id){
-document.getElementById("modal").style.display="flex";
-document.getElementById("cover").src=`https://archive.org/services/img/${id}`;
-document.getElementById("frame").src=`https://archive.org/embed/${id}`;
-}
-
-// ❌ CERRAR
-function cerrar(){
-document.getElementById("modal").style.display="none";
-document.getElementById("frame").src="";
-}
-
-// 🔔 NOTIFICACIONES
-function notificar(id){
-if(Notification.permission==="granted"){
-new Notification("Nuevo episodio disponible 🎧",{
-body:"Ya puedes escucharlo",
-icon:`https://archive.org/services/img/${id}`
-});
-}
-}
-
-if("Notification" in window){
-Notification.requestPermission();
-}
 </script>
 
 </body>
