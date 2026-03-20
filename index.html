@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Buckle Music - Netflix Style</title>
+<title>Buckle Music</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
@@ -14,7 +14,10 @@ body{
   color:white;
   background:url("fondo.jpg") center/cover fixed;
 }
-header{text-align:center;padding:15px;}
+header{
+  text-align:center;
+  padding:15px;
+}
 header img{width:70px;}
 h1{color:#00ffe0;font-size:26px;margin:5px;text-align:center;}
 header p{color:#00ffe0;font-size:14px;margin:3px;}
@@ -23,38 +26,14 @@ header p{color:#00ffe0;font-size:14px;margin:3px;}
 .social img:hover{transform:scale(1.2);filter:drop-shadow(0 0 8px #00ffe0);}
 .live{text-align:center;margin:10px;}
 .live a{background:red;color:white;padding:8px 15px;border-radius:20px;text-decoration:none;font-size:14px;box-shadow:0 0 10px red;}
-h2{color:#00ffe0;padding-left:20px;margin-top:30px;}
-
-/* CARRUSEL TIPO NETFLIX */
-.carousel{
-  display:flex;
-  overflow-x:auto;
-  gap:15px;
-  padding:20px;
-  scroll-behavior:smooth;
-}
-.carousel::-webkit-scrollbar{height:8px;}
-.carousel::-webkit-scrollbar-thumb{background:#00ffe0;border-radius:4px;}
-.carousel img{
-  width:130px;
-  border-radius:10px;
-  cursor:pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  flex-shrink:0;
-}
-.carousel img.active{
-  transform:scale(1.6);
-  z-index:1;
-  box-shadow:0 0 15px #00ffe0;
-}
-
-/* PLAYER MODAL */
-.player-modal{
-  position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:999;
-}
+.carousel{display:flex;overflow-x:auto;gap:15px;padding:20px;scroll-behavior:smooth;}
+.carousel img{width:130px;border-radius:10px;cursor:pointer;transition:0.3s;flex-shrink:0;}
+.carousel img:hover{transform:scale(1.1);}
+.player-modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:none;flex-direction:column;align-items:center;justify-content:center;z-index:999;}
 .player-modal img{width:250px;border-radius:15px;margin-bottom:20px;}
 .player-modal iframe{width:90%;height:80px;border:none;}
 .close{position:absolute;top:20px;right:20px;font-size:25px;cursor:pointer;}
+h2{color:#00ffe0;padding-left:20px;}
 </style>
 </head>
 <body>
@@ -113,29 +92,17 @@ function cerrar(){
   document.getElementById("frame").src="";
 }
 
-// CARRUSEL ACTIVE ZOOM
-function setActiveCarousel(carousel){
-  const imgs = carousel.querySelectorAll("img");
-  imgs.forEach(i=>i.classList.remove("active"));
-  imgs[0]?.classList.add("active"); // primer elemento activo
-  imgs.forEach(img=>{
-    img.addEventListener("click",()=>{imgs.forEach(x=>x.classList.remove("active")); img.classList.add("active");});
-  });
-}
-
 // 🔥 FETCH y ordenar de mayor a menor según número en identifier
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,title,section&sort[]=publicdate desc&rows=50&output=json`)
 .then(r=>r.json())
 .then(data=>{
-  const sections = {
-    "nuevo":document.getElementById("nuevo"),
-    "programas":document.getElementById("programas"),
-    "mix":document.getElementById("mix"),
-    "reserva":document.getElementById("reserva"),
-    "producciones":document.getElementById("pro")
-  };
+  const nuevo=document.getElementById("nuevo");
+  const programas=document.getElementById("programas");
+  const mix=document.getElementById("mix");
+  const reserva=document.getElementById("reserva");
+  const pro=document.getElementById("pro");
 
-  // Ordenar de mayor a menor usando número al final del identifier
+  // Ordenar de mayor a menor usando número al final del identifier (ej: buckle-19)
   data.response.docs.sort((a,b)=>{
     const numA = parseInt(a.identifier.match(/\d+$/)||[0]);
     const numB = parseInt(b.identifier.match(/\d+$/)||[0]);
@@ -148,14 +115,12 @@ fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediaty
     img.onclick=()=>play(item.identifier);
 
     const section = item.section ? item.section.toLowerCase() : "";
-    if(section && sections[section]){
-      sections[section].appendChild(img);
-      if(section==="nuevo") notificar(item.identifier);
-    }
+    if(section==="nuevo") {nuevo.appendChild(img); notificar(item.identifier);}
+    else if(section==="programas") programas.appendChild(img);
+    else if(section==="mix") mix.appendChild(img);
+    else if(section==="reserva") reserva.appendChild(img);
+    else if(section==="producciones") pro.appendChild(img);
   });
-
-  // Activar zoom inicial de carruseles
-  Object.values(sections).forEach(setActiveCarousel);
 });
 </script>
 
