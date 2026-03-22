@@ -38,7 +38,7 @@ body::before{
 }
 #splash img{width:120px;}
 
-/* TOPBAR PREMIUM */
+/* TOPBAR */
 .topbar{
   position:fixed;
   top:0;
@@ -55,8 +55,6 @@ body::before{
 }
 .topbar img{width:35px;margin-left:10px;}
 .title{color:#00ffe0;font-size:18px;margin-left:10px;}
-
-/* MENU BTN */
 .menu-btn{font-size:26px;cursor:pointer;}
 
 /* OVERLAY MENU */
@@ -71,11 +69,11 @@ body::before{
   z-index:998;
 }
 
-/* SIDEBAR PREMIUM */
+/* SIDEBAR */
 .sidebar{
   position:fixed;
   top:0;
-  left:-260px;
+  left:0;
   width:260px;
   height:100%;
   background:rgba(10,10,10,0.95);
@@ -98,28 +96,28 @@ body::before{
 /* REDES */
 .social{
   display:flex;
-  justify-content:center;
+  justify-content:flex-start; 
   gap:15px;
   margin-top:70px;
-  position:relative;
+  position:sticky;
+  top:55px;
+  background:rgba(0,0,0,0.3);
+  padding:5px 0;
   z-index:1;
+  padding-left: 260px; /* alineación con sidebar */
 }
 .social img{width:28px;transition:0.3s;}
 .social img:hover{transform:scale(1.2);}
 
 /* SECCIONES */
 .section{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  min-height:80vh;
-  padding-top:90px;
+  padding:20px 20px 40px 260px; /* alineación con sidebar */
+  scroll-margin-top:60px; /* evita que el título quede bajo la topbar */
 }
 h2{
   color:#00ffe0;
-  margin-bottom:15px;
-  text-align:center;
+  text-align:left; /* alineado al contenido, no al centro */
+  margin-bottom:20px;
 }
 
 /* CARRUSEL */
@@ -127,9 +125,7 @@ h2{
   display:flex;
   overflow-x:auto;
   gap:15px;
-  padding:20px;
-  position:relative;
-  z-index:1;
+  padding:0 0 20px 0;
   scroll-snap-type: x mandatory;
 }
 .card{
@@ -174,17 +170,16 @@ h2{
 .close{position:absolute;top:20px;right:20px;font-size:25px;cursor:pointer;}
 
 @media(max-width:600px){
+  .section, .social{padding-left:20px;}
+  h2{text-align:center;}
   .card img{width:100px;}
 }
 </style>
 </head>
-
 <body>
 
 <!-- SPLASH -->
-<div id="splash">
-  <img src="logo-512.png">
-</div>
+<div id="splash"><img src="logo-512.png"></div>
 
 <!-- TOPBAR -->
 <div class="topbar">
@@ -242,10 +237,11 @@ h2{
 </div>
 
 <script>
-/* SPLASH */
 setTimeout(()=>{splash.style.display="none";},1800);
 
 /* MENU */
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
 function openMenu(){sidebar.style.left="0";overlay.style.display="block";}
 function closeMenu(){sidebar.style.left="-260px";overlay.style.display="none";}
 
@@ -253,10 +249,13 @@ function closeMenu(){sidebar.style.left="-260px";overlay.style.display="none";}
 function goTo(id){document.getElementById(id).scrollIntoView({behavior:"smooth"});closeMenu();}
 
 /* PLAYER */
+const modal = document.getElementById("modal");
+const cover = document.getElementById("cover");
+const frame = document.getElementById("frame");
 function play(id){modal.style.display="flex";cover.src=`https://archive.org/services/img/${id}`;frame.src=`https://archive.org/embed/${id}`;}
 function cerrar(){modal.style.display="none";frame.src="";cover.src="";}
 
-/* FETCH + ORDEN */
+/* FETCH ARCHIVE */
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
 .then(r=>r.json())
 .then(data=>{
