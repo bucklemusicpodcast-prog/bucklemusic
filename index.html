@@ -13,7 +13,7 @@ margin:0;
 font-family:'Orbitron', sans-serif;
 color:white;
 background:url("fondo.jpg") center/cover fixed;
-scroll-behavior:smooth;
+overflow:hidden;
 }
 
 /* OVERLAY OSCURO */
@@ -38,78 +38,76 @@ z-index:9999;
 }
 #splash img{width:120px;}
 
-/* TOPBAR PREMIUM */
-.topbar{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:55px;
-background:rgba(0,0,0,0.6);
-backdrop-filter:blur(10px);
-display:flex;
-align-items:center;
-padding:0 15px;
-z-index:1000;
-border-bottom:1px solid rgba(255,255,255,0.1);
-}
-
-.topbar img{
-width:35px;
-margin-left:10px;
-}
-
-.title{
-color:#00ffe0;
-font-size:18px;
-margin-left:10px;
-}
-
-/* MENU BTN */
+/* BOTON MENU */
 .menu-btn{
-font-size:26px;
-cursor:pointer;
-}
-
-/* OVERLAY MENU */
-.overlay-menu{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.6);
-display:none;
-z-index:998;
+top:15px;
+left:15px;
+font-size:28px;
+cursor:pointer;
+z-index:1000;
+background:transparent;
 }
 
-/* SIDEBAR PREMIUM */
+/* SIDEBAR */
 .sidebar{
 position:fixed;
 top:0;
 left:-260px;
 width:260px;
 height:100%;
-background:rgba(10,10,10,0.95);
-backdrop-filter:blur(15px);
+background:rgba(0,0,0,0.95);
 padding:20px;
 transition:0.4s;
 z-index:999;
-box-shadow:5px 0 20px rgba(0,0,0,0.5);
 }
 
 .sidebar a{
 display:block;
 color:white;
-padding:14px;
+padding:15px;
 text-decoration:none;
+margin-bottom:10px;
 border-radius:8px;
-margin-bottom:8px;
 }
-
 .sidebar a:hover{
 background:#00ffe0;
 color:black;
+}
+
+/* OVERLAY */
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+display:none;
+background:rgba(0,0,0,0.5);
+z-index:998;
+}
+
+/* SECCIONES (PANTALLAS) */
+.section{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:100%;
+display:none;
+overflow-y:auto;
+padding-top:60px;
+z-index:1;
+}
+
+.active{
+display:block;
+}
+
+/* TITULOS */
+h2{
+color:#00ffe0;
+padding-left:20px;
 }
 
 /* REDES */
@@ -117,25 +115,10 @@ color:black;
 display:flex;
 justify-content:center;
 gap:15px;
-margin-top:70px;
-position:relative;
-z-index:1;
+margin:15px;
 }
 .social img{
-width:28px;
-transition:0.3s;
-}
-.social img:hover{
-transform:scale(1.2);
-}
-
-/* SECCIONES */
-h2{
-color:#00ffe0;
-padding-left:20px;
-margin-top:25px;
-position:relative;
-z-index:1;
+width:30px;
 }
 
 /* CARRUSEL */
@@ -144,11 +127,8 @@ display:flex;
 overflow-x:auto;
 gap:15px;
 padding:20px;
-position:relative;
-z-index:1;
 }
 
-/* CARD */
 .card{
 position:relative;
 flex-shrink:0;
@@ -158,24 +138,17 @@ flex-shrink:0;
 width:130px;
 border-radius:12px;
 cursor:pointer;
-transition:0.3s;
-}
-
-.card img:hover{
-transform:scale(1.05);
 }
 
 /* NUMERO */
 .numero{
 position:absolute;
-top:6px;
-left:6px;
+top:5px;
+left:5px;
 background:rgba(0,0,0,0.8);
 color:#00ffe0;
-font-size:13px;
 padding:3px 7px;
-border-radius:6px;
-font-weight:bold;
+border-radius:5px;
 }
 
 /* PLAYER */
@@ -189,9 +162,10 @@ align-items:center;
 justify-content:center;
 z-index:9999;
 }
-.player-modal img{width:260px;margin-bottom:20px;border-radius:12px;}
+.player-modal img{width:250px;margin-bottom:20px;}
 .player-modal iframe{width:90%;height:80px;border:none;}
 .close{position:absolute;top:20px;right:20px;font-size:25px;cursor:pointer;}
+
 </style>
 </head>
 
@@ -202,27 +176,25 @@ z-index:9999;
 <img src="logo-512.png">
 </div>
 
-<!-- TOPBAR -->
-<div class="topbar">
-<div class="menu-btn" onclick="openMenu()">☰</div>
-<img src="logo-512.png">
-<span class="title">Buckle Music</span>
-</div>
-
 <!-- MENU -->
-<div class="overlay-menu" id="overlay" onclick="closeMenu()"></div>
+<div class="menu-btn" onclick="openMenu()">☰</div>
+
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
 <div class="sidebar" id="sidebar">
-<a onclick="goTo('top')">Inicio</a>
-<a onclick="goTo('nuevo')">Nuevo Programa</a>
-<a onclick="goTo('programas')">Programas Buckle</a>
-<a onclick="goTo('mix')">In The Mix</a>
-<a onclick="goTo('reserva')">Gran Reserva</a>
-<a onclick="goTo('pro')">Producciones</a>
+<a onclick="showSection('inicio')">Inicio</a>
+<a onclick="showSection('nuevo')">Nuevo Programa</a>
+<a onclick="showSection('programas')">Programas</a>
+<a onclick="showSection('mix')">In The Mix</a>
+<a onclick="showSection('reserva')">Gran Reserva</a>
+<a onclick="showSection('pro')">Producciones</a>
+<a onclick="showSection('contacto')">Contacto</a>
 </div>
 
-<!-- REDES -->
-<div class="social" id="top">
+<!-- INICIO -->
+<div class="section active" id="inicio">
+
+<div class="social">
 <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank">
 <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
 </a>
@@ -237,20 +209,22 @@ z-index:9999;
 </a>
 </div>
 
-<h2 id="nuevo">Nuevo Programa</h2>
-<div class="carousel" id="c1"></div>
+<h2>Bienvenido a Buckle Music</h2>
 
-<h2 id="programas">Programas Buckle</h2>
-<div class="carousel" id="c2"></div>
+</div>
 
-<h2 id="mix">In The Mix</h2>
-<div class="carousel" id="c3"></div>
+<!-- SECCIONES -->
+<div class="section" id="nuevo"><h2>Nuevo Programa</h2><div class="carousel" id="c1"></div></div>
+<div class="section" id="programas"><h2>Programas</h2><div class="carousel" id="c2"></div></div>
+<div class="section" id="mix"><h2>In The Mix</h2><div class="carousel" id="c3"></div></div>
+<div class="section" id="reserva"><h2>Gran Reserva</h2><div class="carousel" id="c4"></div></div>
+<div class="section" id="pro"><h2>Producciones</h2><div class="carousel" id="c5"></div></div>
 
-<h2 id="reserva">Gran Reserva</h2>
-<div class="carousel" id="c4"></div>
-
-<h2 id="pro">Producciones</h2>
-<div class="carousel" id="c5"></div>
+<!-- CONTACTO -->
+<div class="section" id="contacto">
+<h2>Contacto</h2>
+<p style="padding:20px;">📧 bucklemusicpodcast@gmail.com</p>
+</div>
 
 <!-- PLAYER -->
 <div class="player-modal" id="modal">
@@ -262,7 +236,7 @@ z-index:9999;
 <script>
 
 /* SPLASH */
-setTimeout(()=>{splash.style.display="none";},1800);
+setTimeout(()=>{splash.style.display="none";},1500);
 
 /* MENU */
 function openMenu(){
@@ -274,9 +248,10 @@ sidebar.style.left="-260px";
 overlay.style.display="none";
 }
 
-/* SCROLL */
-function goTo(id){
-document.getElementById(id).scrollIntoView();
+/* CAMBIAR SECCION */
+function showSection(id){
+document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
 closeMenu();
 }
 
@@ -297,17 +272,17 @@ fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediaty
 .then(data=>{
 
 data.response.docs.sort((a,b)=>{
-const getNum = str => {
-const match = str.match(/\d+/g);
-return match ? parseInt(match[match.length-1]) : 0;
+const getNum = str=>{
+const m=str.match(/\d+/g);
+return m?parseInt(m[m.length-1]):0;
 };
-return getNum(b.identifier) - getNum(a.identifier);
+return getNum(b.identifier)-getNum(a.identifier);
 });
 
 data.response.docs.forEach(item=>{
 
-const match = item.identifier.match(/\d+/g);
-const numero = match ? match[match.length-1] : "";
+const match=item.identifier.match(/\d+/g);
+const numero=match?match[match.length-1]:"";
 
 const card=document.createElement("div");
 card.className="card";
