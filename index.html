@@ -13,6 +13,16 @@ margin:0;
 font-family:'Orbitron', sans-serif;
 color:white;
 background:url("fondo.jpg") center/cover fixed;
+scroll-behavior:smooth;
+}
+
+/* OSCURECER FONDO */
+body::before{
+content:"";
+position:fixed;
+top:0;left:0;right:0;bottom:0;
+background:rgba(0,0,0,0.5);
+z-index:0;
 }
 
 /* SPLASH */
@@ -26,25 +36,7 @@ justify-content:center;
 align-items:center;
 z-index:9999;
 }
-
-#splash img{
-width:120px;
-animation:zoom 2s ease;
-}
-
-@keyframes zoom{
-0%{transform:scale(0.5);opacity:0;}
-100%{transform:scale(1);opacity:1;}
-}
-
-/* OVERLAY FONDO */
-body::before{
-content:"";
-position:fixed;
-top:0;left:0;right:0;bottom:0;
-background:rgba(0,0,0,0.5);
-z-index:0;
-}
+#splash img{width:120px;}
 
 /* HEADER */
 header{
@@ -53,12 +45,27 @@ padding:15px;
 position:relative;
 z-index:1;
 }
-
 header img{width:70px;}
 h1{color:#00ffe0;margin:5px;}
 header p{color:#00ffe0;font-size:14px;}
 
-/* MENU HAMBURGUESA */
+/* REDES */
+.social{
+display:flex;
+justify-content:center;
+gap:15px;
+margin:10px;
+position:relative;
+z-index:1;
+}
+.social img{
+width:30px;
+cursor:pointer;
+transition:0.3s;
+}
+.social img:hover{transform:scale(1.2);}
+
+/* MENU */
 .menu-btn{
 position:fixed;
 top:15px;
@@ -68,6 +75,18 @@ cursor:pointer;
 z-index:1000;
 }
 
+/* OVERLAY MENU */
+.overlay-menu{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+display:none;
+z-index:998;
+}
+
 /* SIDEBAR */
 .sidebar{
 position:fixed;
@@ -75,7 +94,7 @@ top:0;
 left:-250px;
 width:250px;
 height:100%;
-background:#000;
+background:rgba(0,0,0,0.9);
 padding:20px;
 transition:0.3s;
 z-index:999;
@@ -84,11 +103,10 @@ z-index:999;
 .sidebar a{
 display:block;
 color:white;
-padding:10px;
+padding:12px;
 text-decoration:none;
-border-bottom:1px solid #222;
+border-bottom:1px solid #333;
 }
-
 .sidebar a:hover{
 background:#00ffe0;
 color:black;
@@ -104,10 +122,29 @@ position:relative;
 z-index:1;
 }
 
-.carousel img{
+/* CARD */
+.card{
+position:relative;
+flex-shrink:0;
+}
+
+.card img{
 width:130px;
 border-radius:10px;
 cursor:pointer;
+}
+
+/* NUMERO */
+.numero{
+position:absolute;
+top:5px;
+left:5px;
+background:rgba(0,0,0,0.7);
+color:#00ffe0;
+font-size:14px;
+padding:3px 8px;
+border-radius:5px;
+font-weight:bold;
 }
 
 /* PLAYER */
@@ -121,12 +158,16 @@ align-items:center;
 justify-content:center;
 z-index:9999;
 }
-
 .player-modal img{width:250px;margin-bottom:20px;}
 .player-modal iframe{width:90%;height:80px;border:none;}
 .close{position:absolute;top:20px;right:20px;font-size:25px;cursor:pointer;}
 
-h2{color:#00ffe0;padding-left:20px;position:relative;z-index:1;}
+h2{
+color:#00ffe0;
+padding-left:20px;
+position:relative;
+z-index:1;
+}
 </style>
 </head>
 
@@ -138,22 +179,39 @@ h2{color:#00ffe0;padding-left:20px;position:relative;z-index:1;}
 </div>
 
 <!-- MENU -->
-<div class="menu-btn" onclick="toggleMenu()">☰</div>
+<div class="menu-btn" onclick="openMenu()">☰</div>
+<div class="overlay-menu" id="overlay" onclick="closeMenu()"></div>
 
 <div class="sidebar" id="sidebar">
-<a href="#">Inicio</a>
-<a href="#nuevo">Nuevo Programa</a>
-<a href="#programas">Programas Buckle</a>
-<a href="#mix">In The Mix</a>
-<a href="#reserva">Gran Reserva</a>
-<a href="#pro">Producciones</a>
+<a onclick="goTo('top')">Inicio</a>
+<a onclick="goTo('nuevo')">Nuevo Programa</a>
+<a onclick="goTo('programas')">Programas Buckle</a>
+<a onclick="goTo('mix')">In The Mix</a>
+<a onclick="goTo('reserva')">Gran Reserva</a>
+<a onclick="goTo('pro')">Producciones</a>
 </div>
 
-<header>
+<header id="top">
 <img src="logo-512.png">
 <h1>Buckle Music</h1>
 <p>bucklemusicpodcast@gmail.com</p>
 </header>
+
+<!-- REDES -->
+<div class="social">
+<a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank">
+<img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
+</a>
+<a href="https://www.instagram.com/bucklemusic" target="_blank">
+<img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png">
+</a>
+<a href="https://www.facebook.com" target="_blank">
+<img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png">
+</a>
+<a href="https://go.ivoox.com/sq/2535828" target="_blank">
+<img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png">
+</a>
+</div>
 
 <h2 id="nuevo">Nuevo Programa</h2>
 <div class="carousel" id="c1"></div>
@@ -180,14 +238,22 @@ h2{color:#00ffe0;padding-left:20px;position:relative;z-index:1;}
 <script>
 
 /* SPLASH */
-setTimeout(()=>{
-document.getElementById("splash").style.display="none";
-},2500);
+setTimeout(()=>{splash.style.display="none";},2000);
 
 /* MENU */
-function toggleMenu(){
-const menu=document.getElementById("sidebar");
-menu.style.left = menu.style.left==="0px" ? "-250px" : "0px";
+function openMenu(){
+sidebar.style.left="0";
+overlay.style.display="block";
+}
+function closeMenu(){
+sidebar.style.left="-250px";
+overlay.style.display="none";
+}
+
+/* SCROLL */
+function goTo(id){
+document.getElementById(id).scrollIntoView();
+closeMenu();
 }
 
 /* PLAYER */
@@ -196,31 +262,59 @@ modal.style.display="flex";
 cover.src=`https://archive.org/services/img/${id}`;
 frame.src=`https://archive.org/embed/${id}`;
 }
-
 function cerrar(){
 modal.style.display="none";
 frame.src="";
 }
 
-/* FETCH */
-fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&sort[]=publicdate desc&rows=50&output=json`)
+/* FETCH + ORDENAR */
+fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
 .then(r=>r.json())
 .then(data=>{
+
+// 🔥 ORDENAR POR NUMERO
+data.response.docs.sort((a,b)=>{
+const getNum = str => {
+const match = str.match(/\d+/g);
+return match ? parseInt(match[match.length-1]) : 0;
+};
+return getNum(b.identifier) - getNum(a.identifier);
+});
+
 data.response.docs.forEach(item=>{
+
+const match = item.identifier.match(/\d+/g);
+const numero = match ? match[match.length-1] : "";
+
+// CARD
+const card=document.createElement("div");
+card.className="card";
+
+// IMG
 const img=document.createElement("img");
 img.src=`https://archive.org/services/img/${item.identifier}`;
 img.onclick=()=>play(item.identifier);
 
+// NUMERO
+const num=document.createElement("div");
+num.className="numero";
+num.innerText=numero;
+
+// MONTAR
+card.appendChild(img);
+card.appendChild(num);
+
 const s=item.section;
 
-if(s==="nuevo") c1.appendChild(img);
-else if(s==="programas") c2.appendChild(img);
-else if(s==="mix") c3.appendChild(img);
-else if(s==="reserva") c4.appendChild(img);
-else if(s==="producciones") c5.appendChild(img);
-});
+if(s==="nuevo") c1.appendChild(card);
+else if(s==="programas") c2.appendChild(card);
+else if(s==="mix") c3.appendChild(card);
+else if(s==="reserva") c4.appendChild(card);
+else if(s==="producciones") c5.appendChild(card);
+
 });
 
+});
 </script>
 
 </body>
