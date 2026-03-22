@@ -17,7 +17,7 @@ body{
   position:relative;
 }
 
-/* Capa oscura sobre el fondo */
+/* CAPA OSCURA */
 body::before{
   content:"";
   position:fixed;
@@ -25,7 +25,7 @@ body::before{
   left:0;
   width:100%;
   height:100%;
-  background:rgba(0,0,0,0.5); /* oscurece el fondo */
+  background:rgba(0,0,0,0.5);
   z-index:0;
 }
 
@@ -39,20 +39,39 @@ body::before{
   justify-content:center;
   align-items:center;
   z-index:9999;
-  opacity:1;
-  transition:opacity 1s;
+  background:black;
 }
 #splash img{
-  width:100px;
+  width:200px; /* logo grande en inicio */
   margin-bottom:15px;
-  z-index:1;
 }
 #splash span{
-  font-size:24px;
+  font-size:32px;
   color:#00ffe0;
   font-family:'Orbitron', sans-serif;
-  margin-bottom:15px;
-  z-index:1;
+}
+
+/* BARRA SUPERIOR */
+.topbar{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:55px;
+  display:flex;
+  align-items:center;
+  padding:0 15px;
+  z-index:1000;
+  background:rgba(0,0,0,0.5);
+  backdrop-filter:blur(10px);
+}
+.topbar img{
+  width:40px; /* logo pequeño en barra principal */
+  margin-right:10px;
+}
+.topbar .title{
+  color:#00ffe0;
+  font-size:18px;
 }
 
 /* SIDEBAR */
@@ -67,7 +86,6 @@ body::before{
   padding:20px;
   transition:0.4s;
   z-index:999;
-  box-shadow:5px 0 20px rgba(0,0,0,0.3);
 }
 .sidebar a{
   display:block;
@@ -94,17 +112,15 @@ body::before{
   position:fixed;
   top:15px;
   left:15px;
-  z-index:1000;
+  z-index:1001;
 }
 
-/* REDES SOCIALES EN INICIO */
+/* REDES SOCIALES */
 .social{
   display:flex;
   justify-content:center; 
   gap:15px;
-  margin-top:10px;
-  z-index:1;
-  position:relative;
+  margin-top:20px;
 }
 .social img{
   width:32px;
@@ -117,7 +133,6 @@ body::before{
   padding:40px 20px 30px 20px; 
   position:relative;
   text-align:center;
-  z-index:1;
 }
 h2{
   color:#00ffe0;
@@ -182,19 +197,19 @@ h2:hover{color:#00fff0; text-shadow: 2px 2px 10px #000, 0 0 15px #00fff0;}
 </head>
 <body>
 
-<!-- INICIO -->
-<div id="inicio" class="section">
+<!-- SPLASH -->
+<div id="splash">
   <img src="logo-512.png">
-  <h2>Buckle Music</h2>
-  <div class="social">
-    <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
-    <a href="https://www.instagram.com/bucklemusic" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
-    <a href="https://www.facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
-    <a href="https://go.ivoox.com/sq/2535828" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png"></a>
-  </div>
+  <span>Buckle Music</span>
 </div>
 
-<!-- MENU -->
+<!-- BARRA SUPERIOR Y MENU (solo al cargar la página principal) -->
+<div class="topbar" id="topbar" style="display:none;">
+  <div class="menu-btn" onclick="openMenu()">☰</div>
+  <img src="logo-512.png">
+  <span class="title">Buckle Music</span>
+</div>
+
 <div class="overlay-menu" id="overlay" onclick="closeMenu()"></div>
 <div class="sidebar" id="sidebar">
   <a onclick="goTo('inicio')">Inicio</a>
@@ -205,37 +220,15 @@ h2:hover{color:#00fff0; text-shadow: 2px 2px 10px #000, 0 0 15px #00fff0;}
   <a onclick="goTo('pro')">Producciones</a>
   <a onclick="goTo('contacto')">Contacto</a>
 </div>
-<div class="menu-btn" onclick="openMenu()">☰</div>
 
-<!-- DEMÁS SECCIONES -->
-<div class="section" id="nuevo">
-  <h2>Nuevo Programa</h2>
-  <div class="carousel" id="c1"></div>
-</div>
-
-<div class="section" id="programas">
-  <h2>Programas Buckle</h2>
-  <div class="carousel" id="c2"></div>
-</div>
-
-<div class="section" id="mix">
-  <h2>In The Mix</h2>
-  <div class="carousel" id="c3"></div>
-</div>
-
-<div class="section" id="reserva">
-  <h2>Gran Reserva</h2>
-  <div class="carousel" id="c4"></div>
-</div>
-
-<div class="section" id="pro">
-  <h2>Producciones</h2>
-  <div class="carousel" id="c5"></div>
-</div>
-
-<div class="section" id="contacto">
-  <h2>Contacto</h2>
-  <p style="color:#00ffe0; font-size:18px;">📧 bucklemusicpodcast@gmail.com</p>
+<!-- SECCIONES PRINCIPALES (ocultas al inicio) -->
+<div id="mainContent" style="display:none;">
+  <div class="section" id="nuevo"><h2>Nuevo Programa</h2><div class="carousel" id="c1"></div></div>
+  <div class="section" id="programas"><h2>Programas Buckle</h2><div class="carousel" id="c2"></div></div>
+  <div class="section" id="mix"><h2>In The Mix</h2><div class="carousel" id="c3"></div></div>
+  <div class="section" id="reserva"><h2>Gran Reserva</h2><div class="carousel" id="c4"></div></div>
+  <div class="section" id="pro"><h2>Producciones</h2><div class="carousel" id="c5"></div></div>
+  <div class="section" id="contacto"><h2>Contacto</h2><p style="color:#00ffe0; font-size:18px;">📧 bucklemusicpodcast@gmail.com</p></div>
 </div>
 
 <!-- PLAYER -->
@@ -246,9 +239,12 @@ h2:hover{color:#00fff0; text-shadow: 2px 2px 10px #000, 0 0 15px #00fff0;}
 </div>
 
 <script>
-/* MENU */
 const sidebar = document.getElementById("sidebar");
 const overlay = document.getElementById("overlay");
+const topbar = document.getElementById("topbar");
+const mainContent = document.getElementById("mainContent");
+
+/* MENU */
 function openMenu(){sidebar.style.left="0";overlay.style.display="block";}
 function closeMenu(){sidebar.style.left="-260px";overlay.style.display="none";}
 
@@ -261,6 +257,13 @@ const cover = document.getElementById("cover");
 const frame = document.getElementById("frame");
 function play(id){modal.style.display="flex";cover.src=`https://archive.org/services/img/${id}`;frame.src=`https://archive.org/embed/${id}`;}
 function cerrar(){modal.style.display="none";frame.src="";cover.src="";}
+
+/* SPLASH: desaparecer y mostrar contenido principal */
+setTimeout(()=>{
+  document.getElementById("splash").style.display="none";
+  topbar.style.display="flex";
+  mainContent.style.display="block";
+},1800);
 
 /* FETCH ARCHIVE */
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
