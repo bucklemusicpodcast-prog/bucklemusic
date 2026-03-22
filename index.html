@@ -32,11 +32,20 @@ body::before{
   height:100%;
   background:black;
   display:flex;
+  flex-direction:column;
   justify-content:center;
   align-items:center;
   z-index:9999;
 }
-#splash img{width:120px;}
+#splash img{
+  width:120px;
+  margin-bottom:20px;
+}
+#splash span{
+  font-size:28px;
+  color:#00ffe0;
+  font-family:'Orbitron', sans-serif;
+}
 
 /* TOPBAR */
 .topbar{
@@ -69,19 +78,19 @@ body::before{
   z-index:998;
 }
 
-/* SIDEBAR */
+/* SIDEBAR TRANSPARENTE */
 .sidebar{
   position:fixed;
   top:0;
   left:0;
   width:260px;
   height:100%;
-  background:rgba(10,10,10,0.95);
+  background:rgba(10,10,10,0.5); /* transparencia */
   backdrop-filter:blur(15px);
   padding:20px;
   transition:0.4s;
   z-index:999;
-  box-shadow:5px 0 20px rgba(0,0,0,0.5);
+  box-shadow:5px 0 20px rgba(0,0,0,0.3);
 }
 .sidebar a{
   display:block;
@@ -104,14 +113,14 @@ body::before{
   background:rgba(0,0,0,0.3);
   padding:5px 0;
   z-index:1;
-  padding-left: 280px; /* un poco más de margen para que no tape sidebar */
+  padding-left: 280px; /* margen para que no tape sidebar */
 }
 .social img{width:28px;transition:0.3s;}
 .social img:hover{transform:scale(1.2);}
 
 /* SECCIONES */
 .section{
-  padding:20px 20px 40px 280px; /* margen a la derecha del sidebar */
+  padding:20px 20px 40px 280px; 
   scroll-margin-top:60px;
 }
 h2{
@@ -119,7 +128,7 @@ h2{
   text-align:left;
   margin-bottom:20px;
   font-size:26px;
-  text-shadow: 2px 2px 8px #000; /* resalta sobre el fondo */
+  text-shadow: 2px 2px 8px #000; 
 }
 
 /* CARRUSEL */
@@ -181,7 +190,10 @@ h2{
 <body>
 
 <!-- SPLASH -->
-<div id="splash"><img src="logo-512.png"></div>
+<div id="splash">
+  <img src="logo-512.png">
+  <span>Buckle Music</span>
+</div>
 
 <!-- TOPBAR -->
 <div class="topbar">
