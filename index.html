@@ -31,12 +31,12 @@ body{
   transition:opacity 1s;
 }
 #splash img{
-  width:120px;
-  margin-bottom:20px;
+  width:100px; /* logo más pequeño */
+  margin-bottom:15px;
   animation: splashLogo 1s forwards;
 }
 #splash span{
-  font-size:28px;
+  font-size:24px;
   color:#00ffe0;
   font-family:'Orbitron', sans-serif;
   opacity:0;
@@ -49,7 +49,7 @@ body{
 .sidebar{
   position:fixed;
   top:0;
-  left:-260px; /* cerrado al inicio */
+  left:-260px; 
   width:260px;
   height:100%;
   background:rgba(0,0,0,0.4);
@@ -87,42 +87,42 @@ body{
   z-index:1000;
 }
 
-/* REDES */
+/* REDES SOCIALES INICIO */
 .social{
   display:flex;
-  justify-content:flex-start; 
+  justify-content:center; 
   gap:15px;
-  position:fixed;
-  top:80px;
+  margin-top:10px;
   z-index:100;
-  padding-left:320px; /* margen con sidebar */
 }
 .social img{
-  width:28px;
+  width:32px; /* un poco más grande */
   transition:0.3s;
 }
 .social img:hover{transform:scale(1.2);}
 
 /* SECCIONES */
 .section{
-  padding:50px 20px 30px 20px; /* más compacto verticalmente */
+  padding:40px 20px 30px 20px; /* más compacto */
   position:relative;
   text-align:center;
 }
 h2{
   color:#00ffe0;
+  text-shadow: 2px 2px 10px #000, 0 0 10px #00ffe0;
   margin-bottom:20px;
-  font-size:32px;
-  text-shadow: 2px 2px 10px #000;
+  font-size:34px;
   display:block;
+  transition:0.3s;
 }
+h2:hover{color:#00fff0; text-shadow: 2px 2px 10px #000, 0 0 15px #00fff0;}
 
 /* CARRUSEL */
 .carousel{
   display:flex;
   justify-content:center; /* centrado */
   overflow-x:auto;
-  gap:15px;
+  gap:20px; /* un poco más espacio entre carátulas */
   padding:0 0 30px 0;
 }
 .card{
@@ -130,20 +130,20 @@ h2{
   flex-shrink:0;
 }
 .card img{
-  width:130px;
+  width:150px; /* carátulas más grandes */
   border-radius:12px;
   cursor:pointer;
   transition:0.3s;
 }
-.card img:hover{transform:scale(1.05);}
+.card img:hover{transform:scale(1.08);}
 .numero{
   position:absolute;
   top:6px;
   left:6px;
   background:rgba(0,0,0,0.8);
   color:#00ffe0;
-  font-size:13px;
-  padding:3px 7px;
+  font-size:14px;
+  padding:4px 8px;
   border-radius:6px;
   font-weight:bold;
 }
@@ -164,9 +164,9 @@ h2{
 .close{position:absolute;top:20px;right:20px;font-size:25px;cursor:pointer;}
 
 @media(max-width:600px){
-  h2{font-size:24px;}
-  .card img{width:100px;}
-  .social{padding-left:20px;}
+  h2{font-size:26px;}
+  .card img{width:120px;}
+  .social{padding-left:0;}
 }
 </style>
 </head>
@@ -176,6 +176,12 @@ h2{
 <div id="splash">
   <img src="logo-512.png">
   <span>Buckle Music</span>
+  <div class="social" id="socials">
+    <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
+    <a href="https://www.instagram.com/bucklemusic" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
+    <a href="https://www.facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
+    <a href="https://go.ivoox.com/sq/2535828" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png"></a>
+  </div>
 </div>
 
 <!-- MENU -->
@@ -191,19 +197,8 @@ h2{
 </div>
 <div class="menu-btn" onclick="openMenu()">☰</div>
 
-<!-- REDES SOCIALES (ocultas en inicio) -->
-<div class="social" id="socials">
-  <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
-  <a href="https://www.instagram.com/bucklemusic" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
-  <a href="https://www.facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
-  <a href="https://go.ivoox.com/sq/2535828" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png"></a>
-</div>
-
 <!-- SECCIONES -->
-<div class="section" id="inicio">
-  <img src="logo-512.png" style="width:150px;margin-bottom:20px;">
-  <h2>Buckle Music</h2>
-</div>
+<div class="section" id="inicio"></div> <!-- Inicio solo con splash -->
 
 <div class="section" id="nuevo">
   <h2>Nuevo Programa</h2>
@@ -246,7 +241,6 @@ h2{
 setTimeout(()=>{
   splash.style.opacity="0"; 
   setTimeout(()=>splash.style.display="none",1000);
-  document.getElementById("socials").style.display="flex"; // mostrar redes después del splash
 },1800);
 
 /* MENU */
