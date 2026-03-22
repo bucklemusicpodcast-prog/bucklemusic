@@ -8,165 +8,167 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-body{
-margin:0;
-font-family:'Orbitron', sans-serif;
-color:white;
-background:url("fondo.jpg") center/cover fixed;
-overflow:hidden;
+body {
+  margin:0;
+  font-family:'Orbitron', sans-serif;
+  color:white;
+  background:url("fondo.jpg") center/cover fixed;
+  overflow:hidden;
 }
 
 /* OVERLAY OSCURO */
-body::before{
-content:"";
-position:fixed;
-top:0;left:0;right:0;bottom:0;
-background:rgba(0,0,0,0.6);
-z-index:0;
+body::before {
+  content:"";
+  position:fixed;
+  top:0; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,0.6);
+  z-index:0;
 }
 
 /* SPLASH */
-#splash{
-position:fixed;
-width:100%;
-height:100%;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
+#splash {
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index:9999;
 }
-#splash img{width:120px;}
+#splash img { width:120px; }
 
 /* BOTON MENU */
-.menu-btn{
-position:fixed;
-top:15px;
-left:15px;
-font-size:28px;
-cursor:pointer;
-z-index:1000;
-background:transparent;
+.menu-btn {
+  position:fixed;
+  top:15px;
+  left:15px;
+  font-size:28px;
+  cursor:pointer;
+  z-index:1000;
+  background:transparent;
 }
 
 /* SIDEBAR */
-.sidebar{
-position:fixed;
-top:0;
-left:-260px;
-width:260px;
-height:100%;
-background:rgba(0,0,0,0.95);
-padding:20px;
-transition:0.4s;
-z-index:999;
+.sidebar {
+  position:fixed;
+  top:0;
+  left:-260px;
+  width:260px;
+  height:100%;
+  background:rgba(0,0,0,0.95);
+  padding:20px;
+  transition:0.4s;
+  z-index:999;
 }
-
-.sidebar a{
-display:block;
-color:white;
-padding:15px;
-text-decoration:none;
-margin-bottom:10px;
-border-radius:8px;
+.sidebar a {
+  display:block;
+  color:white;
+  padding:15px;
+  text-decoration:none;
+  margin-bottom:10px;
+  border-radius:8px;
 }
-.sidebar a:hover{
-background:#00ffe0;
-color:black;
+.sidebar a:hover {
+  background:#00ffe0;
+  color:black;
 }
 
 /* OVERLAY */
-.overlay{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-display:none;
-background:rgba(0,0,0,0.5);
-z-index:998;
+.overlay {
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:none;
+  background:rgba(0,0,0,0.5);
+  z-index:998;
 }
 
-/* SECCIONES (PANTALLAS) */
-.section{
-position:absolute;
-top:0;
-left:0;
-width:100%;
-height:100%;
-display:none;
-overflow-y:auto;
-padding-top:60px;
-z-index:1;
+/* SECCIONES */
+.section {
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  display:none;
+  overflow-y:auto;
+  padding-top:60px;
+  z-index:1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* CENTRADO VERTICAL */
+  text-align: center;       /* CENTRADO HORIZONTAL */
 }
-
-.active{
-display:block;
-}
+.section.active { display:flex; }
 
 /* TITULOS */
-h2{
-color:#00ffe0;
-padding-left:20px;
+h2 {
+  color:#00ffe0;
+  margin-bottom:20px;
 }
 
 /* REDES */
-.social{
-display:flex;
-justify-content:center;
-gap:15px;
-margin:15px;
+.social {
+  display:flex;
+  justify-content:center;
+  gap:15px;
+  margin:15px;
 }
-.social img{
-width:30px;
-}
+.social img { width:30px; }
 
 /* CARRUSEL */
-.carousel{
-display:flex;
-overflow-x:auto;
-gap:15px;
-padding:20px;
-justify-content:flex-start;
+.carousel {
+  display:flex;
+  overflow-x:auto;
+  gap:15px;
+  padding:20px;
+  justify-content:flex-start;
+  scroll-snap-type: x mandatory;
 }
-
-.card{
-position:relative;
-flex-shrink:0;
+.card {
+  position:relative;
+  flex-shrink:0;
+  scroll-snap-align: start;
 }
-
-.card img{
-width:130px;
-border-radius:12px;
-cursor:pointer;
+.card img {
+  width:130px;
+  border-radius:12px;
+  cursor:pointer;
 }
 
 /* NUMERO */
-.numero{
-position:absolute;
-top:5px;
-left:5px;
-background:rgba(0,0,0,0.8);
-color:#00ffe0;
-padding:3px 7px;
-border-radius:5px;
+.numero {
+  position:absolute;
+  top:5px;
+  left:5px;
+  background:rgba(0,0,0,0.8);
+  color:#00ffe0;
+  padding:3px 7px;
+  border-radius:5px;
 }
 
 /* PLAYER */
-.player-modal{
-position:fixed;
-top:0;left:0;width:100%;height:100%;
-background:rgba(0,0,0,0.95);
-display:none;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-z-index:9999;
+.player-modal {
+  position:fixed;
+  top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.95);
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
 }
-.player-modal img{width:250px;margin-bottom:20px;}
-.player-modal iframe{width:90%;height:80px;border:none;}
-.close{position:absolute;top:20px;right:20px;font-size:25px;cursor:pointer;}
+.player-modal img { width:250px; margin-bottom:20px; }
+.player-modal iframe { width:90%; height:80px; border:none; }
+.close { position:absolute; top:20px; right:20px; font-size:25px; cursor:pointer; }
 
+@media(max-width:600px){
+  .card img { width:100px; }
+}
 </style>
 </head>
 
@@ -174,49 +176,32 @@ z-index:9999;
 
 <!-- SPLASH -->
 <div id="splash">
-<img src="logo-512.png">
+  <img src="logo-512.png">
 </div>
 
 <!-- MENU -->
 <div class="menu-btn" onclick="openMenu()">☰</div>
-
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
 <div class="sidebar" id="sidebar">
-<a onclick="showSection('inicio')">Inicio</a>
-<a onclick="showSection('nuevo')">Nuevo Programa</a>
-<a onclick="showSection('programas')">Programas</a>
-<a onclick="showSection('mix')">In The Mix</a>
-<a onclick="showSection('reserva')">Gran Reserva</a>
-<a onclick="showSection('pro')">Producciones</a>
-<a onclick="showSection('contacto')">Contacto</a>
+  <a onclick="showSection('inicio')">Inicio</a>
+  <a onclick="showSection('nuevo')">Nuevo Programa</a>
+  <a onclick="showSection('programas')">Programas</a>
+  <a onclick="showSection('mix')">In The Mix</a>
+  <a onclick="showSection('reserva')">Gran Reserva</a>
+  <a onclick="showSection('pro')">Producciones</a>
+  <a onclick="showSection('contacto')">Contacto</a>
 </div>
 
 <!-- INICIO -->
 <div class="section active" id="inicio">
-
-<div class="social">
-<a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
-</a>
-<a href="https://www.instagram.com/bucklemusic" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png">
-</a>
-<a href="https://www.facebook.com" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png">
-</a>
-<a href="https://go.ivoox.com/sq/2535828" target="_blank">
-<img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png">
-</a>
-</div>
-
-<h2>Bienvenido a Buckle Music</h2>
-  h2{
-color:#00ffe0;
-text-align:center;
-margin-bottom:10px;
-}
-
+  <div class="social">
+    <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
+    <a href="https://www.instagram.com/bucklemusic" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
+    <a href="https://www.facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
+    <a href="https://go.ivoox.com/sq/2535828" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png"></a>
+  </div>
+  <h2>Bienvenido a Buckle Music</h2>
 </div>
 
 <!-- SECCIONES -->
@@ -228,92 +213,92 @@ margin-bottom:10px;
 
 <!-- CONTACTO -->
 <div class="section" id="contacto">
-<h2>Contacto</h2>
-<p style="padding:20px;">📧 bucklemusicpodcast@gmail.com</p>
+  <h2>Contacto</h2>
+  <p style="padding:20px;">📧 bucklemusicpodcast@gmail.com</p>
 </div>
 
 <!-- PLAYER -->
 <div class="player-modal" id="modal">
-<span class="close" onclick="cerrar()">✖</span>
-<img id="cover">
-<iframe id="frame"></iframe>
+  <span class="close" onclick="cerrar()">✖</span>
+  <img id="cover">
+  <iframe id="frame"></iframe>
 </div>
 
 <script>
+const splash = document.getElementById("splash");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const modal = document.getElementById("modal");
+const cover = document.getElementById("cover");
+const frame = document.getElementById("frame");
+const carousels = {
+  nuevo: document.getElementById("c1"),
+  programas: document.getElementById("c2"),
+  mix: document.getElementById("c3"),
+  reserva: document.getElementById("c4"),
+  producciones: document.getElementById("c5")
+};
 
-/* SPLASH */
-setTimeout(()=>{splash.style.display="none";},1500);
+// SPLASH
+setTimeout(() => { splash.style.display = "none"; }, 1500);
 
-/* MENU */
-function openMenu(){
-sidebar.style.left="0";
-overlay.style.display="block";
-}
-function closeMenu(){
-sidebar.style.left="-260px";
-overlay.style.display="none";
-}
+// MENU
+function openMenu() { sidebar.style.left="0"; overlay.style.display="block"; }
+function closeMenu() { sidebar.style.left="-260px"; overlay.style.display="none"; }
 
-/* CAMBIAR SECCION */
+// SECCIONES
 function showSection(id){
-document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-closeMenu();
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  closeMenu();
 }
 
-/* PLAYER */
+// PLAYER
 function play(id){
-modal.style.display="flex";
-cover.src=`https://archive.org/services/img/${id}`;
-frame.src=`https://archive.org/embed/${id}`;
+  modal.style.display="flex";
+  cover.src=`https://archive.org/services/img/${id}`;
+  frame.src=`https://archive.org/embed/${id}?playlist=0`;
 }
 function cerrar(){
-modal.style.display="none";
-frame.src="";
+  modal.style.display="none";
+  frame.src="";
+  cover.src="";
 }
 
-/* FETCH + ORDEN */
+// FETCH ARCHIVE.ORG
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
 .then(r=>r.json())
 .then(data=>{
+  data.response.docs.sort((a,b)=>{
+    const getNum = str => {
+      const m = str.match(/\d+/g);
+      return m?parseInt(m[m.length-1]):0;
+    };
+    return getNum(b.identifier)-getNum(a.identifier);
+  });
 
-data.response.docs.sort((a,b)=>{
-const getNum = str=>{
-const m=str.match(/\d+/g);
-return m?parseInt(m[m.length-1]):0;
-};
-return getNum(b.identifier)-getNum(a.identifier);
-});
+  data.response.docs.forEach(item=>{
+    const match=item.identifier.match(/\d+/g);
+    const numero=match?match[match.length-1]:"";
 
-data.response.docs.forEach(item=>{
+    const card=document.createElement("div");
+    card.className="card";
 
-const match=item.identifier.match(/\d+/g);
-const numero=match?match[match.length-1]:"";
+    const img=document.createElement("img");
+    img.src=`https://archive.org/services/img/${item.identifier}`;
+    img.alt=`Portada del programa ${numero}`;
+    img.onclick=()=>play(item.identifier);
 
-const card=document.createElement("div");
-card.className="card";
+    const num=document.createElement("div");
+    num.className="numero";
+    num.innerText=numero;
 
-const img=document.createElement("img");
-img.src=`https://archive.org/services/img/${item.identifier}`;
-img.onclick=()=>play(item.identifier);
+    card.appendChild(img);
+    card.appendChild(num);
 
-const num=document.createElement("div");
-num.className="numero";
-num.innerText=numero;
-
-card.appendChild(img);
-card.appendChild(num);
-
-const s=item.section;
-
-if(s==="nuevo") c1.appendChild(card);
-else if(s==="programas") c2.appendChild(card);
-else if(s==="mix") c3.appendChild(card);
-else if(s==="reserva") c4.appendChild(card);
-else if(s==="producciones") c5.appendChild(card);
-
-});
-
+    const carousel = carousels[item.section];
+    if(carousel) carousel.appendChild(card);
+  });
 });
 </script>
 
