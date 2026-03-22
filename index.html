@@ -126,14 +126,14 @@ body::before{
   background:rgba(0,0,0,0.3);
   padding:5px 0;
   z-index:1;
-  padding-left: 360px; /* MÁS MARGEN PARA NO CHOCAR CON SIDEBAR */
+  padding-left: 400px; /* MÁS MARGEN PARA NO CHOCAR CON SIDEBAR */
 }
 .social img{width:28px;transition:0.3s;}
 .social img:hover{transform:scale(1.2);}
 
 /* SECCIONES */
 .section{
-  padding:20px 20px 40px 360px; /* MÁS MARGEN A LA DERECHA DEL SIDEBAR */
+  padding:20px 20px 40px 400px; /* MÁS MARGEN A LA DERECHA DEL SIDEBAR */
   scroll-margin-top:60px;
   position:relative;
 }
@@ -234,7 +234,7 @@ h2{
 <div class="social" id="top">
   <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
   <a href="https://www.instagram.com/bucklemusic" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
-  <a href="https://www.facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
+  <a href="https://www.facebook.com" target="_blank"><img src="https://cdn-icons-png/flaticon.com/512/1384/1384053.png"></a>
   <a href="https://go.ivoox.com/sq/2535828" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png"></a>
 </div>
 
@@ -291,42 +291,51 @@ function play(id){modal.style.display="flex";cover.src=`https://archive.org/serv
 function cerrar(){modal.style.display="none";frame.src="";cover.src="";}
 
 /* FETCH ARCHIVE */
-fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
-.then(r=>r.json())
-.then(data=>{
-  data.response.docs.sort((a,b)=>{
-    const getNum = str=>{const match=str.match(/\d+/g); return match?parseInt(match[match.length-1]):0;};
-    return getNum(b.identifier)-getNum(a.identifier);
-  });
-  data.response.docs.forEach(item=>{
-    const match=item.identifier.match(/\d+/g);
-    const numero=match?match[match.length-1]:"";
-    const card=document.createElement("div");
-    card.className="card";
-    const img=document.createElement("img");
-    img.src=`https://archive.org/services/img/${item.identifier}`;
-    img.onclick=()=>play(item.identifier);
-    const num=document.createElement("div");
-    num.className="numero"; num.innerText=numero;
-    card.appendChild(img); card.appendChild(num);
-    const s=item.section;
-    if(s==="nuevo") c1.appendChild(card);
-    else if(s==="programas") c2.appendChild(card);
-    else if(s==="mix") c3.appendChild(card);
-    else if(s==="reserva") c4.appendChild(card);
-    else if(s==="producciones") c5.appendChild(card);
-  });
+function setupCarousels(){
+  fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
+  .then(r=>r.json())
+  .then(data=>{
+    data.response.docs.sort((a,b)=>{
+      const getNum = str=>{const match=str.match(/\d+/g); return match?parseInt(match[match.length-1]):0;};
+      return getNum(b.identifier)-getNum(a.identifier);
+    });
+    data.response.docs.forEach(item=>{
+      const match=item.identifier.match(/\d+/g);
+      const numero=match?match[match.length-1]:"";
+      const card=document.createElement("div");
+      card.className="card";
+      const img=document.createElement("img");
+      img.src=`https://archive.org/services/img/${item.identifier}`;
+      img.onclick=()=>play(item.identifier);
+      const num=document.createElement("div");
+      num.className="numero"; num.innerText=numero;
+      card.appendChild(img); card.appendChild(num);
+      const s=item.section;
+      if(s==="nuevo") c1.appendChild(card);
+      else if(s==="programas") c2.appendChild(card);
+      else if(s==="mix") c3.appendChild(card);
+      else if(s==="reserva") c4.appendChild(card);
+      else if(s==="producciones") c5.appendChild(card);
+    });
 
-  // Ajustar margen de cada carrusel bajo la primera letra del título
+    adjustCarousels();
+    window.addEventListener('resize', adjustCarousels);
+  });
+}
+
+/* AJUSTAR CARRUSEL BAJO PRIMERA LETRA Y MARGEN */
+function adjustCarousels(){
   document.querySelectorAll('.section').forEach(sec=>{
     const h2 = sec.querySelector('h2');
     const carousel = sec.querySelector('.carousel');
     if(h2 && carousel){
       const firstLetterWidth = h2.offsetWidth / h2.innerText.length;
-      carousel.style.marginLeft = firstLetterWidth + 20 + 'px'; // 20px adicional para margen con sidebar
+      carousel.style.marginLeft = firstLetterWidth + 40 + 'px'; // margen extra para sidebar
     }
   });
-});
+}
+
+setupCarousels();
 </script>
 
 </body>
