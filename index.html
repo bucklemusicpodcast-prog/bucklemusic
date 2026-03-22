@@ -17,14 +17,12 @@ body{
   position:relative;
 }
 
-/* CAPA OSCURA */
+/* Capa oscura sobre fondo */
 body::before{
   content:"";
   position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  top:0; left:0;
+  width:100%; height:100%;
   background:rgba(0,0,0,0.5);
   z-index:0;
 }
@@ -42,7 +40,7 @@ body::before{
   background:black;
 }
 #splash img{
-  width:200px; /* logo grande en inicio */
+  width:200px; 
   margin-bottom:15px;
 }
 #splash span{
@@ -51,7 +49,7 @@ body::before{
   font-family:'Orbitron', sans-serif;
 }
 
-/* BARRA SUPERIOR */
+/* BARRA SUPERIOR FIJA */
 .topbar{
   position:fixed;
   top:0;
@@ -60,19 +58,33 @@ body::before{
   height:55px;
   display:flex;
   align-items:center;
+  justify-content:space-between;
   padding:0 15px;
   z-index:1000;
-  background:rgba(0,0,0,0.5);
+  background:rgba(0,0,0,0.6);
   backdrop-filter:blur(10px);
 }
-.topbar img{
-  width:40px; /* logo pequeño en barra principal */
+.topbar-left{
+  display:flex;
+  align-items:center;
+}
+.topbar-left img{
+  width:40px;
   margin-right:10px;
 }
-.topbar .title{
+.topbar-left .title{
   color:#00ffe0;
   font-size:18px;
 }
+.topbar .social{
+  display:flex;
+  gap:10px;
+}
+.topbar .social img{
+  width:28px;
+  transition:0.3s;
+}
+.topbar .social img:hover{transform:scale(1.2);}
 
 /* SIDEBAR */
 .sidebar{
@@ -115,29 +127,17 @@ body::before{
   z-index:1001;
 }
 
-/* REDES SOCIALES */
-.social{
-  display:flex;
-  justify-content:center; 
-  gap:15px;
-  margin-top:20px;
-}
-.social img{
-  width:32px;
-  transition:0.3s;
-}
-.social img:hover{transform:scale(1.2);}
-
 /* SECCIONES */
 .section{
-  padding:40px 20px 30px 20px; 
+  padding:20px 20px 20px 20px; /* menos separación vertical */
   position:relative;
   text-align:center;
+  margin-top:55px; /* espacio debajo de barra */
 }
 h2{
   color:#00ffe0;
   text-shadow: 2px 2px 10px #000, 0 0 10px #00ffe0;
-  margin-bottom:20px;
+  margin-bottom:15px;
   font-size:34px;
   display:block;
 }
@@ -203,13 +203,21 @@ h2:hover{color:#00fff0; text-shadow: 2px 2px 10px #000, 0 0 15px #00fff0;}
   <span>Buckle Music</span>
 </div>
 
-<!-- BARRA SUPERIOR Y MENU (solo al cargar la página principal) -->
+<!-- BARRA SUPERIOR -->
 <div class="topbar" id="topbar" style="display:none;">
-  <div class="menu-btn" onclick="openMenu()">☰</div>
-  <img src="logo-512.png">
-  <span class="title">Buckle Music</span>
+  <div class="topbar-left">
+    <img src="logo-512.png">
+    <span class="title">Buckle Music</span>
+  </div>
+  <div class="social">
+    <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
+    <a href="https://www.instagram.com/bucklemusic" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
+    <a href="https://www.facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
+    <a href="https://go.ivoox.com/sq/2535828" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png"></a>
+  </div>
 </div>
 
+<!-- MENU -->
 <div class="overlay-menu" id="overlay" onclick="closeMenu()"></div>
 <div class="sidebar" id="sidebar">
   <a onclick="goTo('inicio')">Inicio</a>
@@ -221,7 +229,9 @@ h2:hover{color:#00fff0; text-shadow: 2px 2px 10px #000, 0 0 15px #00fff0;}
   <a onclick="goTo('contacto')">Contacto</a>
 </div>
 
-<!-- SECCIONES PRINCIPALES (ocultas al inicio) -->
+<div class="menu-btn" onclick="openMenu()">☰</div>
+
+<!-- CONTENIDO PRINCIPAL -->
 <div id="mainContent" style="display:none;">
   <div class="section" id="nuevo"><h2>Nuevo Programa</h2><div class="carousel" id="c1"></div></div>
   <div class="section" id="programas"><h2>Programas Buckle</h2><div class="carousel" id="c2"></div></div>
@@ -258,7 +268,7 @@ const frame = document.getElementById("frame");
 function play(id){modal.style.display="flex";cover.src=`https://archive.org/services/img/${id}`;frame.src=`https://archive.org/embed/${id}`;}
 function cerrar(){modal.style.display="none";frame.src="";cover.src="";}
 
-/* SPLASH: desaparecer y mostrar contenido principal */
+/* SPLASH */
 setTimeout(()=>{
   document.getElementById("splash").style.display="none";
   topbar.style.display="flex";
