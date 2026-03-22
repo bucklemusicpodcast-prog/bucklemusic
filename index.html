@@ -87,11 +87,27 @@ body{
   z-index:1000;
 }
 
+/* REDES */
+.social{
+  display:flex;
+  justify-content:flex-start; 
+  gap:15px;
+  position:fixed;
+  top:80px;
+  z-index:100;
+  padding-left:320px; /* margen con sidebar */
+}
+.social img{
+  width:28px;
+  transition:0.3s;
+}
+.social img:hover{transform:scale(1.2);}
+
 /* SECCIONES */
 .section{
-  padding:100px 20px 40px 20px; /* centrado, sin margen lateral grande */
+  padding:50px 20px 30px 20px; /* más compacto verticalmente */
   position:relative;
-  text-align:center; /* CENTRAR TITULOS */
+  text-align:center;
 }
 h2{
   color:#00ffe0;
@@ -107,7 +123,7 @@ h2{
   justify-content:center; /* centrado */
   overflow-x:auto;
   gap:15px;
-  padding:0 0 40px 0;
+  padding:0 0 30px 0;
 }
 .card{
   position:relative;
@@ -150,6 +166,7 @@ h2{
 @media(max-width:600px){
   h2{font-size:24px;}
   .card img{width:100px;}
+  .social{padding-left:20px;}
 }
 </style>
 </head>
@@ -173,6 +190,14 @@ h2{
   <a onclick="goTo('contacto')">Contacto</a>
 </div>
 <div class="menu-btn" onclick="openMenu()">☰</div>
+
+<!-- REDES SOCIALES (ocultas en inicio) -->
+<div class="social" id="socials">
+  <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
+  <a href="https://www.instagram.com/bucklemusic" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
+  <a href="https://www.facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
+  <a href="https://go.ivoox.com/sq/2535828" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png"></a>
+</div>
 
 <!-- SECCIONES -->
 <div class="section" id="inicio">
@@ -218,7 +243,11 @@ h2{
 </div>
 
 <script>
-setTimeout(()=>{splash.style.opacity="0"; setTimeout(()=>splash.style.display="none",1000);},1800);
+setTimeout(()=>{
+  splash.style.opacity="0"; 
+  setTimeout(()=>splash.style.display="none",1000);
+  document.getElementById("socials").style.display="flex"; // mostrar redes después del splash
+},1800);
 
 /* MENU */
 const sidebar = document.getElementById("sidebar");
@@ -227,13 +256,20 @@ function openMenu(){sidebar.style.left="0";overlay.style.display="block";}
 function closeMenu(){sidebar.style.left="-260px";overlay.style.display="none";}
 
 /* SCROLL */
-function goTo(id){document.getElementById(id).scrollIntoView({behavior:"smooth"});closeMenu();}
+function goTo(id){
+  document.getElementById(id).scrollIntoView({behavior:"smooth"});
+  closeMenu();
+}
 
 /* PLAYER */
 const modal = document.getElementById("modal");
 const cover = document.getElementById("cover");
 const frame = document.getElementById("frame");
-function play(id){modal.style.display="flex";cover.src=`https://archive.org/services/img/${id}`;frame.src=`https://archive.org/embed/${id}`;}
+function play(id){
+  modal.style.display="flex";
+  cover.src=`https://archive.org/services/img/${id}`;
+  frame.src=`https://archive.org/embed/${id}`;
+}
 function cerrar(){modal.style.display="none";frame.src="";cover.src="";}
 
 /* FETCH ARCHIVE */
