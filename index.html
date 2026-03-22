@@ -95,7 +95,7 @@ body::before{
 .sidebar{
   position:fixed;
   top:0;
-  left:0;
+  left:-260px; /* ARRANQUE CERRADO */
   width:260px;
   height:100%;
   background:rgba(0,0,0,0.4);
@@ -126,14 +126,14 @@ body::before{
   background:rgba(0,0,0,0.3);
   padding:5px 0;
   z-index:1;
-  padding-left: 320px; /* más margen */
+  padding-left: 360px; /* MÁS MARGEN PARA NO CHOCAR CON SIDEBAR */
 }
 .social img{width:28px;transition:0.3s;}
 .social img:hover{transform:scale(1.2);}
 
 /* SECCIONES */
 .section{
-  padding:20px 20px 40px 320px; /* margen a la derecha del sidebar */
+  padding:20px 20px 40px 360px; /* MÁS MARGEN A LA DERECHA DEL SIDEBAR */
   scroll-margin-top:60px;
   position:relative;
 }
@@ -323,7 +323,7 @@ fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediaty
     const carousel = sec.querySelector('.carousel');
     if(h2 && carousel){
       const firstLetterWidth = h2.offsetWidth / h2.innerText.length;
-      carousel.style.marginLeft = firstLetterWidth + 'px';
+      carousel.style.marginLeft = firstLetterWidth + 20 + 'px'; // 20px adicional para margen con sidebar
     }
   });
 });
