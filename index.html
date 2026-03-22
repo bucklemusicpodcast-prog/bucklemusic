@@ -104,20 +104,22 @@ body::before{
   background:rgba(0,0,0,0.3);
   padding:5px 0;
   z-index:1;
-  padding-left: 260px; /* alineación con sidebar */
+  padding-left: 280px; /* un poco más de margen para que no tape sidebar */
 }
 .social img{width:28px;transition:0.3s;}
 .social img:hover{transform:scale(1.2);}
 
 /* SECCIONES */
 .section{
-  padding:20px 20px 40px 260px; /* alineación con sidebar */
-  scroll-margin-top:60px; /* evita que el título quede bajo la topbar */
+  padding:20px 20px 40px 280px; /* margen a la derecha del sidebar */
+  scroll-margin-top:60px;
 }
 h2{
   color:#00ffe0;
-  text-align:left; /* alineado al contenido, no al centro */
+  text-align:left;
   margin-bottom:20px;
+  font-size:26px;
+  text-shadow: 2px 2px 8px #000; /* resalta sobre el fondo */
 }
 
 /* CARRUSEL */
@@ -197,6 +199,7 @@ h2{
   <a onclick="goTo('mix')">In The Mix</a>
   <a onclick="goTo('reserva')">Gran Reserva</a>
   <a onclick="goTo('pro')">Producciones</a>
+  <a onclick="goTo('contacto')">Contacto</a>
 </div>
 
 <!-- REDES -->
@@ -227,6 +230,11 @@ h2{
 <div class="section" id="pro">
   <h2>Producciones</h2>
   <div class="carousel" id="c5"></div>
+</div>
+
+<div class="section" id="contacto">
+  <h2>Contacto</h2>
+  <p style="color:#00ffe0; font-size:18px; padding-left:10px;">📧 bucklemusicpodcast@gmail.com</p>
 </div>
 
 <!-- PLAYER -->
