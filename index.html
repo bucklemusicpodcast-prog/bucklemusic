@@ -13,10 +13,9 @@ body{
   font-family:'Orbitron', sans-serif;
   color:white;
   background:url("fondo.jpg") center/cover fixed;
-  scroll-behavior:smooth;
 }
 
-/* OSCURECER FONDO */
+/* OSCURECER */
 body::before{
   content:"";
   position:fixed;
@@ -38,8 +37,8 @@ body::before{
   align-items:center;
   z-index:9999;
 }
-#splash img{width:180px;}
-#splash span{margin-top:10px;font-size:28px;color:#00ffe0;}
+#splash img{width:160px;}
+#splash span{margin-top:10px;color:#00ffe0;font-size:26px;}
 
 /* TOPBAR */
 .topbar{
@@ -57,25 +56,31 @@ body::before{
   z-index:1000;
 }
 
+/* IZQUIERDA */
 .topbar-left{
   display:flex;
   align-items:center;
 }
 .topbar-left img{
   width:35px;
-  margin-right:10px;
+  margin-right:8px;
 }
 .title{
   color:#00ffe0;
+  font-size:16px;
 }
 
+/* REDES CONTROLADAS */
 .topbar .social{
   display:flex;
-  gap:12px;
-  margin-right:20px;
+  align-items:center;
+  gap:10px;
+  flex-shrink:0;
 }
 .topbar .social img{
-  width:26px;
+  width:24px;
+  height:24px;
+  object-fit:contain;
 }
 
 /* SIDEBAR */
@@ -125,13 +130,13 @@ body::before{
 /* SECCIONES */
 .section{
   padding:10px 20px;
-  margin-top:20px;
+  margin-top:15px;
 }
 h2{
   color:#00ffe0;
-  font-size:32px;
+  font-size:30px;
   padding-left:20px;
-  margin-bottom:10px;
+  margin-bottom:8px;
   text-shadow:0 0 10px #00ffe0;
 }
 
@@ -139,7 +144,7 @@ h2{
 .carousel{
   display:flex;
   overflow-x:auto;
-  gap:20px;
+  gap:18px;
   padding-left:20px;
 }
 
@@ -150,11 +155,9 @@ h2{
   width:150px;
   border-radius:12px;
   cursor:pointer;
-  transition:0.3s;
 }
-.card img:hover{transform:scale(1.08);}
 
-/* NUEVO PROGRAMA MÁS GRANDE */
+/* DESTACADO */
 #c1 .card img{
   width:220px;
 }
@@ -184,7 +187,6 @@ h2{
 .player-modal img{width:260px;margin-bottom:20px;}
 .player-modal iframe{width:90%;height:80px;border:none;}
 .close{position:absolute;top:20px;right:20px;font-size:25px;cursor:pointer;}
-
 </style>
 </head>
 
@@ -211,7 +213,7 @@ h2{
   </div>
 </div>
 
-<!-- SIDEBAR -->
+<!-- MENU -->
 <div class="overlay-menu" id="overlay" onclick="closeMenu()"></div>
 
 <div class="sidebar" id="sidebar">
@@ -289,7 +291,7 @@ setTimeout(()=>{
   splash.style.display="none";
   topbar.style.display="flex";
   mainContent.style.display="block";
-},1800);
+},1500);
 
 /* FETCH */
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
