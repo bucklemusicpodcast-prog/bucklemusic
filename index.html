@@ -130,18 +130,18 @@ body::before{
 
 /* SECCIONES */
 .section{
-  padding:20px 20px 20px 20px; 
+  padding:10px 20px 10px 20px; /* menos padding vertical */
   position:relative;
-  text-align:left; /* para poder alinear carruseles con títulos */
-  margin-top:55px; 
+  text-align:left; 
+  margin-top:20px; /* menos espacio entre secciones */
 }
 h2{
   color:#00ffe0;
   text-shadow: 2px 2px 10px #000, 0 0 10px #00ffe0;
-  margin-bottom:15px;
+  margin-bottom:10px; /* menos espacio debajo del título */
   font-size:34px;
   display:block;
-  padding-left:20px; /* margen para separar del borde/Sidebar */
+  padding-left:20px; /* alinea carruseles con primera letra */
 }
 h2:hover{color:#00fff0; text-shadow: 2px 2px 10px #000, 0 0 15px #00fff0;}
 
@@ -150,7 +150,7 @@ h2:hover{color:#00fff0; text-shadow: 2px 2px 10px #000, 0 0 15px #00fff0;}
   display:flex;
   overflow-x:auto;
   gap:20px; 
-  padding-left:20px; /* alinear con primera letra del título */
+  padding-left:20px; /* alinea con primera letra del título */
   padding-bottom:30px;
 }
 .card{
@@ -236,7 +236,7 @@ h2:hover{color:#00fff0; text-shadow: 2px 2px 10px #000, 0 0 15px #00fff0;}
 <!-- CONTENIDO PRINCIPAL -->
 <div id="mainContent" style="display:none;">
   <div class="section" id="nuevo"><h2>Nuevo Programa</h2><div class="carousel" id="c1"></div></div>
-  <div class="section" id="programas"><h2>Programas Buckle</h2><div class="carousel" id="c2" style="padding-left:20px;"></div></div>
+  <div class="section" id="programas"><h2>Programas Buckle</h2><div class="carousel" id="c2"></div></div>
   <div class="section" id="mix"><h2>In The Mix</h2><div class="carousel" id="c3"></div></div>
   <div class="section" id="reserva"><h2>Gran Reserva</h2><div class="carousel" id="c4"></div></div>
   <div class="section" id="pro"><h2>Producciones</h2><div class="carousel" id="c5"></div></div>
