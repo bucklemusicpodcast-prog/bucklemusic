@@ -5,288 +5,139 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buckle Music</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
-<!-- PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#000000">
 
 <style>
 body{
   margin:0;
-  font-family:'Orbitron', sans-serif;
-  color:white;
-  background:url("fondo.jpg") center/cover fixed;
-}
-
-/* OSCURECER */
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.65);
-  z-index:0;
-}
-
-/* SPLASH */
-#splash{
-  position:fixed;
-  width:100%;
-  height:100%;
+  font-family:sans-serif;
   background:black;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
+  color:white;
 }
-#splash img{width:160px;}
-#splash span{color:#00ffe0;font-size:26px;margin-top:10px;}
 
 /* TOPBAR */
 .topbar{
   position:fixed;
-  top:0; left:0;
+  top:0;
   width:100%;
   height:55px;
   display:flex;
   justify-content:center;
   align-items:center;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter:blur(10px);
-  z-index:1000;
+  background:rgba(0,0,0,0.7);
 }
-
-.topbar-left{
-  position:absolute;
-  left:50px;
-  display:flex;
-  align-items:center;
-}
-.topbar-left img{width:35px;}
-.title{color:#00ffe0;margin-left:8px;}
-
-.social{
-  display:flex;
-  gap:12px;
-}
-.social img{width:22px;}
 
 /* MENU */
 .menu-btn{
   position:fixed;
   top:15px;
   left:15px;
-  font-size:26px;
-  cursor:pointer;
+  font-size:25px;
   z-index:1001;
 }
 
 .sidebar{
   position:fixed;
-  top:0;
   left:-260px;
   width:260px;
   height:100%;
-  background:rgba(0,0,0,0.4);
-  backdrop-filter:blur(15px);
+  background:black;
   padding:20px;
   transition:0.4s;
-  z-index:999;
-}
-.sidebar a{
-  display:block;
-  color:white;
-  padding:14px;
-  text-decoration:none;
-  border-radius:8px;
-  margin-bottom:8px;
-}
-.sidebar a:hover{
-  background:#00ffe0;
-  color:black;
 }
 
-.overlay-menu{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.6);
-  display:none;
-  z-index:998;
+.sidebar a{
+  display:block;
+  padding:12px;
+  color:white;
+  text-decoration:none;
 }
 
 /* SECCIONES */
-.section{
-  padding:10px 15px;
-  margin-top:10px;
-}
+.section{padding:70px 15px 15px;}
 
 h2{
-  font-size:30px;
   text-align:center;
-  margin-bottom:10px;
-
-  background:linear-gradient(90deg,#00ffe0,#00aaff);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-
-  text-shadow:0 0 15px rgba(0,255,224,0.7);
+  color:#00ffe0;
 }
 
-/* LISTA VERTICAL */
+/* LISTA */
 .carousel{
   display:flex;
   flex-direction:column;
-  gap:15px;
+  gap:10px;
 }
 
 .card{
   display:flex;
   align-items:center;
-  gap:15px;
-  background:rgba(255,255,255,0.05);
-  padding:10px;
-  border-radius:12px;
+  gap:10px;
 }
 
 .card img{
   width:90px;
   border-radius:10px;
-  cursor:pointer;
 }
 
-#c1 .card img{
-  width:130px;
+/* PLAYER */
+#miniPlayer{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  background:black;
+  display:flex;
+  padding:8px;
 }
 
-.numero{
-  background:#00ffe0;
-  color:black;
-  padding:4px 8px;
-  border-radius:6px;
-  font-weight:bold;
-}
+#miniCover{width:50px;}
 </style>
 </head>
 
 <body>
 
-<!-- SPLASH -->
-<div id="splash">
-  <img src="logo-512.png">
-  <span>Buckle Music</span>
-</div>
-
-<!-- TOPBAR -->
-<div class="topbar" id="topbar" style="display:none;">
-  <div class="topbar-left">
-    <img src="logo-512.png">
-    <span class="title">Buckle Music</span>
-  </div>
-
-  <div class="social">
-    <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
-    <a href="https://www.instagram.com/bucklemusic" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
-    <a href="https://www.facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
-    <a href="https://go.ivoox.com/sq/2535828" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png"></a>
-  </div>
-</div>
-
-<!-- MENU -->
-<div class="overlay-menu" id="overlay" onclick="closeMenu()"></div>
-
-<div class="sidebar" id="sidebar">
-  <a href="index.html">Inicio</a>
-  <a href="index.html#nuevo">Nuevo Programa</a>
-  <a href="programas.html">Programas Buckle</a>
-  <a href="mix.html">In The Mix</a>
-  <a href="reserva.html">Gran Reserva</a>
-  <a href="index.html#pro">Producciones</a>
-  <a href="index.html#contacto">Contacto</a>
-</div>
+<div class="topbar">Buckle Music</div>
 
 <div class="menu-btn" onclick="openMenu()">☰</div>
 
-<!-- CONTENIDO -->
-<div id="mainContent" style="display:none; margin-top:70px;">
-
-<div class="section">
-  <h2 id="nuevo">Nuevo Programa</h2>
-  <div class="carousel" id="c1"></div>
+<div class="sidebar" id="sidebar">
+<a href="index.html">🏠 Inicio</a>
+<a href="index.html#nuevo">Nuevo Programa</a>
+<a href="mix.html">Mix</a>
+<a href="reserva.html">Reserva</a>
 </div>
 
 <div class="section">
-  <h2>Programas Buckle</h2>
-  <div class="carousel" id="c2"></div>
-</div>
-
-<div class="section">
-  <h2>In The Mix</h2>
-  <div class="carousel" id="c3"></div>
-</div>
-
-<div class="section">
-  <h2>Gran Reserva</h2>
-  <div class="carousel" id="c4"></div>
-</div>
-
-<div class="section">
-  <h2 id="pro">Producciones</h2>
-  <div class="carousel" id="c5"></div>
-</div>
-
-<div class="section">
-  <h2 id="contacto">Contacto</h2>
-  <p style="text-align:center;">📧 bucklemusicpodcast@gmail.com</p>
-</div>
-
+<h2 id="nuevo">Nuevo Programa</h2>
+<div id="c1" class="carousel"></div>
 </div>
 
 <script>
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
-const topbar = document.getElementById("topbar");
-const mainContent = document.getElementById("mainContent");
+function openMenu(){
+document.getElementById("sidebar").style.left="0";
+}
 
-function openMenu(){sidebar.style.left="0";overlay.style.display="block";}
-function closeMenu(){sidebar.style.left="-260px";overlay.style.display="none";}
+const audio=new Audio();
 
-/* SPLASH */
-setTimeout(()=>{
-  splash.style.display="none";
-  topbar.style.display="flex";
-  mainContent.style.display="block";
-},1500);
+function playTrack(id){
+audio.src=`https://archive.org/download/${id}/${id}.mp3`;
+audio.play();
+}
 
-/* FETCH */
-fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
+fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music&output=json`)
 .then(r=>r.json())
 .then(data=>{
-  data.response.docs.forEach(item=>{
-    const numero = item.identifier.match(/\d+/g)?.pop()||"";
-    const card = document.createElement("div");
-    card.className="card";
+data.response.docs.forEach(item=>{
+const img=document.createElement("img");
+img.src=`https://archive.org/services/img/${item.identifier}`;
+img.onclick=()=>playTrack(item.identifier);
 
-    const img = document.createElement("img");
-    img.src=`https://archive.org/services/img/${item.identifier}`;
+const card=document.createElement("div");
+card.className="card";
+card.appendChild(img);
 
-    img.onclick=()=>{
-      window.location.href = `player.html?id=${item.identifier}`;
-    };
-
-    const n = document.createElement("div");
-    n.className="numero";
-    n.innerText=numero;
-
-    card.appendChild(img);
-    card.appendChild(n);
-
-    if(item.section==="nuevo") c1.appendChild(card);
-    if(item.section==="programas") c2.appendChild(card);
-    if(item.section==="mix") c3.appendChild(card);
-    if(item.section==="reserva") c4.appendChild(card);
-    if(item.section==="producciones") c5.appendChild(card);
-  });
+c1.appendChild(card);
+});
 });
 </script>
 
