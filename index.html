@@ -12,7 +12,7 @@
 body{
   margin:0;
   font-family:sans-serif;
-  background:black;
+  background:#000;
   color:white;
 }
 
@@ -23,9 +23,10 @@ body{
   width:100%;
   height:55px;
   display:flex;
-  justify-content:center;
   align-items:center;
-  background:rgba(0,0,0,0.7);
+  justify-content:center;
+  background:rgba(0,0,0,0.8);
+  z-index:1000;
 }
 
 /* MENU */
@@ -35,16 +36,19 @@ body{
   left:15px;
   font-size:25px;
   z-index:1001;
+  cursor:pointer;
 }
 
 .sidebar{
   position:fixed;
   left:-260px;
+  top:0;
   width:260px;
   height:100%;
   background:black;
   padding:20px;
-  transition:0.4s;
+  transition:0.3s;
+  z-index:999;
 }
 
 .sidebar a{
@@ -54,8 +58,15 @@ body{
   text-decoration:none;
 }
 
-/* SECCIONES */
-.section{padding:70px 15px 15px;}
+.sidebar a:hover{
+  background:#00ffe0;
+  color:black;
+}
+
+/* CONTENIDO */
+.section{
+  padding:70px 15px 15px;
+}
 
 h2{
   text-align:center;
@@ -66,18 +77,22 @@ h2{
 .carousel{
   display:flex;
   flex-direction:column;
-  gap:10px;
+  gap:12px;
 }
 
 .card{
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:12px;
+  background:#111;
+  padding:8px;
+  border-radius:10px;
 }
 
 .card img{
   width:90px;
   border-radius:10px;
+  cursor:pointer;
 }
 
 /* PLAYER */
@@ -85,12 +100,22 @@ h2{
   position:fixed;
   bottom:0;
   width:100%;
-  background:black;
+  background:#000;
   display:flex;
+  align-items:center;
   padding:8px;
+  z-index:9999;
 }
 
-#miniCover{width:50px;}
+#miniCover{width:50px;border-radius:8px;}
+#miniTitle{flex:1;margin-left:10px;font-size:13px;color:#00ffe0;}
+
+#playBtn{
+  background:#00ffe0;
+  border:none;
+  padding:6px 10px;
+  border-radius:6px;
+}
 </style>
 </head>
 
@@ -102,9 +127,9 @@ h2{
 
 <div class="sidebar" id="sidebar">
 <a href="index.html">🏠 Inicio</a>
-<a href="index.html#nuevo">Nuevo Programa</a>
-<a href="mix.html">Mix</a>
-<a href="reserva.html">Reserva</a>
+<a href="#nuevo">Nuevo Programa</a>
+<a href="mix.html">In The Mix</a>
+<a href="reserva.html">Gran Reserva</a>
 </div>
 
 <div class="section">
@@ -112,30 +137,73 @@ h2{
 <div id="c1" class="carousel"></div>
 </div>
 
-<script>
-function openMenu(){
-document.getElementById("sidebar").style.left="0";
-}
+<!-- PLAYER -->
+<div id="miniPlayer">
+<img id="miniCover">
+<div id="miniTitle">Buckle Music</div>
+<button id="playBtn">▶</button>
+<audio id="audio"></audio>
+</div>
 
-const audio=new Audio();
+<script>
+const sidebar=document.getElementById("sidebar");
+function openMenu(){sidebar.style.left="0";}
+
+/* PLAYER GLOBAL */
+const audio=document.getElementById("audio");
+const cover=document.getElementById("miniCover");
+const title=document.getElementById("miniTitle");
+const btn=document.getElementById("playBtn");
+
+/* cargar */
+window.onload=()=>{
+const id=localStorage.getItem("track");
+const time=localStorage.getItem("time");
+
+if(id){
+audio.src=`https://archive.org/download/${id}/${id}.mp3`;
+cover.src=`https://archive.org/services/img/${id}`;
+title.innerText=id;
+audio.currentTime=time||0;
+audio.play();
+btn.innerText="⏸";
+}
+};
+
+btn.onclick=()=>{
+if(audio.paused){audio.play();btn.innerText="⏸";}
+else{audio.pause();btn.innerText="▶";}
+};
+
+audio.ontimeupdate=()=>{
+localStorage.setItem("time",audio.currentTime);
+};
 
 function playTrack(id){
 audio.src=`https://archive.org/download/${id}/${id}.mp3`;
+cover.src=`https://archive.org/services/img/${id}`;
+title.innerText=id;
+
+localStorage.setItem("track",id);
+localStorage.setItem("time",0);
+
 audio.play();
+btn.innerText="⏸";
 }
 
+/* FETCH */
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music&output=json`)
 .then(r=>r.json())
 .then(data=>{
 data.response.docs.forEach(item=>{
+const card=document.createElement("div");
+card.className="card";
+
 const img=document.createElement("img");
 img.src=`https://archive.org/services/img/${item.identifier}`;
 img.onclick=()=>playTrack(item.identifier);
 
-const card=document.createElement("div");
-card.className="card";
 card.appendChild(img);
-
 c1.appendChild(card);
 });
 });
