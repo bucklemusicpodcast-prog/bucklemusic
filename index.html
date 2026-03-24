@@ -4,7 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buckle Music</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
 
 <style>
 body{
@@ -12,14 +17,14 @@ body{
   font-family:'Orbitron', sans-serif;
   color:white;
   background:url("fondo.jpg") center/cover fixed;
-  scroll-behavior:smooth;
 }
 
+/* OSCURECER */
 body::before{
   content:"";
   position:fixed;
-  top:0;left:0;right:0;bottom:0;
-  background:rgba(0,0,0,0.6);
+  inset:0;
+  background:rgba(0,0,0,0.65);
   z-index:0;
 }
 
@@ -36,7 +41,7 @@ body::before{
   z-index:9999;
 }
 #splash img{width:160px;}
-#splash span{margin-top:10px;color:#00ffe0;font-size:26px;}
+#splash span{color:#00ffe0;font-size:26px;margin-top:10px;}
 
 /* TOPBAR */
 .topbar{
@@ -45,32 +50,38 @@ body::before{
   width:100%;
   height:55px;
   display:flex;
+  justify-content:center;
   align-items:center;
-  justify-content:space-between;
-  padding:0 15px;
   background:rgba(0,0,0,0.6);
   backdrop-filter:blur(10px);
   z-index:1000;
 }
 
 .topbar-left{
+  position:absolute;
+  left:50px;
   display:flex;
   align-items:center;
 }
-.topbar-left img{width:35px; margin-right:8px;}
-.title{color:#00ffe0; font-size:16px;}
+.topbar-left img{width:35px;}
+.title{color:#00ffe0;margin-left:8px;}
 
-.topbar .social{
+.social{
   display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
+  gap:12px;
 }
-.topbar .social img{
-  width:22px; height:22px; object-fit:contain; flex-shrink:0;
+.social img{width:22px;}
+
+/* MENU */
+.menu-btn{
+  position:fixed;
+  top:15px;
+  left:15px;
+  font-size:26px;
+  cursor:pointer;
+  z-index:1001;
 }
 
-/* SIDEBAR */
 .sidebar{
   position:fixed;
   top:0;
@@ -91,68 +102,70 @@ body::before{
   border-radius:8px;
   margin-bottom:8px;
 }
-.sidebar a:hover{background:#00ffe0; color:black;}
+.sidebar a:hover{
+  background:#00ffe0;
+  color:black;
+}
 
 .overlay-menu{
   position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
+  inset:0;
   background:rgba(0,0,0,0.6);
   display:none;
   z-index:998;
 }
 
-.menu-btn{
-  position:fixed;
-  top:15px;
-  left:15px;
-  font-size:26px;
-  cursor:pointer;
-  z-index:1001;
-}
-
 /* SECCIONES */
 .section{
-  padding:10px 20px;
-  margin-top:15px;
+  padding:10px 15px;
+  margin-top:10px;
 }
+
 h2{
-  color:#00ffe0;
   font-size:30px;
   text-align:center;
-  margin-bottom:8px;
-  text-shadow:0 0 10px #00ffe0;
+  margin-bottom:10px;
+
+  background:linear-gradient(90deg,#00ffe0,#00aaff);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+
+  text-shadow:0 0 15px rgba(0,255,224,0.7);
 }
 
-/* CARRUSEL */
+/* LISTA VERTICAL */
 .carousel{
   display:flex;
-  overflow-x:auto;
-  gap:18px;
-  padding-left:20px;
+  flex-direction:column;
+  gap:15px;
 }
 
-/* CARDS */
-.card{position:relative;}
-.card img{
-  width:150px;
+.card{
+  display:flex;
+  align-items:center;
+  gap:15px;
+  background:rgba(255,255,255,0.05);
+  padding:10px;
   border-radius:12px;
+}
+
+.card img{
+  width:90px;
+  border-radius:10px;
   cursor:pointer;
 }
-#c1 .card img{width:220px;}
 
-.numero{
-  position:absolute;
-  top:6px; left:6px;
-  background:black; color:#00ffe0;
-  padding:4px 8px;
-  border-radius:6px;
+#c1 .card img{
+  width:130px;
 }
 
-/* PLAYER MODAL NO USAMOS */
-
+.numero{
+  background:#00ffe0;
+  color:black;
+  padding:4px 8px;
+  border-radius:6px;
+  font-weight:bold;
+}
 </style>
 </head>
 
@@ -181,6 +194,7 @@ h2{
 
 <!-- MENU -->
 <div class="overlay-menu" id="overlay" onclick="closeMenu()"></div>
+
 <div class="sidebar" id="sidebar">
   <a href="index.html">Inicio</a>
   <a href="index.html#nuevo">Nuevo Programa</a>
@@ -190,10 +204,11 @@ h2{
   <a href="index.html#pro">Producciones</a>
   <a href="index.html#contacto">Contacto</a>
 </div>
+
 <div class="menu-btn" onclick="openMenu()">☰</div>
 
-<!-- CONTENIDO PRINCIPAL -->
-<div id="mainContent" style="display:none;">
+<!-- CONTENIDO -->
+<div id="mainContent" style="display:none; margin-top:70px;">
 
 <div class="section">
   <h2 id="nuevo">Nuevo Programa</h2>
@@ -243,23 +258,28 @@ setTimeout(()=>{
   mainContent.style.display="block";
 },1500);
 
-/* FETCH + CARÁTULAS */
+/* FETCH */
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
 .then(r=>r.json())
 .then(data=>{
   data.response.docs.forEach(item=>{
     const numero = item.identifier.match(/\d+/g)?.pop()||"";
-    const card = document.createElement("div"); card.className="card";
+    const card = document.createElement("div");
+    card.className="card";
+
     const img = document.createElement("img");
     img.src=`https://archive.org/services/img/${item.identifier}`;
 
-    // 🔥 CLICK ABRE player.html
     img.onclick=()=>{
       window.location.href = `player.html?id=${item.identifier}`;
     };
 
-    const n = document.createElement("div"); n.className="numero"; n.innerText=numero;
-    card.appendChild(img); card.appendChild(n);
+    const n = document.createElement("div");
+    n.className="numero";
+    n.innerText=numero;
+
+    card.appendChild(img);
+    card.appendChild(n);
 
     if(item.section==="nuevo") c1.appendChild(card);
     if(item.section==="programas") c2.appendChild(card);
