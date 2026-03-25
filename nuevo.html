@@ -6,7 +6,6 @@
 <title>Nuevo Programa - Buckle Music</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 <style>
-/* Copia todo el CSS del index.html */
 body{margin:0;font-family:'Orbitron',sans-serif;color:white;background:url("fondo.jpg") center/cover fixed;scroll-behavior:smooth;}
 body::before{content:"";position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.6);z-index:0;}
 #splash{position:fixed;width:100%;height:100%;background:black;display:flex;flex-direction:column;justify-content:center;align-items:center;z-index:9999;}
@@ -29,9 +28,8 @@ h2::after{content:"";display:block;width:50px;height:3px;margin:8px auto 0;backg
 .carousel{display:flex;overflow-x:auto;gap:18px;padding-left:20px;scrollbar-width:none;}
 .carousel::-webkit-scrollbar{display:none;}
 .card{position:relative;}
-.card img{width:150px;border-radius:12px;cursor:pointer;transition:0.3s;}
+.card img{width:220px;border-radius:12px;cursor:pointer;transition:0.3s;}
 .card img:hover{transform:scale(1.05);}
-#c1 .card img{width:220px;}
 .numero{position:absolute;top:6px;left:6px;background:black;color:#00ffe0;padding:4px 8px;border-radius:6px;}
 </style>
 </head>
@@ -87,7 +85,7 @@ setTimeout(()=>{
   topbar.style.display="flex";
 },1500);
 
-const dataSection = "nuevo"; // Cambiar según la página
+const dataSection = "nuevo";
 const carousel = document.getElementById("c1");
 
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
