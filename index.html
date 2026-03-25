@@ -4,181 +4,151 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buckle Music</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#000000">
 
 <style>
 body{
   margin:0;
-  font-family:'Orbitron', sans-serif;
+  font-family:sans-serif;
+  background:#000;
   color:white;
-  background:url("fondo.jpg") center/cover fixed;
-  scroll-behavior:smooth;
-}
-body::before{
-  content:"";
-  position:fixed;
-  top:0; left:0; right:0; bottom:0;
-  background:rgba(0,0,0,0.65);
-  z-index:0;
 }
 
 /* TOPBAR */
 .topbar{
-  position:fixed; top:0; left:0; width:100%; height:55px;
-  display:flex; justify-content:space-between; align-items:center;
-  padding:0 15px; background:rgba(0,0,0,0.6); backdrop-filter:blur(10px); z-index:1000;
+  position:fixed;
+  top:0;
+  width:100%;
+  height:55px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.8);
+  z-index:1000;
 }
-.topbar-left{display:flex; align-items:center;}
-.topbar-left img{width:35px; margin-right:8px;}
-.title{color:#00ffe0; font-size:16px;}
-.topbar .social{
-  display:flex; justify-content:center; align-items:center; gap:12px; flex:1;
-}
-.topbar .social img{width:22px; height:22px; object-fit:contain;}
 
-/* SIDEBAR */
+/* MENU */
+.menu-btn{
+  position:fixed;
+  top:15px;
+  left:15px;
+  font-size:25px;
+  z-index:1001;
+  cursor:pointer;
+}
+
 .sidebar{
-  position:fixed; top:0; left:-260px; width:260px; height:100%;
-  background:rgba(0,0,0,0.4); backdrop-filter:blur(15px);
-  padding:20px; transition:0.4s; z-index:999;
+  position:fixed;
+  left:-260px;
+  top:0;
+  width:260px;
+  height:100%;
+  background:black;
+  padding:20px;
+  transition:0.3s;
+  z-index:999;
 }
+
 .sidebar a{
-  display:block; color:white; padding:14px; text-decoration:none; border-radius:8px; margin-bottom:8px;
+  display:block;
+  padding:12px;
+  color:white;
+  text-decoration:none;
 }
-.sidebar a:hover{background:#00ffe0;color:black;}
-.overlay-menu{
-  position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); display:none; z-index:998;
-}
-.menu-btn{position:fixed; top:15px; left:15px; font-size:26px; cursor:pointer; z-index:1001;}
 
-/* SECCIONES */
-.section{padding:10px 20px; margin-top:65px;}
+.sidebar a:hover{
+  background:#00ffe0;
+  color:black;
+}
+
+/* CONTENIDO */
+.section{
+  padding:70px 15px 15px;
+}
+
 h2{
-  color:#00ffe0;
   text-align:center;
-  font-size:32px;
-  margin-bottom:10px;
-  text-shadow:0 0 15px #00ffe0;
+  color:#00ffe0;
 }
 
-/* CARRUSEL */
+/* LISTA VERTICAL */
 .carousel{
-  display:flex; overflow-x:auto; gap:18px; padding-left:20px;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
 }
-.card{position:relative;}
+
+.card{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#111;
+  padding:8px;
+  border-radius:10px;
+}
+
 .card img{
-  width:160px; border-radius:12px; cursor:pointer; transition:0.3s;
+  width:90px;
+  border-radius:10px;
+  cursor:pointer;
 }
-.card img:hover{transform:scale(1.05);}
-.numero{position:absolute; top:6px; left:6px; background:black; color:#00ffe0; padding:4px 8px; border-radius:6px;}
 </style>
 </head>
 
 <body>
 
 <!-- TOPBAR -->
-<div class="topbar">
-  <div class="topbar-left">
-    <img src="logo-512.png">
-    <span class="title">Buckle Music</span>
-  </div>
-  <div class="social">
-    <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
-    <a href="https://www.instagram.com/bucklemusic" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
-    <a href="https://www.facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
-    <a href="https://go.ivoox.com/sq/2535828" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png"></a>
-  </div>
-</div>
+<div class="topbar">Buckle Music</div>
 
-<!-- SIDEBAR -->
-<div class="overlay-menu" id="overlay" onclick="closeMenu()"></div>
-<div class="sidebar" id="sidebar">
-  <a href="#top">Inicio</a>
-  <a href="index.html#nuevo">Nuevo Programa</a>
-  <a href="programas.html">Programas Buckle</a>
-  <a href="mix.html">In The Mix</a>
-  <a href="reserva.html">Gran Reserva</a>
-  <a href="index.html#pro">Producciones</a>
-  <a href="index.html#contacto">Contacto</a>
-</div>
+<!-- BOTÓN MENU -->
 <div class="menu-btn" onclick="openMenu()">☰</div>
 
-<!-- INICIO -->
-<div class="section" id="top" style="text-align:center; margin-top:120px;">
-  <img src="logo-512.png" style="width:180px; margin-bottom:15px;">
-  <h2 style="color:#00ffe0; font-size:36px;">Buckle Music</h2>
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <a href="index.html">🏠 Inicio</a>
+  <a href="#nuevo">Nuevo Programa</a>
+  <a href="mix.html">In The Mix</a>
+  <a href="reserva.html">Gran Reserva</a>
 </div>
 
-<!-- NUEVO PROGRAMA -->
-<h2 id="nuevo">Nuevo Programa</h2>
-<div class="carousel" id="c1"></div>
-
-<!-- PROGRAMAS -->
-<h2 id="programas">Programas Buckle</h2>
-<div class="carousel" id="c2"></div>
-
-<!-- MIX -->
-<h2 id="mix">In The Mix</h2>
-<div class="carousel" id="c3"></div>
-
-<!-- RESERVA -->
-<h2 id="reserva">Gran Reserva</h2>
-<div class="carousel" id="c4"></div>
-
-<!-- PRODUCCIONES -->
-<h2 id="pro">Producciones</h2>
-<div class="carousel" id="c5"></div>
-
-<!-- CONTACTO -->
-<h2 id="contacto">Contacto</h2>
-<p style="text-align:center; padding:15px; font-size:18px;">📧 bucklemusicpodcast@gmail.com</p>
-
-<!-- PLAYER -->
-<div class="player-modal" id="modal">
-  <span class="close" onclick="cerrar()">✖</span>
-  <img id="cover">
-  <iframe id="frame"></iframe>
+<!-- CONTENIDO -->
+<div class="section">
+  <h2 id="nuevo">Nuevo Programa</h2>
+  <div id="c1" class="carousel"></div>
 </div>
 
 <script>
-/* MENU */
-const sidebar=document.getElementById("sidebar");
-const overlay=document.getElementById("overlay");
-function openMenu(){sidebar.style.left="0"; overlay.style.display="block";}
-function closeMenu(){sidebar.style.left="-260px"; overlay.style.display="none";}
+const sidebar = document.getElementById("sidebar");
 
-/* PLAYER */
-function play(id){
-  modal.style.display="flex";
-  cover.src=`https://archive.org/services/img/${id}`;
-  frame.src=`https://archive.org/embed/${id}`;
+function openMenu(){
+  sidebar.style.left = "0";
 }
-function cerrar(){ modal.style.display="none"; frame.src=""; }
 
-/* FETCH */
-fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
+/* FETCH Y CARÁTULAS */
+fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music&output=json`)
 .then(r=>r.json())
 .then(data=>{
-  data.response.docs.sort((a,b)=>{
-    const getNum = str=>{ const m=str.match(/\d+/g); return m?parseInt(m[m.length-1]):0;};
-    return getNum(b.identifier)-getNum(a.identifier);
-  });
   data.response.docs.forEach(item=>{
-    const match=item.identifier.match(/\d+/g);
-    const numero=match?match[match.length-1]:"";
-    const card=document.createElement("div"); card.className="card";
-    const img=document.createElement("img"); img.src=`https://archive.org/services/img/${item.identifier}`;
-    img.onclick=()=>play(item.identifier);
-    const num=document.createElement("div"); num.className="numero"; num.innerText=numero;
-    card.appendChild(img); card.appendChild(num);
-    const s=item.section;
-    if(s==="nuevo") c1.appendChild(card);
-    else if(s==="programas") c2.appendChild(card);
-    else if(s==="mix") c3.appendChild(card);
-    else if(s==="reserva") c4.appendChild(card);
-    else if(s==="producciones") c5.appendChild(card);
+
+    const card = document.createElement("div");
+    card.className="card";
+
+    const img = document.createElement("img");
+    img.src = `https://archive.org/services/img/${item.identifier}`;
+
+    // 🔥 CAMBIO CLAVE → ABRE PLAYER
+    img.onclick = ()=>{
+      window.location.href = `player.html?id=${item.identifier}`;
+    };
+
+    card.appendChild(img);
+    c1.appendChild(card);
+
   });
 });
 </script>
+
 </body>
 </html>
