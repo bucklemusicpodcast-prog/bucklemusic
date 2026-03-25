@@ -23,13 +23,13 @@ body::before{content:"";position:fixed;top:0;left:0;right:0;bottom:0;background:
 .section.active{opacity:1;}
 h2{color:#00ffe0;font-size:26px;text-align:center;margin:20px 0 15px;letter-spacing:1px;text-shadow:0 0 5px #00ffe0,0 0 10px #00ffe0;}
 h2::after{content:"";display:block;width:50px;height:3px;margin:8px auto 0;background:#00ffe0;box-shadow:0 0 8px #00ffe0;}
-.carousel{display:flex;overflow-x:auto;gap:18px;padding-left:20px;scrollbar-width:none;}
+.carousel{display:flex;justify-content:center;overflow-x:auto;gap:18px;padding-left:20px;scrollbar-width:none;}
 .carousel::-webkit-scrollbar{display:none;}
 .card{position:relative;}
 .card img{width:220px;border-radius:12px;cursor:pointer;transition:0.3s;}
 .card img:hover{transform:scale(1.05);}
 .numero{position:absolute;top:6px;left:6px;background:black;color:#00ffe0;padding:4px 8px;border-radius:6px;}
-.contacto{margin:30px 0;text-align:center;font-size:18px;color:#00ffe0;}
+.contacto{margin:20px 0 40px;text-align:center;font-size:18px;color:#00ffe0;}
 .contacto span{display:block;margin-top:8px;font-size:16px;color:white;}
 </style>
 </head>
@@ -62,6 +62,10 @@ h2::after{content:"";display:block;width:50px;height:3px;margin:8px auto 0;backg
   <div class="section active" id="nuevo">
     <h2>Nuevo Programa</h2>
     <div class="carousel" id="c1"></div>
+    <div class="contacto">
+      📧 bucklemusicpodcast@gmail.com
+      <span>Usa el menú para navegar entre secciones</span>
+    </div>
   </div>
 
   <div class="section" id="programas">
@@ -83,22 +87,15 @@ h2::after{content:"";display:block;width:50px;height:3px;margin:8px auto 0;backg
     <h2>Producciones</h2>
     <div class="carousel" id="c5"></div>
   </div>
-
-  <div class="contacto" id="contacto">
-    📧 bucklemusicpodcast@gmail.com
-    <span>Usa el menú para navegar entre secciones</span>
-  </div>
 </div>
 
 <script>
 const sidebar = document.getElementById("sidebar");
 const overlay = document.getElementById("overlay");
 
-// Abrir/cerrar menú
 function openMenu(){ sidebar.style.left="0"; overlay.style.display="block"; }
 function closeMenu(){ sidebar.style.left="-260px"; overlay.style.display="none"; }
 
-// Función de transición SPA
 const sections = document.querySelectorAll('.section');
 sidebar.querySelectorAll('a[data-section]').forEach(link=>{
   link.addEventListener('click', e=>{
@@ -110,7 +107,7 @@ sidebar.querySelectorAll('a[data-section]').forEach(link=>{
   });
 });
 
-// Función para cargar carátulas dinámicamente
+// Cargar carátulas de Archive.org
 const sectionIds = ['nuevo','programas','mix','reserva','producciones'];
 sectionIds.forEach(sec=>{
   const carousel = document.getElementById('c'+(sectionIds.indexOf(sec)+1));
