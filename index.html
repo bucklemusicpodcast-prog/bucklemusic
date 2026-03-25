@@ -48,7 +48,7 @@ body::before{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 25px; /* más margen lateral */
+  padding:0 25px;
   background:rgba(0,0,0,0.6);
   backdrop-filter:blur(10px);
   z-index:1000;
@@ -124,25 +124,28 @@ body::before{
   margin-top:15px;
 }
 h2{
-  color:#00ffe0;
-  font-size:34px;
+  color:#00ffe0;            /* color base */
+  font-size:28px;            /* tamaño más normal */
   text-align:center;
-  margin:25px 0 15px;
-  letter-spacing:2px;
+  margin:20px 0 15px;
+  letter-spacing:1px;
   text-transform:uppercase;
+
+  /* efecto glow / neón */
   text-shadow:
     0 0 5px #00ffe0,
     0 0 10px #00ffe0,
+    0 0 15px #00ffe0,
     0 0 20px #00ffe0;
 }
 h2::after{
   content:"";
   display:block;
-  width:60px;
+  width:50px;
   height:3px;
-  margin:10px auto 0;
+  margin:8px auto 0;
   background:#00ffe0;
-  box-shadow:0 0 10px #00ffe0;
+  box-shadow:0 0 8px #00ffe0;
 }
 
 /* CARRUSEL */
