@@ -48,7 +48,7 @@ body::before{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 15px;
+  padding:0 25px; /* más margen lateral */
   background:rgba(0,0,0,0.6);
   backdrop-filter:blur(10px);
   z-index:1000;
@@ -59,11 +59,17 @@ body::before{
   align-items:center;
 }
 .topbar-left img{width:35px; margin-right:8px;}
-.title{color:#00ffe0; font-size:16px;}
+.title{
+  color:#00ffe0;
+  font-size:18px;
+  letter-spacing:1px;
+  text-shadow:0 0 8px #00ffe0;
+}
 
 .topbar .social{
   display:flex;
-  gap:10px;
+  gap:12px;
+  margin-right:10px;
 }
 .topbar .social img{
   width:22px; height:22px;
@@ -119,9 +125,24 @@ body::before{
 }
 h2{
   color:#00ffe0;
-  font-size:30px;
+  font-size:34px;
   text-align:center;
-  text-shadow:0 0 10px #00ffe0;
+  margin:25px 0 15px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  text-shadow:
+    0 0 5px #00ffe0,
+    0 0 10px #00ffe0,
+    0 0 20px #00ffe0;
+}
+h2::after{
+  content:"";
+  display:block;
+  width:60px;
+  height:3px;
+  margin:10px auto 0;
+  background:#00ffe0;
+  box-shadow:0 0 10px #00ffe0;
 }
 
 /* CARRUSEL */
