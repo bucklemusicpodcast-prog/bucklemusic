@@ -17,7 +17,7 @@ body::before{
   content:"";
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.65);
+  background:rgba(0,0,0,0.7);
 }
 
 /* SPLASH */
@@ -36,7 +36,6 @@ body::before{
   margin-top:12px;
   color:#00ffe0;
   font-size:24px;
-  letter-spacing:2px;
 }
 
 /* TOPBAR */
@@ -49,24 +48,20 @@ body::before{
   align-items:center;
   justify-content:space-between;
   padding:0 18px;
-  background:rgba(0,0,0,0.7);
+  background:rgba(0,0,0,0.8);
   backdrop-filter:blur(10px);
   z-index:1000;
 }
 .topbar-left{display:flex;align-items:center;}
 .topbar-left img{width:30px;margin-right:8px;}
-.title{
-  color:#00ffe0;
-  font-size:15px;
-  letter-spacing:1px;
-}
+.title{color:#00ffe0;font-size:16px;}
 
 .social{
   display:flex;
-  gap:10px;
-  margin-right:18px;
+  gap:12px;
+  margin-right:15px;
 }
-.social img{width:20px;opacity:.85;}
+.social img{width:22px;}
 
 /* SIDEBAR */
 .sidebar{
@@ -74,11 +69,10 @@ body::before{
   left:-260px;
   width:260px;
   height:100%;
-  background:rgba(0,0,0,0.6);
+  background:rgba(0,0,0,0.7);
   backdrop-filter:blur(15px);
   padding:20px;
   transition:.4s;
-  z-index:999;
 }
 .sidebar a{
   display:block;
@@ -86,7 +80,6 @@ body::before{
   color:white;
   text-decoration:none;
   border-radius:8px;
-  font-size:14px;
 }
 .sidebar a:hover{
   background:#00ffe0;
@@ -96,52 +89,49 @@ body::before{
 .overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.6);
+  background:rgba(0,0,0,0.7);
   display:none;
-  z-index:998;
 }
 
 .menu-btn{
   position:fixed;
   top:14px;
   left:15px;
-  font-size:24px;
-  z-index:1001;
+  font-size:26px;
   cursor:pointer;
+  z-index:1001;
 }
 
 /* SECCIONES */
 .section{
   display:none;
-  padding:70px 15px 10px;
+  padding:70px 15px 20px;
 }
 .section.active{display:block;}
 
 h2{
   text-align:center;
   color:#00ffe0;
-  font-size:20px;
+  font-size:22px;
   margin:10px 0;
-  text-shadow:0 0 6px #00ffe0;
+  text-shadow:0 0 10px #00ffe0;
 }
 
 /* CARRUSEL */
 .carousel{
   display:flex;
   justify-content:center;
-  gap:14px;
+  gap:15px;
   overflow-x:auto;
 }
 .carousel::-webkit-scrollbar{display:none;}
 
 .card{position:relative;}
 .card img{
-  width:190px;
+  width:200px;
   border-radius:12px;
   cursor:pointer;
-  transition:.3s;
 }
-.card img:hover{transform:scale(1.05);}
 
 /* NUMERO */
 .numero{
@@ -152,28 +142,37 @@ h2{
   color:#00ffe0;
   padding:3px 6px;
   border-radius:5px;
-  font-size:12px;
 }
 
-/* CONTACTO PRO */
+/* CONTACTO ULTRA VISIBLE */
 .contacto{
-  text-align:center;
-  margin-top:18px;
+  margin-top:25px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
 }
 
+/* EMAIL CLICKABLE */
 .contacto-email{
-  color:#00ffe0;
+  background:#00ffe0;
+  color:black;
+  padding:12px 18px;
+  border-radius:12px;
   font-size:16px;
   font-weight:700;
-  text-shadow:0 0 6px #00ffe0;
+  box-shadow:0 0 15px #00ffe0;
+  text-decoration:none;
+  display:inline-block;
 }
 
+/* TEXTO */
 .contacto-texto{
-  display:block;
-  margin-top:6px;
+  background:rgba(255,255,255,0.1);
+  padding:8px 14px;
+  border-radius:10px;
   font-size:14px;
-  color:#ccc;
-  letter-spacing:1px;
+  color:white;
 }
 </style>
 </head>
@@ -223,8 +222,10 @@ h2{
   <div class="carousel" id="c1"></div>
 
   <div class="contacto">
-    <div class="contacto-email">📧 bucklemusicpodcast@gmail.com</div>
-    <span class="contacto-texto">Usa el menú para navegar</span>
+    <a href="mailto:bucklemusicpodcast@gmail.com" class="contacto-email">
+      📧 bucklemusicpodcast@gmail.com
+    </a>
+    <div class="contacto-texto">Usa el menú para navegar</div>
   </div>
 </div>
 
@@ -234,8 +235,10 @@ h2{
   <div class="carousel" id="c2"></div>
 
   <div class="contacto">
-    <div class="contacto-email">📧 bucklemusicpodcast@gmail.com</div>
-    <span class="contacto-texto">Contacto</span>
+    <a href="mailto:bucklemusicpodcast@gmail.com" class="contacto-email">
+      📧 bucklemusicpodcast@gmail.com
+    </a>
+    <div class="contacto-texto">Contacto</div>
   </div>
 </div>
 
@@ -276,7 +279,7 @@ function closeMenu(){
   overlay.style.display="none";
 }
 
-// CAMBIO SECCIONES
+// SECCIONES
 const sections=document.querySelectorAll(".section");
 document.querySelectorAll(".sidebar a").forEach(link=>{
   link.onclick=(e)=>{
