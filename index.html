@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buckle Music</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -62,12 +63,10 @@ body::before{
 
 .topbar .social{
   display:flex;
-  align-items:center;
-  justify-content:center;
   gap:10px;
 }
 .topbar .social img{
-  width:22px; height:22px; object-fit:contain; flex-shrink:0;
+  width:22px; height:22px;
 }
 
 /* SIDEBAR */
@@ -122,7 +121,6 @@ h2{
   color:#00ffe0;
   font-size:30px;
   text-align:center;
-  margin-bottom:8px;
   text-shadow:0 0 10px #00ffe0;
 }
 
@@ -132,7 +130,9 @@ h2{
   overflow-x:auto;
   gap:18px;
   padding-left:20px;
+  scrollbar-width:none;
 }
+.carousel::-webkit-scrollbar{display:none;}
 
 /* CARDS */
 .card{position:relative;}
@@ -140,7 +140,9 @@ h2{
   width:150px;
   border-radius:12px;
   cursor:pointer;
+  transition:0.3s;
 }
+.card img:hover{transform:scale(1.05);}
 #c1 .card img{width:220px;}
 
 .numero{
@@ -150,9 +152,6 @@ h2{
   padding:4px 8px;
   border-radius:6px;
 }
-
-/* PLAYER MODAL NO USAMOS */
-
 </style>
 </head>
 
@@ -174,7 +173,7 @@ h2{
   <div class="social">
     <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
     <a href="https://www.instagram.com/bucklemusic" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
-    <a href="https://www.facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
     <a href="https://go.ivoox.com/sq/2535828" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png"></a>
   </div>
 </div>
@@ -183,16 +182,11 @@ h2{
 <div class="overlay-menu" id="overlay" onclick="closeMenu()"></div>
 <div class="sidebar" id="sidebar">
   <a href="index.html">Inicio</a>
-  <a href="index.html#nuevo">Nuevo Programa</a>
-  <a href="programas.html">Programas Buckle</a>
-  <a href="mix.html">In The Mix</a>
-  <a href="reserva.html">Gran Reserva</a>
-  <a href="index.html#pro">Producciones</a>
-  <a href="index.html#contacto">Contacto</a>
+  <a href="#nuevo">Nuevo Programa</a>
 </div>
 <div class="menu-btn" onclick="openMenu()">☰</div>
 
-<!-- CONTENIDO PRINCIPAL -->
+<!-- CONTENIDO -->
 <div id="mainContent" style="display:none;">
 
 <div class="section">
@@ -205,26 +199,6 @@ h2{
   <div class="carousel" id="c2"></div>
 </div>
 
-<div class="section">
-  <h2>In The Mix</h2>
-  <div class="carousel" id="c3"></div>
-</div>
-
-<div class="section">
-  <h2>Gran Reserva</h2>
-  <div class="carousel" id="c4"></div>
-</div>
-
-<div class="section">
-  <h2 id="pro">Producciones</h2>
-  <div class="carousel" id="c5"></div>
-</div>
-
-<div class="section">
-  <h2 id="contacto">Contacto</h2>
-  <p style="text-align:center;">📧 bucklemusicpodcast@gmail.com</p>
-</div>
-
 </div>
 
 <script>
@@ -232,40 +206,53 @@ const sidebar = document.getElementById("sidebar");
 const overlay = document.getElementById("overlay");
 const topbar = document.getElementById("topbar");
 const mainContent = document.getElementById("mainContent");
+const splash = document.getElementById("splash");
 
+// carruseles
+const c1 = document.getElementById("c1");
+const c2 = document.getElementById("c2");
+
+// menu
 function openMenu(){sidebar.style.left="0";overlay.style.display="block";}
 function closeMenu(){sidebar.style.left="-260px";overlay.style.display="none";}
 
-/* SPLASH */
+// splash
 setTimeout(()=>{
   splash.style.display="none";
   topbar.style.display="flex";
   mainContent.style.display="block";
 },1500);
 
-/* FETCH + CARÁTULAS */
+// FETCH
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
 .then(r=>r.json())
 .then(data=>{
   data.response.docs.forEach(item=>{
     const numero = item.identifier.match(/\d+/g)?.pop()||"";
-    const card = document.createElement("div"); card.className="card";
+
+    const card = document.createElement("div");
+    card.className="card";
+
     const img = document.createElement("img");
     img.src=`https://archive.org/services/img/${item.identifier}`;
+    img.loading="lazy";
 
-    // 🔥 CLICK ABRE player.html
+    // 🔥 FIX CLICK
     img.onclick=()=>{
-      window.location.href = `player.html?id=${item.identifier}`;
+      const id = encodeURIComponent(item.identifier);
+      window.location.href = `player.html?id=${id}`;
     };
 
-    const n = document.createElement("div"); n.className="numero"; n.innerText=numero;
-    card.appendChild(img); card.appendChild(n);
+    const n = document.createElement("div");
+    n.className="numero";
+    n.innerText=numero;
 
+    card.appendChild(img);
+    card.appendChild(n);
+
+    // distribución
     if(item.section==="nuevo") c1.appendChild(card);
-    if(item.section==="programas") c2.appendChild(card);
-    if(item.section==="mix") c3.appendChild(card);
-    if(item.section==="reserva") c4.appendChild(card);
-    if(item.section==="producciones") c5.appendChild(card);
+    else c2.appendChild(card); // fallback
   });
 });
 </script>
