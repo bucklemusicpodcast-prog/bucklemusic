@@ -8,67 +8,70 @@
 <style>
 body{
   margin:0;
+  font-family:Arial;
   background:black;
   color:white;
-  font-family:sans-serif;
   display:flex;
-  flex-direction:column;
   justify-content:center;
   align-items:center;
   height:100vh;
+}
+
+.player{
   text-align:center;
 }
 
 img{
   width:250px;
-  border-radius:15px;
+  border-radius:12px;
   margin-bottom:20px;
 }
 
-audio{
-  width:90%;
-}
-
-a{
-  margin-top:20px;
-  color:#00ffe0;
-  text-decoration:none;
+button{
+  padding:10px 20px;
+  font-size:18px;
+  background:#00ffe0;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
 }
 </style>
 </head>
 
 <body>
 
-<img id="cover">
-<h2 id="title"></h2>
-
-<audio id="audio" controls autoplay></audio>
-
-<a href="index.html">⬅ Volver</a>
+<div class="player">
+  <img id="cover">
+  <h2 id="title"></h2>
+  <audio id="audio" controls></audio>
+  <br><br>
+  <button onclick="history.back()">⬅ Volver</button>
+</div>
 
 <script>
+// obtener id
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
+// elementos
 const audio = document.getElementById("audio");
 const cover = document.getElementById("cover");
 const title = document.getElementById("title");
 
-/* Cargar contenido */
+// portada
 cover.src = `https://archive.org/services/img/${id}`;
-audio.src = `https://archive.org/download/${id}/${id}.mp3`;
 title.innerText = id;
 
-/* Guardar progreso */
-audio.addEventListener("timeupdate",()=>{
-  localStorage.setItem("time_"+id, audio.currentTime);
-});
+// 🔥 buscar mp3 automáticamente
+fetch(`https://archive.org/metadata/${id}`)
+.then(res=>res.json())
+.then(data=>{
+  const file = data.files.find(f => f.name.endsWith(".mp3"));
 
-/* Recuperar progreso */
-audio.addEventListener("loadedmetadata",()=>{
-  const t = localStorage.getItem("time_"+id);
-  if(t){
-    audio.currentTime = t;
+  if(file){
+    audio.src = `https://archive.org/download/${id}/${file.name}`;
+  } else {
+    title.innerText = "❌ No se encontró audio";
   }
 });
 </script>
