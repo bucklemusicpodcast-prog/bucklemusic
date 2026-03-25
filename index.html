@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buckle Music</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
@@ -127,10 +128,20 @@ h2{
 .carousel::-webkit-scrollbar{display:none;}
 
 .card{position:relative;}
+
 .card img{
-  width:200px;
+  width:160px;
   border-radius:12px;
   cursor:pointer;
+  transition:.3s;
+}
+.card img:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 15px #00ffe0;
+}
+
+@media (min-width:768px){
+  .card img{width:220px;}
 }
 
 /* NUMERO */
@@ -198,7 +209,6 @@ h2{
 <!-- CONTENIDO -->
 <div id="app">
 
-<!-- INICIO -->
 <div class="section active" id="inicio">
   <h2>Nuevo Programa</h2>
   <div class="carousel" id="c1"></div>
@@ -209,30 +219,11 @@ h2{
   </div>
 </div>
 
-<div class="section" id="nuevo">
-  <h2>Nuevo Programa</h2>
-  <div class="carousel" id="c2"></div>
-</div>
-
-<div class="section" id="programas">
-  <h2>Programas Buckle</h2>
-  <div class="carousel" id="c3"></div>
-</div>
-
-<div class="section" id="mix">
-  <h2>In The Mix</h2>
-  <div class="carousel" id="c4"></div>
-</div>
-
-<div class="section" id="reserva">
-  <h2>Gran Reserva</h2>
-  <div class="carousel" id="c5"></div>
-</div>
-
-<div class="section" id="producciones">
-  <h2>Producciones</h2>
-  <div class="carousel" id="c6"></div>
-</div>
+<div class="section" id="nuevo"><h2>Nuevo Programa</h2><div class="carousel" id="c2"></div></div>
+<div class="section" id="programas"><h2>Programas Buckle</h2><div class="carousel" id="c3"></div></div>
+<div class="section" id="mix"><h2>In The Mix</h2><div class="carousel" id="c4"></div></div>
+<div class="section" id="reserva"><h2>Gran Reserva</h2><div class="carousel" id="c5"></div></div>
+<div class="section" id="producciones"><h2>Producciones</h2><div class="carousel" id="c6"></div></div>
 
 </div>
 
@@ -258,6 +249,7 @@ document.querySelectorAll(".sidebar a").forEach(link=>{
     const id=link.dataset.sec;
     sections.forEach(s=>s.classList.remove("active"));
     document.getElementById(id).classList.add("active");
+    window.scrollTo({top:0,behavior:"smooth"});
     closeMenu();
   }
 });
@@ -267,36 +259,48 @@ setTimeout(()=>{
   document.getElementById("splash").style.display="none";
 },1200);
 
-// FETCH
+// MAPA SECCIONES
 const map=["nuevo","nuevo","programas","mix","reserva","producciones"];
 
-map.forEach((sec,i)=>{
-  const c=document.getElementById("c"+(i+1));
+// LOADER
+map.forEach((_,i)=>{
+  document.getElementById("c"+(i+1)).innerHTML="<p style='color:#00ffe0'>Cargando...</p>";
+});
 
-  fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
-  .then(r=>r.json())
-  .then(data=>{
-    data.response.docs.forEach(item=>{
-      if(item.section?.toLowerCase()===sec){
+// FETCH ÚNICO
+fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
+.then(r=>r.json())
+.then(data=>{
 
-        const num=item.identifier.match(/\d+/g)?.pop()||"";
-        const card=document.createElement("div");
-        card.className="card";
-
-        const img=document.createElement("img");
-        img.src=`https://archive.org/services/img/${item.identifier}`;
-        img.onclick=()=>window.location.href=`player.html?id=${item.identifier}`;
-
-        const n=document.createElement("div");
-        n.className="numero";
-        n.innerText=num;
-
-        card.appendChild(img);
-        card.appendChild(n);
-        c.appendChild(card);
-      }
-    });
+  map.forEach((_,i)=>{
+    document.getElementById("c"+(i+1)).innerHTML="";
   });
+
+  data.response.docs.forEach(item=>{
+    const sec=item.section?.trim().toLowerCase();
+    const index=map.indexOf(sec);
+
+    if(index!==-1){
+      const c=document.getElementById("c"+(index+1));
+
+      const num=item.identifier.match(/\d+/g)?.pop()||"";
+      const card=document.createElement("div");
+      card.className="card";
+
+      const img=document.createElement("img");
+      img.src=`https://archive.org/services/img/${item.identifier}`;
+      img.onclick=()=>window.location.href=`player.html?id=${item.identifier}`;
+
+      const n=document.createElement("div");
+      n.className="numero";
+      n.innerText=num;
+
+      card.appendChild(img);
+      card.appendChild(n);
+      c.appendChild(card);
+    }
+  });
+
 });
 </script>
 
