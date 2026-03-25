@@ -16,47 +16,6 @@ body{
   color:white;
 }
 
-/* 🔥 SPLASH PREMIUM */
-#splash{
-  position:fixed;
-  inset:0;
-  background:black;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  z-index:9999;
-  animation:fadeIn 1s ease;
-}
-
-#splash img{
-  width:140px;
-  animation:zoom 1.5s ease;
-}
-
-#splash h1{
-  color:#00ffe0;
-  margin-top:15px;
-  font-size:28px;
-  letter-spacing:2px;
-  animation:fadeText 2s ease;
-}
-
-@keyframes zoom{
-  0%{transform:scale(0.5);opacity:0;}
-  100%{transform:scale(1);opacity:1;}
-}
-
-@keyframes fadeText{
-  0%{opacity:0;}
-  100%{opacity:1;}
-}
-
-@keyframes fadeIn{
-  from{opacity:0;}
-  to{opacity:1;}
-}
-
 /* TOPBAR */
 .topbar{
   position:fixed;
@@ -109,24 +68,12 @@ body{
   padding:70px 15px 15px;
 }
 
-/* 🔥 TITULOS PRO */
 h2{
   text-align:center;
-  font-size:32px;
-  margin-bottom:10px;
-
-  background:linear-gradient(90deg,#00ffe0,#00aaff,#00ffe0);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-
-  text-shadow:
-    0 0 10px rgba(0,255,224,0.8),
-    0 0 20px rgba(0,170,255,0.6);
-
-  letter-spacing:1px;
+  color:#00ffe0;
 }
 
-/* LISTA */
+/* LISTA VERTICAL */
 .carousel{
   display:flex;
   flex-direction:column;
@@ -152,18 +99,13 @@ h2{
 
 <body>
 
-<!-- 🔥 SPLASH -->
-<div id="splash">
-  <img src="logo-512.png">
-  <h1>Buckle Music</h1>
-</div>
-
 <!-- TOPBAR -->
 <div class="topbar">Buckle Music</div>
 
-<!-- MENU -->
+<!-- BOTÓN MENU -->
 <div class="menu-btn" onclick="openMenu()">☰</div>
 
+<!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
   <a href="index.html">🏠 Inicio</a>
   <a href="#nuevo">Nuevo Programa</a>
@@ -181,31 +123,24 @@ h2{
 const sidebar = document.getElementById("sidebar");
 
 function openMenu(){
-  sidebar.style.left="0";
+  sidebar.style.left = "0";
 }
 
-/* 🔥 SPLASH */
-setTimeout(()=>{
-  const splash = document.getElementById("splash");
-  splash.style.opacity="0";
-  splash.style.transition="0.5s";
-  setTimeout(()=>{ splash.style.display="none"; },500);
-},1800);
-
-/* FETCH */
+/* FETCH Y CARÁTULAS */
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music&output=json`)
 .then(r=>r.json())
 .then(data=>{
   data.response.docs.forEach(item=>{
 
-    const card=document.createElement("div");
+    const card = document.createElement("div");
     card.className="card";
 
-    const img=document.createElement("img");
-    img.src=`https://archive.org/services/img/${item.identifier}`;
+    const img = document.createElement("img");
+    img.src = `https://archive.org/services/img/${item.identifier}`;
 
-    img.onclick=()=>{
-      window.location.href=`player.html?id=${item.identifier}`;
+    // 🔥 CAMBIO CLAVE → ABRE PLAYER
+    img.onclick = ()=>{
+      window.location.href = `player.html?id=${item.identifier}`;
     };
 
     card.appendChild(img);
