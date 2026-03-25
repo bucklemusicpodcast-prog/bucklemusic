@@ -17,7 +17,7 @@ body::before{
   content:"";
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.7);
+  background:rgba(0,0,0,0.65);
 }
 
 /* SPLASH */
@@ -36,6 +36,7 @@ body::before{
   margin-top:12px;
   color:#00ffe0;
   font-size:24px;
+  letter-spacing:2px;
 }
 
 /* TOPBAR */
@@ -48,20 +49,24 @@ body::before{
   align-items:center;
   justify-content:space-between;
   padding:0 18px;
-  background:rgba(0,0,0,0.8);
+  background:rgba(0,0,0,0.7);
   backdrop-filter:blur(10px);
   z-index:1000;
 }
 .topbar-left{display:flex;align-items:center;}
 .topbar-left img{width:30px;margin-right:8px;}
-.title{color:#00ffe0;font-size:16px;}
+.title{
+  color:#00ffe0;
+  font-size:15px;
+  letter-spacing:1px;
+}
 
 .social{
   display:flex;
-  gap:12px;
-  margin-right:15px;
+  gap:10px;
+  margin-right:18px;
 }
-.social img{width:22px;}
+.social img{width:20px;opacity:.85;}
 
 /* SIDEBAR */
 .sidebar{
@@ -69,10 +74,11 @@ body::before{
   left:-260px;
   width:260px;
   height:100%;
-  background:rgba(0,0,0,0.7);
+  background:rgba(0,0,0,0.6);
   backdrop-filter:blur(15px);
   padding:20px;
   transition:.4s;
+  z-index:999;
 }
 .sidebar a{
   display:block;
@@ -80,6 +86,7 @@ body::before{
   color:white;
   text-decoration:none;
   border-radius:8px;
+  font-size:14px;
 }
 .sidebar a:hover{
   background:#00ffe0;
@@ -89,48 +96,52 @@ body::before{
 .overlay{
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.7);
+  background:rgba(0,0,0,0.6);
   display:none;
+  z-index:998;
 }
 
 .menu-btn{
   position:fixed;
   top:14px;
   left:15px;
-  font-size:26px;
-  cursor:pointer;
+  font-size:24px;
   z-index:1001;
+  cursor:pointer;
 }
 
 /* SECCIONES */
 .section{
   display:none;
-  padding:70px 15px 20px;
+  padding:70px 15px 10px;
 }
 .section.active{display:block;}
 
 h2{
   text-align:center;
   color:#00ffe0;
-  font-size:22px;
+  font-size:20px;
   margin:10px 0;
-  text-shadow:0 0 10px #00ffe0;
+  text-shadow:0 0 6px #00ffe0;
 }
 
 /* CARRUSEL */
 .carousel{
   display:flex;
   justify-content:center;
-  gap:15px;
+  gap:14px;
   overflow-x:auto;
 }
 .carousel::-webkit-scrollbar{display:none;}
 
+.card{position:relative;}
 .card img{
-  width:200px;
+  width:190px;
   border-radius:12px;
   cursor:pointer;
+  transition:.3s;
 }
+.card img:hover{transform:scale(1.05);}
 
 /* NUMERO */
 .numero{
@@ -141,35 +152,28 @@ h2{
   color:#00ffe0;
   padding:3px 6px;
   border-radius:5px;
+  font-size:12px;
 }
 
-/* 🔥 CONTACTO ULTRA VISIBLE */
+/* CONTACTO PRO */
 .contacto{
-  margin-top:25px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
+  text-align:center;
+  margin-top:18px;
 }
 
-/* EMAIL */
 .contacto-email{
-  background:#00ffe0;
-  color:black;
-  padding:12px 18px;
-  border-radius:12px;
+  color:#00ffe0;
   font-size:16px;
   font-weight:700;
-  box-shadow:0 0 15px #00ffe0;
+  text-shadow:0 0 6px #00ffe0;
 }
 
-/* TEXTO */
 .contacto-texto{
-  background:rgba(255,255,255,0.1);
-  padding:8px 14px;
-  border-radius:10px;
+  display:block;
+  margin-top:6px;
   font-size:14px;
-  color:white;
+  color:#ccc;
+  letter-spacing:1px;
 }
 </style>
 </head>
@@ -220,7 +224,7 @@ h2{
 
   <div class="contacto">
     <div class="contacto-email">📧 bucklemusicpodcast@gmail.com</div>
-    <div class="contacto-texto">Usa el menú para navegar</div>
+    <span class="contacto-texto">Usa el menú para navegar</span>
   </div>
 </div>
 
@@ -231,7 +235,7 @@ h2{
 
   <div class="contacto">
     <div class="contacto-email">📧 bucklemusicpodcast@gmail.com</div>
-    <div class="contacto-texto">Contacto</div>
+    <span class="contacto-texto">Contacto</span>
   </div>
 </div>
 
@@ -272,7 +276,7 @@ function closeMenu(){
   overlay.style.display="none";
 }
 
-// SECCIONES
+// CAMBIO SECCIONES
 const sections=document.querySelectorAll(".section");
 document.querySelectorAll(".sidebar a").forEach(link=>{
   link.onclick=(e)=>{
