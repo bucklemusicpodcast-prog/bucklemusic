@@ -2,79 +2,125 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Mix</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>In The Mix - Buckle Music</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
-body{background:black;color:white;font-family:sans-serif;}
-.card{display:flex;margin:10px;background:#111;padding:8px;}
-.card img{width:90px;border-radius:10px;}
+body{
+  margin:0;
+  font-family:'Orbitron', sans-serif;
+  color:white;
+  background:url("fondo.jpg") center/cover fixed;
+}
+body::before{
+  content:"";
+  position:fixed; top:0; left:0; right:0; bottom:0;
+  background:rgba(0,0,0,0.6); z-index:0;
+}
+
+/* TOPBAR */
+.topbar{
+  position:fixed; top:0; left:0; width:100%; height:55px;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:0 15px;
+  background:rgba(0,0,0,0.6); backdrop-filter:blur(10px);
+  z-index:1000;
+}
+.topbar-left{display:flex; align-items:center;}
+.topbar-left img{width:35px; margin-right:8px;}
+.title{color:#00ffe0; font-size:16px;}
+.topbar .social{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+}
+.topbar .social img{width:22px; height:22px; object-fit:contain; flex-shrink:0;}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed; top:0; left:-260px; width:260px; height:100%;
+  background:rgba(0,0,0,0.4); backdrop-filter:blur(15px);
+  padding:20px; transition:0.4s; z-index:999;
+}
+.sidebar a{
+  display:block; color:white; padding:14px; text-decoration:none;
+  border-radius:8px; margin-bottom:8px;
+}
+.sidebar a:hover{background:#00ffe0;color:black;}
+.overlay-menu{
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.6); display:none; z-index:998;
+}
+.menu-btn{
+  position:fixed; top:15px; left:15px; font-size:26px; cursor:pointer; z-index:1001;
+}
+
+/* SECCIÓN */
+.section{padding:10px 20px; margin-top:65px;}
+h2{color:#00ffe0; text-align:center; font-size:30px; margin-bottom:8px; text-shadow:0 0 10px #00ffe0;}
+
+/* CARRUSEL */
+.carousel{display:flex; overflow-x:auto; gap:18px; padding-left:20px;}
+.card{position:relative;}
+.card img{width:150px; border-radius:12px; cursor:pointer;}
+.numero{position:absolute; top:6px; left:6px; background:black; color:#00ffe0; padding:4px 8px; border-radius:6px;}
 </style>
 </head>
 
 <body>
 
-<h2>In The Mix</h2>
-<div id="c"></div>
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <img src="logo-512.png">
+    <span class="title">Buckle Music</span>
+  </div>
+  <div class="social">
+    <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
+    <a href="https://www.instagram.com/bucklemusic" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
+    <a href="https://www.facebook.com" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
+    <a href="https://go.ivoox.com/sq/2535828" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png"></a>
+  </div>
+</div>
 
-<div id="miniPlayer">
-<img id="miniCover">
-<div id="miniTitle"></div>
-<button id="playBtn">▶</button>
-<audio id="audio"></audio>
+<!-- SIDEBAR -->
+<div class="overlay-menu" id="overlay" onclick="closeMenu()"></div>
+<div class="sidebar" id="sidebar">
+  <a href="index.html">Inicio</a>
+  <a href="index.html#nuevo">Nuevo Programa</a>
+  <a href="programas.html">Programas Buckle</a>
+  <a href="mix.html">In The Mix</a>
+  <a href="reserva.html">Gran Reserva</a>
+  <a href="index.html#pro">Producciones</a>
+  <a href="index.html#contacto">Contacto</a>
+</div>
+<div class="menu-btn" onclick="openMenu()">☰</div>
+
+<!-- CONTENIDO -->
+<div class="section">
+  <h2>In The Mix</h2>
+  <div class="carousel" id="c3"></div>
 </div>
 
 <script>
-const audio=document.getElementById("audio");
-const cover=document.getElementById("miniCover");
-const title=document.getElementById("miniTitle");
-const btn=document.getElementById("playBtn");
+const sidebar=document.getElementById("sidebar");
+const overlay=document.getElementById("overlay");
+function openMenu(){sidebar.style.left="0";overlay.style.display="block";}
+function closeMenu(){sidebar.style.left="-260px";overlay.style.display="none";}
 
-window.onload=()=>{
-const id=localStorage.getItem("track");
-const time=localStorage.getItem("time");
-
-if(id){
-audio.src=`https://archive.org/download/${id}/${id}.mp3`;
-cover.src=`https://archive.org/services/img/${id}`;
-title.innerText=id;
-audio.currentTime=time||0;
-audio.play();
-btn.innerText="⏸";
-}
-};
-
-btn.onclick=()=>{audio.paused?audio.play():audio.pause();};
-
-audio.ontimeupdate=()=>{
-localStorage.setItem("time",audio.currentTime);
-};
-
-function playTrack(id){
-audio.src=`https://archive.org/download/${id}/${id}.mp3`;
-cover.src=`https://archive.org/services/img/${id}`;
-title.innerText=id;
-localStorage.setItem("track",id);
-localStorage.setItem("time",0);
-audio.play();
-}
-
-fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music&output=json`)
+fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
 .then(r=>r.json())
 .then(data=>{
-data.response.docs.forEach(item=>{
-if(item.section==="mix"){
-const img=document.createElement("img");
-img.src=`https://archive.org/services/img/${item.identifier}`;
-img.onclick=()=>playTrack(item.identifier);
-
-const card=document.createElement("div");
-card.className="card";
-card.appendChild(img);
-
-c.appendChild(card);
-}
-});
+  data.response.docs.forEach(item=>{
+    if(item.section==="mix"){
+      const card=document.createElement("div"); card.className="card";
+      const img=document.createElement("img"); img.src=`https://archive.org/services/img/${item.identifier}`;
+      img.onclick=()=>{ window.location.href=`player.html?id=${item.identifier}`; };
+      const n=document.createElement("div"); n.className="numero"; n.innerText=item.identifier.match(/\d+/g)?.pop()||"";
+      card.appendChild(img); card.appendChild(n);
+      c3.appendChild(card);
+    }
+  });
 });
 </script>
-
 </body>
 </html>
