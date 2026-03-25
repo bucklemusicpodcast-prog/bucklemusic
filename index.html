@@ -17,7 +17,7 @@ body::before{
   content:"";
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.6);
+  background:rgba(0,0,0,0.65);
 }
 
 /* SPLASH */
@@ -33,9 +33,10 @@ body::before{
 }
 #splash img{width:140px;}
 #splash span{
-  margin-top:10px;
+  margin-top:12px;
   color:#00ffe0;
   font-size:24px;
+  letter-spacing:2px;
 }
 
 /* TOPBAR */
@@ -47,21 +48,25 @@ body::before{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:0 20px;
-  background:rgba(0,0,0,0.6);
+  padding:0 18px;
+  background:rgba(0,0,0,0.7);
   backdrop-filter:blur(10px);
   z-index:1000;
 }
 .topbar-left{display:flex;align-items:center;}
-.topbar-left img{width:32px;margin-right:8px;}
-.title{color:#00ffe0;font-size:16px;}
+.topbar-left img{width:30px;margin-right:8px;}
+.title{
+  color:#00ffe0;
+  font-size:15px;
+  letter-spacing:1px;
+}
 
 .social{
   display:flex;
-  gap:12px;
-  margin-right:20px;
+  gap:10px;
+  margin-right:18px;
 }
-.social img{width:22px;}
+.social img{width:20px;opacity:.85;}
 
 /* SIDEBAR */
 .sidebar{
@@ -69,7 +74,7 @@ body::before{
   left:-260px;
   width:260px;
   height:100%;
-  background:rgba(0,0,0,0.5);
+  background:rgba(0,0,0,0.6);
   backdrop-filter:blur(15px);
   padding:20px;
   transition:.4s;
@@ -81,11 +86,13 @@ body::before{
   color:white;
   text-decoration:none;
   border-radius:8px;
+  font-size:14px;
 }
 .sidebar a:hover{
   background:#00ffe0;
   color:black;
 }
+
 .overlay{
   position:fixed;
   inset:0;
@@ -93,11 +100,12 @@ body::before{
   display:none;
   z-index:998;
 }
+
 .menu-btn{
   position:fixed;
   top:14px;
   left:15px;
-  font-size:26px;
+  font-size:24px;
   z-index:1001;
   cursor:pointer;
 }
@@ -112,26 +120,28 @@ body::before{
 h2{
   text-align:center;
   color:#00ffe0;
-  font-size:22px;
+  font-size:20px;
   margin:10px 0;
-  text-shadow:0 0 8px #00ffe0;
+  text-shadow:0 0 6px #00ffe0;
 }
 
 /* CARRUSEL */
 .carousel{
   display:flex;
   justify-content:center;
-  gap:15px;
+  gap:14px;
   overflow-x:auto;
 }
 .carousel::-webkit-scrollbar{display:none;}
 
 .card{position:relative;}
 .card img{
-  width:200px;
+  width:190px;
   border-radius:12px;
   cursor:pointer;
+  transition:.3s;
 }
+.card img:hover{transform:scale(1.05);}
 
 /* NUMERO */
 .numero{
@@ -142,19 +152,28 @@ h2{
   color:#00ffe0;
   padding:3px 6px;
   border-radius:5px;
+  font-size:12px;
 }
 
-/* CONTACTO */
+/* CONTACTO PRO */
 .contacto{
   text-align:center;
-  margin-top:20px;
-  color:#00ffe0;
+  margin-top:18px;
 }
-.contacto span{
+
+.contacto-email{
+  color:#00ffe0;
+  font-size:16px;
+  font-weight:700;
+  text-shadow:0 0 6px #00ffe0;
+}
+
+.contacto-texto{
   display:block;
-  color:white;
-  margin-top:5px;
+  margin-top:6px;
   font-size:14px;
+  color:#ccc;
+  letter-spacing:1px;
 }
 </style>
 </head>
@@ -195,7 +214,7 @@ h2{
 
 <div class="menu-btn" onclick="openMenu()">☰</div>
 
-<!-- CONTENIDO -->
+<!-- APP -->
 <div id="app">
 
 <!-- INICIO -->
@@ -204,16 +223,23 @@ h2{
   <div class="carousel" id="c1"></div>
 
   <div class="contacto">
-    📧 bucklemusicpodcast@gmail.com
-    <span>Usa el menú para navegar</span>
+    <div class="contacto-email">📧 bucklemusicpodcast@gmail.com</div>
+    <span class="contacto-texto">Usa el menú para navegar</span>
   </div>
 </div>
 
+<!-- NUEVO -->
 <div class="section" id="nuevo">
   <h2>Nuevo Programa</h2>
   <div class="carousel" id="c2"></div>
+
+  <div class="contacto">
+    <div class="contacto-email">📧 bucklemusicpodcast@gmail.com</div>
+    <span class="contacto-texto">Contacto</span>
+  </div>
 </div>
 
+<!-- RESTO -->
 <div class="section" id="programas">
   <h2>Programas Buckle</h2>
   <div class="carousel" id="c3"></div>
