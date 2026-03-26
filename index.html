@@ -4,13 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buckle Music</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-
-<!-- PWA -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#00ffe0">
-<link rel="apple-touch-icon" href="logo-192.png">
 
 <style>
 body{
@@ -129,23 +123,17 @@ h2{
   justify-content:center;
   gap:15px;
   overflow-x:auto;
-  scroll-behavior:smooth;
 }
 .carousel::-webkit-scrollbar{display:none;}
 
 .card{position:relative;}
-
 .card img{
-  width:160px;
+  width:200px;
   border-radius:12px;
   cursor:pointer;
-  transition:.3s;
-}
-.card img:hover{
-  transform:scale(1.05);
-  box-shadow:0 0 15px #00ffe0;
 }
 
+/* NUMERO */
 .numero{
   position:absolute;
   top:5px;
@@ -154,6 +142,19 @@ h2{
   color:#00ffe0;
   padding:3px 6px;
   border-radius:5px;
+}
+
+/* CONTACTO */
+.contacto{
+  text-align:center;
+  margin-top:20px;
+  color:#00ffe0;
+}
+.contacto span{
+  display:block;
+  color:white;
+  margin-top:5px;
+  font-size:14px;
 }
 </style>
 </head>
@@ -172,6 +173,12 @@ h2{
     <img src="logo-512.png">
     <span class="title">Buckle Music</span>
   </div>
+
+  <div class="social">
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
+    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
+  </div>
 </div>
 
 <!-- SIDEBAR -->
@@ -181,6 +188,9 @@ h2{
   <a href="#" data-sec="inicio">Inicio</a>
   <a href="#" data-sec="nuevo">Nuevo Programa</a>
   <a href="#" data-sec="programas">Programas Buckle</a>
+  <a href="#" data-sec="mix">In The Mix</a>
+  <a href="#" data-sec="reserva">Gran Reserva</a>
+  <a href="#" data-sec="producciones">Producciones</a>
 </div>
 
 <div class="menu-btn" onclick="openMenu()">☰</div>
@@ -188,13 +198,41 @@ h2{
 <!-- CONTENIDO -->
 <div id="app">
 
+<!-- INICIO -->
 <div class="section active" id="inicio">
   <h2>Nuevo Programa</h2>
   <div class="carousel" id="c1"></div>
+
+  <div class="contacto">
+    📧 bucklemusicpodcast@gmail.com
+    <span>Usa el menú para navegar</span>
+  </div>
 </div>
 
-<div class="section" id="nuevo"><h2>Nuevo Programa</h2><div class="carousel" id="c2"></div></div>
-<div class="section" id="programas"><h2>Programas Buckle</h2><div class="carousel" id="c3"></div></div>
+<div class="section" id="nuevo">
+  <h2>Nuevo Programa</h2>
+  <div class="carousel" id="c2"></div>
+</div>
+
+<div class="section" id="programas">
+  <h2>Programas Buckle</h2>
+  <div class="carousel" id="c3"></div>
+</div>
+
+<div class="section" id="mix">
+  <h2>In The Mix</h2>
+  <div class="carousel" id="c4"></div>
+</div>
+
+<div class="section" id="reserva">
+  <h2>Gran Reserva</h2>
+  <div class="carousel" id="c5"></div>
+</div>
+
+<div class="section" id="producciones">
+  <h2>Producciones</h2>
+  <div class="carousel" id="c6"></div>
+</div>
 
 </div>
 
@@ -212,7 +250,7 @@ function closeMenu(){
   overlay.style.display="none";
 }
 
-// SECCIONES
+// CAMBIO SECCIONES
 const sections=document.querySelectorAll(".section");
 document.querySelectorAll(".sidebar a").forEach(link=>{
   link.onclick=(e)=>{
@@ -230,30 +268,36 @@ setTimeout(()=>{
 },1200);
 
 // FETCH
-fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier&rows=50&output=json`)
-.then(r=>r.json())
-.then(data=>{
-  data.response.docs.forEach(item=>{
-    const c=document.getElementById("c1");
+const map=["nuevo","nuevo","programas","mix","reserva","producciones"];
 
-    const card=document.createElement("div");
-    card.className="card";
+map.forEach((sec,i)=>{
+  const c=document.getElementById("c"+(i+1));
 
-    const img=document.createElement("img");
-    img.src=`https://archive.org/services/img/${item.identifier}`;
-    img.onclick=()=>window.location.href=`player.html?id=${item.identifier}`;
+  fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier,section&rows=50&output=json`)
+  .then(r=>r.json())
+  .then(data=>{
+    data.response.docs.forEach(item=>{
+      if(item.section?.toLowerCase()===sec){
 
-    card.appendChild(img);
-    c.appendChild(card);
+        const num=item.identifier.match(/\d+/g)?.pop()||"";
+        const card=document.createElement("div");
+        card.className="card";
+
+        const img=document.createElement("img");
+        img.src=`https://archive.org/services/img/${item.identifier}`;
+        img.onclick=()=>window.location.href=`player.html?id=${item.identifier}`;
+
+        const n=document.createElement("div");
+        n.className="numero";
+        n.innerText=num;
+
+        card.appendChild(img);
+        card.appendChild(n);
+        c.appendChild(card);
+      }
+    });
   });
 });
-
-// SERVICE WORKER
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("sw.js");
-  });
-}
 </script>
 
 </body>
