@@ -56,6 +56,12 @@ body::before{
 .topbar-left img{width:32px;margin-right:8px;}
 .title{color:#00ffe0;font-size:16px;}
 
+.menu-btn{
+  font-size:24px;
+  margin-right:10px;
+  cursor:pointer;
+}
+
 .social{
   display:flex;
   gap:12px;
@@ -93,19 +99,13 @@ body::before{
   display:none;
   z-index:998;
 }
-.menu-btn{
-  position:fixed;
-  top:14px;
-  left:15px;
-  font-size:26px;
-  z-index:1001;
-  cursor:pointer;
-}
 
 /* SECCIONES */
 .section{
   display:none;
-  padding:70px 15px 10px;
+  padding:80px 25px 20px;
+  max-width:1100px;
+  margin:auto;
 }
 .section.active{display:block;}
 
@@ -120,9 +120,10 @@ h2{
 /* CARRUSEL */
 .carousel{
   display:flex;
-  justify-content:center;
   gap:15px;
   overflow-x:auto;
+  justify-content:flex-start;
+  padding:10px 0;
 }
 .carousel::-webkit-scrollbar{display:none;}
 
@@ -170,14 +171,25 @@ h2{
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-left">
+    <span class="menu-btn" onclick="openMenu()">☰</span>
     <img src="logo-512.png">
     <span class="title">Buckle Music</span>
   </div>
 
+  <!-- 🔥 REDES CORREGIDAS -->
   <div class="social">
-    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
-    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png"></a>
-    <a href="#"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png"></a>
+    <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
+    </a>
+    <a href="https://www.instagram.com/bucklemusic?igsh=MWx3cXVrMDdqeWkxdA%3D%3D&utm_source=qr" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png">
+    </a>
+    <a href="https://www.facebook.com/share/1BNzzDwta8/?mibextid=wwXIfr" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png">
+    </a>
+    <a href="https://go.ivoox.com/sq/2535828" target="_blank">
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968389.png">
+    </a>
   </div>
 </div>
 
@@ -191,14 +203,12 @@ h2{
   <a href="#" data-sec="mix">In The Mix</a>
   <a href="#" data-sec="reserva">Gran Reserva</a>
   <a href="#" data-sec="producciones">Producciones</a>
+  <a href="#" data-sec="contacto">Contacto</a>
 </div>
-
-<div class="menu-btn" onclick="openMenu()">☰</div>
 
 <!-- CONTENIDO -->
 <div id="app">
 
-<!-- INICIO -->
 <div class="section active" id="inicio">
   <h2>Nuevo Programa</h2>
   <div class="carousel" id="c1"></div>
@@ -234,6 +244,14 @@ h2{
   <div class="carousel" id="c6"></div>
 </div>
 
+<div class="section" id="contacto">
+  <h2>Contacto</h2>
+  <div class="contacto">
+    📧 bucklemusicpodcast@gmail.com
+    <span>Para colaboraciones o promos</span>
+  </div>
+</div>
+
 </div>
 
 <script>
@@ -267,7 +285,7 @@ setTimeout(()=>{
   document.getElementById("splash").style.display="none";
 },1200);
 
-// FETCH
+// FETCH (igual que tenías)
 const map=["nuevo","nuevo","programas","mix","reserva","producciones"];
 
 map.forEach((sec,i)=>{
