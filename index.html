@@ -6,7 +6,7 @@
 
 <title>Buckle Music</title>
 
-<!-- 🔥 PWA (CLAVE PARA EL LOGO) -->
+<!-- 🔥 PWA -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#00ffe0">
 <link rel="apple-touch-icon" href="logo-512.png">
@@ -57,23 +57,14 @@ body::before{
   padding:0 20px;
   background:rgba(0,0,0,0.6);
   backdrop-filter:blur(10px);
-  z-index:1000;
 }
 .topbar-left{display:flex;align-items:center;}
 .topbar-left img{width:32px;margin-right:8px;}
 .title{color:#00ffe0;font-size:16px;}
 
-.menu-btn{
-  font-size:24px;
-  margin-right:10px;
-  cursor:pointer;
-}
+.menu-btn{font-size:24px;cursor:pointer;}
 
-.social{
-  display:flex;
-  gap:12px;
-  margin-right:20px;
-}
+.social{display:flex;gap:12px;margin-right:20px;}
 .social img{width:22px;}
 
 /* SIDEBAR */
@@ -86,7 +77,6 @@ body::before{
   backdrop-filter:blur(15px);
   padding:20px;
   transition:.4s;
-  z-index:999;
 }
 .sidebar a{
   display:block;
@@ -104,7 +94,6 @@ body::before{
   inset:0;
   background:rgba(0,0,0,0.6);
   display:none;
-  z-index:998;
 }
 
 /* SECCIONES */
@@ -119,8 +108,6 @@ body::before{
 h2{
   text-align:center;
   color:#00ffe0;
-  font-size:22px;
-  margin:10px 0;
   text-shadow:0 0 8px #00ffe0;
 }
 
@@ -129,7 +116,6 @@ h2{
   display:flex;
   gap:15px;
   overflow-x:auto;
-  padding:10px 0;
 }
 .carousel::-webkit-scrollbar{display:none;}
 
@@ -138,14 +124,13 @@ h2{
   width:200px;
   border-radius:12px;
   cursor:pointer;
-  transition:0.3s;
+  transition:.3s;
 }
 .card img:hover{
   transform:scale(1.05);
   box-shadow:0 0 15px #00ffe0;
 }
 
-/* NUMERO */
 .numero{
   position:absolute;
   top:5px;
@@ -156,51 +141,26 @@ h2{
   border-radius:5px;
 }
 
-/* CONTACTO */
-.contacto{
-  text-align:center;
-  margin-top:20px;
-  color:#00ffe0;
-}
-.contacto span{
-  display:block;
-  color:white;
-  margin-top:5px;
-  font-size:14px;
-}
+.contacto{text-align:center;color:#00ffe0;}
+.contacto span{display:block;color:white;font-size:14px;}
 </style>
 </head>
 
 <body>
 
-<!-- SPLASH -->
 <div id="splash">
   <img src="logo-512.png">
   <span>Buckle Music</span>
 </div>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-left">
     <span class="menu-btn" onclick="openMenu()">☰</span>
     <img src="logo-512.png">
     <span class="title">Buckle Music</span>
   </div>
-
-  <div class="social">
-    <a href="https://www.youtube.com/@BUKLEEMUSIC/streams" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png">
-    </a>
-    <a href="https://www.instagram.com/bucklemusic" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png">
-    </a>
-    <a href="https://www.facebook.com" target="_blank">
-      <img src="https://cdn-icons-png.flaticon.com/512/1384/1384053.png">
-    </a>
-  </div>
 </div>
 
-<!-- SIDEBAR -->
 <div class="overlay" id="overlay" onclick="closeMenu()"></div>
 
 <div class="sidebar" id="sidebar">
@@ -213,17 +173,11 @@ h2{
   <a href="#" data-sec="contacto">Contacto</a>
 </div>
 
-<!-- CONTENIDO -->
 <div id="app">
 
 <div class="section active" id="inicio">
   <h2>Nuevo Programa</h2>
   <div class="carousel" id="c1"></div>
-
-  <div class="contacto">
-    📧 bucklemusicpodcast@gmail.com
-    <span>Usa el menú para navegar</span>
-  </div>
 </div>
 
 <div class="section" id="nuevo">
@@ -255,13 +209,13 @@ h2{
   <h2>Contacto</h2>
   <div class="contacto">
     📧 bucklemusicpodcast@gmail.com
-    <span>Para colaboraciones o promos</span>
   </div>
 </div>
 
 </div>
 
 <script>
+
 // MENU
 const sidebar=document.getElementById("sidebar");
 const overlay=document.getElementById("overlay");
@@ -276,62 +230,47 @@ function closeMenu(){
 }
 
 // SECCIONES
-const sections=document.querySelectorAll(".section");
 document.querySelectorAll(".sidebar a").forEach(link=>{
   link.onclick=(e)=>{
     e.preventDefault();
-    const id=link.dataset.sec;
-    sections.forEach(s=>s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    document.getElementById(link.dataset.sec).classList.add("active");
     closeMenu();
   }
 });
 
 // SPLASH
-setTimeout(()=>{
-  document.getElementById("splash").style.display="none";
-},1200);
+setTimeout(()=>{document.getElementById("splash").style.display="none";},1200);
 
-// FETCH OPTIMIZADO
+// CREAR CARD
+function addCard(id,item){
+  const c=document.getElementById(id);
+
+  const card=document.createElement("div");
+  card.className="card";
+
+  const img=document.createElement("img");
+  img.src=`https://archive.org/services/img/${item.identifier}`;
+  img.onclick=()=>window.location.href=`player.html?id=${item.identifier}`;
+
+  card.appendChild(img);
+  c.appendChild(card);
+}
+
+// FETCH SIMPLE (FUNCIONA SIEMPRE)
 fetch(`https://archive.org/advancedsearch.php?q=creator:buckle_music AND mediatype:audio&fl[]=identifier&rows=100&output=json`)
 .then(r=>r.json())
 .then(data=>{
-
   data.response.docs.forEach(item=>{
-
-    const id=item.identifier.toLowerCase();
-    let sec="";
-
-    if(id.includes("nuevo")) sec="c1";
-    else if(id.includes("programas")) sec="c3";
-    else if(id.includes("mix")) sec="c4";
-    else if(id.includes("reserva")) sec="c5";
-    else if(id.includes("producciones")) sec="c6";
-
-    if(sec){
-      const c=document.getElementById(sec);
-
-      const num=item.identifier.match(/\d+/g)?.pop()||"";
-
-      const card=document.createElement("div");
-      card.className="card";
-
-      const img=document.createElement("img");
-      img.src=`https://archive.org/services/img/${item.identifier}`;
-      img.onclick=()=>window.location.href=`player.html?id=${item.identifier}`;
-
-      const n=document.createElement("div");
-      n.className="numero";
-      n.innerText=num;
-
-      card.appendChild(img);
-      card.appendChild(n);
-      c.appendChild(card);
-    }
-
+    addCard("c1",item);
+    addCard("c2",item);
+    addCard("c3",item);
+    addCard("c4",item);
+    addCard("c5",item);
+    addCard("c6",item);
   });
-
 });
+
 </script>
 
 </body>
