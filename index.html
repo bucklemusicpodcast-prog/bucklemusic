@@ -9,16 +9,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- 🔥 ICONOS -->
-<link rel="icon" type="image/png" sizes="32x32" href="logo-192.png">
-<link rel="icon" type="image/png" sizes="192x192" href="logo-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="logo-512.png">
+<link rel="icon" sizes="192x192" href="logo-192.png">
+<link rel="icon" sizes="512x512" href="logo-512.png">
 
-<!-- 🔥 PWA -->
+<!-- 🔥 PWA (CORRECTO PARA GITHUB) -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#00ffe0">
 
 <!-- 🍎 iOS -->
-<link rel="apple-touch-icon" sizes="180x180" href="logo-180.png">
+<link rel="apple-touch-icon" sizes="180x180" href="logo-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Buckle Music">
@@ -323,7 +322,7 @@ map.forEach((sec,i)=>{
   });
 });
 
-// 👉 BOTÓN INSTALAR APP (ANDROID)
+// 🔥 INSTALAR APP ANDROID
 let deferredPrompt;
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
